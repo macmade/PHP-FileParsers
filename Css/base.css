@@ -1,0 +1,206 @@
+/* <![CDATA[ */
+
+/***************************************************************
+ * BASE ELEMENTS- SECTION 1
+ *
+ * Main classes
+ ***************************************************************/
+
+/* BODY - Generic */
+BODY {
+    margin: 10px;
+    color: #737373;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 10px;
+    line-height: normal;
+    text-decoration: none;
+    font-family: Verdana, Helvetica, Arial, Geneva, Swiss, SunSans-Regular, sans-serif;
+    background-color: #FFFFFF;
+}
+
+/* TD, LI, DIV - Generic */
+TD, LI {
+    color: #737373;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 10px;
+    line-height: normal;
+    text-decoration: none;
+    font-family: Verdana, Helvetica, Arial, Geneva, Swiss, SunSans-Regular, sans-serif;
+    background-color: inherit;
+}
+
+/* H1 - Generic */
+H1 {
+    color: #E55900;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: normal;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    background-color: inherit;
+}
+
+/* H2 - Generic */
+H2 {
+    color: #737373;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: normal;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    background-color: inherit;
+}
+
+/* H3 - Generic */
+H3 {
+    color: #E55900;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: normal;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: inherit;
+}
+
+/* H# - Generic */
+H4, H5, H6 {
+    color: #737373;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: normal;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: inherit;
+}
+
+/* HR - Generic */
+HR {
+    border: none;
+    width: 100%;
+    background-color: #737373;
+    color: inherit;
+    height: 1px;
+}
+
+/* A - Generic */
+A {
+    text-decoration: none;
+}
+
+/* A - Link */
+A:link {
+    color: #E55900;
+    text-decoration: none;
+    background-color: inherit;
+}
+
+/* A - Visited link */
+A:visited {
+    color: #E55900;
+    background-color: inherit;
+}
+
+/* A - Hover link */
+A:hover {
+    color: #E55900;
+    text-decoration: underline;
+    background-color: inherit;
+}
+
+/* A - Active link */
+A:active {
+    color: #E55900;
+    text-decoration: underline;
+    background-color: inherit;
+}
+
+/* TABLE - Generic */
+TABLE {
+    border: solid 1px #797979;
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* TD - Generic */
+TD {
+    border: solid 1px #797979;
+    padding: 5px;
+    text-align: left;
+}
+
+/* TH - Generic */
+TH {
+    border: solid 1px #797979;
+    padding: 5px;
+    background-color: #D2D2D2;
+    color: inherit;
+    text-align: center;
+}
+
+/* FORM - Generic */
+FORM {
+    margin: 0px;
+}
+
+/* INPUT - Generic */
+INPUT {
+    color: #737373;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 10px;
+    line-height: normal;
+    text-decoration: none;
+    font-family: Verdana, Helvetica, Arial, Geneva, Swiss, SunSans-Regular, sans-serif;
+    border: solid 1px #BCBCBC;
+    background-color: #FFFFFF;
+    margin-top: 2px;
+    vertical-align: middle;
+    padding: 2px;
+}
+
+/* TEXTAREA - Generic */
+TEXTAREA {
+    color: #737373;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 10px;
+    line-height: normal;
+    text-decoration: none;
+    font-family: Verdana, Helvetica, Arial, Geneva, Swiss, SunSans-Regular, sans-serif;
+    border: solid 1px #BCBCBC;
+    background-color: #FFFFFF;
+    margin-top: 2px;
+    vertical-align: middle;
+    padding: 2px;
+}
+
+/* SELECT - Generic */
+SELECT {
+    color: #737373;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 10px;
+    line-height: normal;
+    text-decoration: none;
+    font-family: Verdana, Helvetica, Arial, Geneva, Swiss, SunSans-Regular, sans-serif;
+    border: solid 1px #BCBCBC;
+    background-color: #FFFFFF;
+    margin-top: 2px;
+    vertical-align: middle;
+    padding: 2px;
+}
+
+/* IMG - Generic */
+IMG {
+    border: none;
+}
+
+/* ]]> */
