@@ -26,13 +26,13 @@ final class Mpeg4_Init
     const PHP_COMPATIBLE = '5.2.0';
     
     // Unique instance of the class (singleton)
-    private static $_instance  = NULL;
+    private static $_instance = NULL;
     
     // Loaded classes from this package
-    private $_loadedClasses    = array();
+    private $_loadedClasses   = array();
     
     // The directory which contains this file (and the other files from this package)
-    private $_dir              = '';
+    private $_dir             = '';
     
     /**
      * Class constructor
