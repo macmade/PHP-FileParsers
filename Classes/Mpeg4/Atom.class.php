@@ -5,6 +5,28 @@
  * 
  * This abstract class is the base class for all MPEG-4 atom classes.
  * 
+ * SDL from ISO-14496-12:
+ * 
+ * aligned( 8 ) class Box ( unsigned int( 32 ) boxtype, optional unsigned int( 8 )[ 16 ] extended_type )
+ * { 
+ *      unsigned int( 32 ) size;
+ *      unsigned int( 32 ) type = boxtype;
+ *      
+ *      if( size == 1 ) {
+ *          
+ *          unsigned int( 64 ) largesize;
+ *          
+ *      } elseif( size == 0 ) {
+ *          
+ *          // Box extends to end of file
+ *      }
+ *      
+ *      if( boxtype == 'uuid') {
+ *          
+ *          unsigned int( 8 )[ 16 ] usertype = extended_type;
+ *      }
+ * }
+ * 
  * @author          Stéphane Cherpit <stef@eosgarden.com>
  * @author          Jean-David Gadina <macmade@eosgarden.com>
  * @copyright       Copyright &copy; 2008
