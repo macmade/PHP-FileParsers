@@ -78,6 +78,8 @@ final class Mpeg4_Init
      * 
      * @param   string  $className  The name of the class to load
      * @return  boolean
+     * @see     getInstance
+     * @see     _loadClass
      */
     public static function autoLoad( $className )
     {
