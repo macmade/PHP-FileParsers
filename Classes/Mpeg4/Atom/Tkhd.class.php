@@ -22,7 +22,8 @@
  *          unsigned int( 32 ) track_ID;
  *          const unsigned int( 32 ) reserved = 0;
  *          unsigned int( 32 ) duration;
- *      } 
+ *      }
+ *      
  *      const unsigned int( 32 )[ 2 ] reserved = 0;
  *      template int( 16 ) layer = 0;
  *      template int( 16 ) alternate_group = 0;
