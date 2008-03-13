@@ -45,9 +45,26 @@ abstract class Mpeg4_DataAtom extends Mpeg4_Atom
         }
     }
     
+    /**
+     * Decodes a matrix field in the atom data
+     * 
+     * A matrix field, used for instance in mvhd or tkhd, is 288 bits (9 * 32 bits).
+     * All values are expressed as 16.16 big endian fixed point, except for u,
+     * v and w which are 2.30 big endian fixed point.
+     * 
+     * SDL from ISO-14496-12:
+     * 
+     * template int( 32 )[ 9 ] matrix = { 0x00010000, 0, 0, 0, 0x00010000, 0, 0, 0, 0x40000000 };
+     * 
+     * @param   int     $dataOffset The beginning of the matrix field in the atom data
+     * @return  object  The matrix object
+     */
     protected function _decodeMatrix( $dataOffset )
     {
+        // Storage for the matrix
         $matrix    = new stdClass();
+        
+        // Process the matrix field from the atom data
         $matrix->a = $this->_bigEndianFixedPoint( $dataOffset,      16, 16 );
         $matrix->b = $this->_bigEndianFixedPoint( $dataOffset + 4,  16, 16 );
         $matrix->u = $this->_bigEndianFixedPoint( $dataOffset + 8,   2, 30 );
@@ -58,6 +75,7 @@ abstract class Mpeg4_DataAtom extends Mpeg4_Atom
         $matrix->y = $this->_bigEndianFixedPoint( $dataOffset + 28, 16, 16 );
         $matrix->w = $this->_bigEndianFixedPoint( $dataOffset + 32,  2, 30 );
         
+        // Returns the matrix
         return $matrix;
     }
     
