@@ -26,7 +26,7 @@
             
             if( $file[ 'type' ] == 'video/mp4' ) {
                 
-                $parser    = new Mpeg4_Parser( $file[ 'tmp_name' ] );
+                $parser    = new Mpeg4_Parser( $file[ 'tmp_name' ], true );
                 $mpeg4File = $parser->getMpeg4File();
                 $dataArray = $mpeg4File->getProcessedData();
                 $warnings  = $parser->getWarnings();
