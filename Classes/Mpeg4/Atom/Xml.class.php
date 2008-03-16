@@ -1,20 +1,73 @@
 <?php
 
-final class Mpeg4_Atom_Xml extends Mpeg4_DataAtom
+/**
+ * MPEG-4 XML atom
+ * 
+ * SDL from ISO-14496-12:
+ * 
+ * aligned( 8 ) class XMLBox extends FullBox( 'xml ', version = 0, 0 )
+ * {
+ *      string xml;
+ * }
+ * 
+ * @author          Stéphane Cherpit <stef@eosgarden.com>
+ * @author          Jean-David Gadina <macmade@eosgarden.com>
+ * @copyright       Copyright &copy; 2008
+ * @package         Mpeg4/Atom
+ * @version         0.2
+ */
+final class Mpeg4_Atom_Xml extends Mpeg4_FullBox
 {
     /**
      * Class version constants.
      * Holds the version, the developpment state
      * and the PHP lower compatible version.
      */
-    const CLASS_VERSION  = '0.1';
+    const CLASS_VERSION  = '0.2';
     const DEVEL_STATE    = 'beta';
     const PHP_COMPATIBLE = '5.2.0';
     
+    // Atom type
     protected $_type = 'xml ';
     
+    /**
+     * Process the atom flags
+     * 
+     * @params  string  $rawFlags   The atom raw flags
+     * @return  object  The processed atom flags
+     */
+    protected function _processFlags( $rawFlags )
+    {
+        // Returns the atom flags
+        return new stdClass();
+    }
+    
+    /**
+     * Process the atom data
+     * 
+     * @return  object  The processed atom data
+     */
     public function getProcessedData()
     {
-        return new stdClass();
+        // Gets the processed data from the parent (fullbox)
+        $data = parent::getProcessedData();
+        
+        // Tries the get the byte order mark
+        $bom  = $this->_bigEndianUnsignedShort( 4 );
+        
+        // Checks for the byte order mark
+        if( ( $bom & 0xFEFF ) === $bom ) {
+            
+            // UTF-16 XML
+            $data->xml = new SimpleXMLElement( substr( $this->_data, 6, -1 ) );
+            
+        } else {
+            
+            // UTF-8 XML
+            $data->xml = new SimpleXMLElement( substr( $this->_data, 4, -1 ) );
+        }
+        
+        // Return the processed data
+        return $data;
     }
 }
