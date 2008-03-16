@@ -13,8 +13,8 @@ final class Mpeg4_Atom_Trak extends Mpeg4_ContainerAtom
     
     protected $_type = 'trak';
     
-    public function validChildType( $type ) {
-        
+    public function validChildType( $type )
+    {
         switch( $type ) {
             
             case 'tkhd':

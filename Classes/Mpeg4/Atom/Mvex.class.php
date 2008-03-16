@@ -13,8 +13,8 @@ final class Mpeg4_Atom_Mvex extends Mpeg4_ContainerAtom
     
     protected $_type = 'mvex';
     
-    public function validChildType( $type ) {
-        
+    public function validChildType( $type )
+    {
         switch( $type ) {
             
             case 'mehd':

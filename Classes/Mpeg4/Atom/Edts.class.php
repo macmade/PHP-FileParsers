@@ -13,8 +13,8 @@ final class Mpeg4_Atom_Edts extends Mpeg4_ContainerAtom
     
     protected $_type = 'edts';
     
-    public function validChildType( $type ) {
-        
+    public function validChildType( $type )
+    {
         switch( $type ) {
             
             case 'elst':

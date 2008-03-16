@@ -13,8 +13,8 @@ final class Mpeg4_Atom_Traf extends Mpeg4_ContainerAtom
     
     protected $_type = 'traf';
     
-    public function validChildType( $type ) {
-        
+    public function validChildType( $type )
+    {
         switch( $type ) {
             
             case 'tfhd':

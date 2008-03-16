@@ -13,8 +13,8 @@ final class Mpeg4_Atom_Mfra extends Mpeg4_ContainerAtom
     
     protected $_type = 'mfra';
     
-    public function validChildType( $type ) {
-        
+    public function validChildType( $type )
+    {
         switch( $type ) {
             
             case 'tfra':

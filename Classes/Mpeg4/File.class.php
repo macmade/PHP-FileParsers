@@ -48,8 +48,8 @@ class Mpeg4_File extends Mpeg4_ContainerAtom
         return false;
     }
     
-    public function validChildType( $type ) {
-        
+    public function validChildType( $type )
+    {
         switch( $type ) {
             
             case 'ftyp':

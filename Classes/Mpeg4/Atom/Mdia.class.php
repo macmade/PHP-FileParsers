@@ -13,8 +13,8 @@ final class Mpeg4_Atom_Mdia extends Mpeg4_ContainerAtom
     
     protected $_type = 'mdia';
     
-    public function validChildType( $type ) {
-        
+    public function validChildType( $type )
+    {
         switch( $type ) {
             
             case 'mdhd':

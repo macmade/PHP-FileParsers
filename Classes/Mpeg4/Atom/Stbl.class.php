@@ -13,8 +13,8 @@ final class Mpeg4_Atom_Stbl extends Mpeg4_ContainerAtom
     
     protected $_type = 'stbl';
     
-    public function validChildType( $type ) {
-        
+    public function validChildType( $type )
+    {
         switch( $type ) {
             
             case 'stsd':

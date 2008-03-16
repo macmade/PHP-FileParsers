@@ -13,8 +13,8 @@ final class Mpeg4_Atom_Minf extends Mpeg4_ContainerAtom
     
     protected $_type = 'minf';
     
-    public function validChildType( $type ) {
-        
+    public function validChildType( $type )
+    {
         switch( $type ) {
             
             case 'vmhd':

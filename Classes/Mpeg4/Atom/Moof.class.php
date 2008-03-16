@@ -13,8 +13,8 @@ final class Mpeg4_Atom_Moof extends Mpeg4_ContainerAtom
     
     protected $_type = 'moof';
     
-    public function validChildType( $type ) {
-        
+    public function validChildType( $type )
+    {
         switch( $type ) {
             
             case 'mfhd':

@@ -13,8 +13,8 @@ final class Mpeg4_Atom_Sinf extends Mpeg4_ContainerAtom
     
     protected $_type = 'sinf';
     
-    public function validChildType( $type ) {
-        
+    public function validChildType( $type )
+    {
         switch( $type ) {
             
             case 'frma':
