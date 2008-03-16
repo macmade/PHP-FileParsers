@@ -16,7 +16,7 @@
  * @author          Jean-David Gadina <macmade@eosgarden.com>
  * @copyright       Copyright &copy; 2008
  * @package         Mpeg4/Atom
- * @version         0.1
+ * @version         0.2
  */
 final class Mpeg4_Atom_Cprt extends Mpeg4_FullBox
 {
@@ -25,7 +25,7 @@ final class Mpeg4_Atom_Cprt extends Mpeg4_FullBox
      * Holds the version, the developpment state
      * and the PHP lower compatible version.
      */
-    const CLASS_VERSION  = '0.1';
+    const CLASS_VERSION  = '0.2';
     const DEVEL_STATE    = 'beta';
     const PHP_COMPATIBLE = '5.2.0';
     
@@ -56,7 +56,21 @@ final class Mpeg4_Atom_Cprt extends Mpeg4_FullBox
         
         // Process the atom data
         $data->language = $this->_bigEndianIso639Code( 4 );
-        $data->notice   = substr( $this->_data, 6. -1 );
+        
+        // Tries the get the byte order mark
+        $noticeBom = $this->_bigEndianUnsignedShort( 6 );
+        
+        // Checks for the byte order mark
+        if( ( $noticeBom & 0xFEFF ) === $noticeBom ) {
+            
+            // UTF-16 string
+            $data->notice   = substr( $this->_data, 8, -1 );
+            
+        } else {
+            
+            // UTF-8 string
+            $data->notice   = substr( $this->_data, 6, -1 );
+        }
         
         // Return the processed data
         return $data;
