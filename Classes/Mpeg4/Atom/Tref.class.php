@@ -1,7 +1,7 @@
 <?php
 
 /**
- * MPEG-4 TKHD atom
+ * MPEG-4 TREF atom
  * 
  * SDL from ISO-14496-12:
  * 
