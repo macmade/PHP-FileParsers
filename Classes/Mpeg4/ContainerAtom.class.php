@@ -18,6 +18,7 @@ abstract class Mpeg4_ContainerAtom extends Mpeg4_Atom implements Iterator, Array
     protected $_children             = array();
     protected $_childrenCount        = 0;
     protected $_iteratorIndex        = 0;
+    protected $_allowAnyChildrenType = false;
     
     public function __toString()
     {
@@ -139,7 +140,7 @@ abstract class Mpeg4_ContainerAtom extends Mpeg4_Atom implements Iterator, Array
     
     public function addChild( $childType )
     {
-        if( !$this->validChildType( $childType ) ) {
+        if( !$this->_allowAnyChildrenType && !$this->validChildType( $childType ) ) {
             
             throw new Exception( 'Atom of type ' . $childType . ' cannot be contained in ' . $this->_type );
         }
@@ -187,6 +188,13 @@ abstract class Mpeg4_ContainerAtom extends Mpeg4_Atom implements Iterator, Array
     public function getNumberOfChildren()
     {
         return $this->_childrenCount;
+    }
+    
+    public function allowAnyChildrenType( $status )
+    {
+        $this->_allowAnyChildrenType = ( boolean )$status;
+        
+        return true;
     }
 }
 
