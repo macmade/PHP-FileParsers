@@ -1,6 +1,6 @@
 <?php
 
-abstract class Mpeg4_ContainerAtom extends Mpeg4_Atom implements Iterator
+abstract class Mpeg4_ContainerAtom extends Mpeg4_Atom implements Iterator, ArrayAccess
 {
     /**
      * Class version constants.
@@ -13,8 +13,6 @@ abstract class Mpeg4_ContainerAtom extends Mpeg4_Atom implements Iterator
     
     abstract public function validChildType( $type );
     
-    protected $_type                 = '';
-    protected $_extended             = false;
     protected $_childrenByNames      = array();
     protected $_childrenByNamesCount = array();
     protected $_children             = array();
@@ -49,6 +47,41 @@ abstract class Mpeg4_ContainerAtom extends Mpeg4_Atom implements Iterator
             
             return $length . $this->_type . $childrenData;
         }
+    }
+    
+    public function __get( $name )
+    {
+        if( !isset( $this->_childrenByNames[ $name ] ) ) {
+            
+            return NULL;
+        }
+        
+        return $this->_childrenByNames[ $name ][ 0 ];
+    }
+    
+    public function __isset( $name )
+    {
+        return isset( $this->_childrenByNames[ $name ] );
+    }
+    
+    public function offsetExists( $offset )
+    {
+        return isset( $this->_childrenByNames[ $offset ] );
+    }
+    
+    public function offsetGet( $offset )
+    {
+        return $this->_childrenByNames[ $offset ];
+    }
+    
+    public function offsetSet( $offset, $value )
+    {
+        return false;
+    }
+    
+    public function offsetUnset( $offset )
+    {
+        return false;
     }
     
     public function rewind()
@@ -117,12 +150,12 @@ abstract class Mpeg4_ContainerAtom extends Mpeg4_Atom implements Iterator
         $this->_children[] = $atom;
         $this->_childrenCount++;
         
-        if( !isset( $this->_childrenNames[ $childType ] ) ) {
+        if( !isset( $this->_childrenByNames[ $childType ] ) ) {
             
-            $this->_childrenNames[ $childType ] = array();
+            $this->_childrenByNames[ $childType ] = array();
         }
         
-        $this->_childrenNames[ $childType ][] = key( $this->_children );
+        $this->_childrenByNames[ $childType ][] = $atom;
         
         return $atom;
     }
