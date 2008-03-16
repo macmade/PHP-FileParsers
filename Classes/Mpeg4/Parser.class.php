@@ -15,9 +15,12 @@ class Mpeg4_Parser
     protected $_fileHandle        = NULL;
     protected $_mpeg4File         = NULL;
     protected $_warnings          = array();
+    protected $_tolerant          = false;
     
-    public function __construct( $file )
+    public function __construct( $file, $tolerant = false )
     {
+        $this->_tolerant = $tolerant;
+        
         if( !file_exists( $file ) ) {
             
             throw new Exception( 'The requested file ' . $file . ' does not exist.' );
@@ -64,11 +67,19 @@ class Mpeg4_Parser
             
             if( $level == 0 ) {
                 
-                if( $this->_mpeg4File->validChildType( $atomType ) && class_exists( $className ) ) {
+                if( ( $this->_tolerant || $this->_mpeg4File->validChildType( $atomType ) ) && class_exists( $className ) ) {
                     
+                    if( $this->_tolerant ) {
+                        
+                        $this->_mpeg4File->allowAnyChildrenType( true );
+                    }
+                
                     $atomObject = $this->_mpeg4File->addChild( $atomType );
-                    
-                } else {
+                                
+                    $this->_mpeg4File->allowAnyChildrenType( false );
+                }
+                
+                if( !$this->_mpeg4File->validChildType( $atomType ) ) {
                     
                     $this->_warnings[] = array(
                         'atomType'   => $atomType,
@@ -79,11 +90,18 @@ class Mpeg4_Parser
                     );
                 }
                 
-            } elseif( $parent && $parent->validChildType( $atomType ) && class_exists( $className ) ) {
+            } elseif( $parent && ( $this->_tolerant || $parent->validChildType( $atomType ) ) && class_exists( $className ) ) {
+                
+                if( $this->_tolerant ) {
+                    
+                    $parent->allowAnyChildrenType( true );
+                }
                 
                 $atomObject = $parent->addChild( $atomType );
+                                
+                $parent->allowAnyChildrenType( false );
                 
-            } else {
+            } elseif( $parent && !$parent->validChildType( $atomType ) ) {
                 
                 $this->_warnings[] = array(
                     'atomType'   => $atomType,
