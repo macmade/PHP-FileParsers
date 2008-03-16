@@ -13,7 +13,6 @@ abstract class Mpeg4_DataAtom extends Mpeg4_Atom
     
     abstract public function getProcessedData();
     
-    protected $_type       = '';
     protected $_data       = '';
     protected $_dataLength = 0;
     protected $_final      = false;
