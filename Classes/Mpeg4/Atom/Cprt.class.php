@@ -52,24 +52,24 @@ final class Mpeg4_Atom_Cprt extends Mpeg4_FullBox
     public function getProcessedData()
     {
         // Gets the processed data from the parent (fullbox)
-        $data = parent::getProcessedData();
+        $data           = parent::getProcessedData();
         
         // Process the atom data
         $data->language = $this->_bigEndianIso639Code( 4 );
         
         // Tries the get the byte order mark
-        $noticeBom = $this->_bigEndianUnsignedShort( 6 );
+        $noticeBom      = $this->_bigEndianUnsignedShort( 6 );
         
         // Checks for the byte order mark
         if( ( $noticeBom & 0xFEFF ) === $noticeBom ) {
             
             // UTF-16 string
-            $data->notice   = substr( $this->_data, 8, -1 );
+            $data->notice = substr( $this->_data, 8, -1 );
             
         } else {
             
             // UTF-8 string
-            $data->notice   = substr( $this->_data, 6, -1 );
+            $data->notice = substr( $this->_data, 6, -1 );
         }
         
         // Return the processed data
