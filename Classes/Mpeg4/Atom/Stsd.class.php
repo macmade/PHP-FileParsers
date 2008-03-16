@@ -75,7 +75,7 @@
  * @package         Mpeg4/Atom
  * @version         0.1
  */
-class Mpeg4_Atom_Stsd extends Mpeg4_FullBox
+final class Mpeg4_Atom_Stsd extends Mpeg4_FullBox
 {
     /**
      * Class version constants.

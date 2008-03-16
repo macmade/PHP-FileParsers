@@ -1,6 +1,6 @@
 <?php
 
-class Mpeg4_Atom_Moof extends Mpeg4_ContainerAtom
+final class Mpeg4_Atom_Moof extends Mpeg4_ContainerAtom
 {
     /**
      * Class version constants.

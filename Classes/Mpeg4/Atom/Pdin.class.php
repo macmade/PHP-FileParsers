@@ -1,6 +1,6 @@
 <?php
 
-class Mpeg4_Atom_Pdin extends Mpeg4_DataAtom
+final class Mpeg4_Atom_Pdin extends Mpeg4_DataAtom
 {
     /**
      * Class version constants.

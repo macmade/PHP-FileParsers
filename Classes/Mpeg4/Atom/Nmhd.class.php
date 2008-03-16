@@ -1,6 +1,6 @@
 <?php
 
-class Mpeg4_Atom_Nmhd extends Mpeg4_FullBox
+final class Mpeg4_Atom_Nmhd extends Mpeg4_FullBox
 {
     /**
      * Class version constants.
