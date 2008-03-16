@@ -1,6 +1,6 @@
 <?php
 
-final class Mpeg4_Atom_Udta extends Mpeg4_DataAtom
+final class Mpeg4_Atom_Udta extends Mpeg4_ContainerAtom
 {
     /**
      * Class version constants.
@@ -13,8 +13,8 @@ final class Mpeg4_Atom_Udta extends Mpeg4_DataAtom
     
     protected $_type = 'udta';
     
-    public function getProcessedData()
+    public function validChildType( $type )
     {
-        return new stdClass();
+        return true;
     }
 }
