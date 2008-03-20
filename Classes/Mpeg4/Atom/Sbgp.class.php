@@ -1,6 +1,29 @@
 <?php
 
-final class Mpeg4_Atom_Sbgp extends Mpeg4_DataAtom
+/**
+ * MPEG-4 SBGP atom
+ * 
+ * SDL from ISO-14496-12:
+ * 
+ * aligned( 8 ) class SampleToGroupBox extends FullBox( 'sbgp', version = 0, 0 )
+ * {
+ *      unsigned int( 32 ) grouping_type;
+ *      unsigned int( 32 ) entry_count;
+ *      
+ *      for( i = 1; i <= entry_count; i++ ) {
+ *          
+ *          unsigned int( 32 ) sample_count;
+ *          unsigned int( 32 ) group_description_index;
+ *      }
+ * }
+ * 
+ * @author          Stéphane Cherpit <stef@eosgarden.com>
+ * @author          Jean-David Gadina <macmade@eosgarden.com>
+ * @copyright       Copyright &copy; 2008
+ * @package         Mpeg4/Atom
+ * @version         0.1
+ */
+final class Mpeg4_Atom_Sbgp extends Mpeg4_FullBox
 {
     /**
      * Class version constants.
@@ -11,10 +34,52 @@ final class Mpeg4_Atom_Sbgp extends Mpeg4_DataAtom
     const DEVEL_STATE    = 'beta';
     const PHP_COMPATIBLE = '5.2.0';
     
+    // Atom type
     protected $_type = 'sbgp';
     
-    public function getProcessedData()
+    /**
+     * Process the atom flags
+     * 
+     * @params  string  $rawFlags   The atom raw flags
+     * @return  object  The processed atom flags
+     */
+    protected function _processFlags( $rawFlags )
     {
         return new stdClass();
+    }
+    
+    /**
+     * Process the atom data
+     * 
+     * @return  object  The processed atom data
+     */
+    public function getProcessedData()
+    {
+        // Gets the processed data from the parent (fullbox)
+        $data                = parent::getProcessedData();
+        
+        // Process the atom data
+        $data->grouping_type = $this->_bigEndianUnsignedLong( 4 );
+        $data->entry_count   = $this->_bigEndianUnsignedLong( 8 );
+        
+        // Storage for the entries
+        $data->entries       = array();
+        
+        // Process each entry
+        for( $i = 12; $i < $this->_dataLength; $i += 8 ) {
+            
+            // Storage for the current entry
+            $entry                          = new stdClass();
+            
+            // Process the entry data
+            $entry->sample_count            = $this->_bigEndianUnsignedLong( $i );
+            $entry->group_description_index = $this->_bigEndianUnsignedLong( $i + 4 );
+            
+            // Stores the current entry
+            $data->entries[]                = $entry;
+        }
+        
+        // Returns the processed data
+        return $data;
     }
 }
