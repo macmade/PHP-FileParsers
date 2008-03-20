@@ -146,7 +146,16 @@ abstract class Mpeg4_ContainerAtom extends Mpeg4_Atom implements Iterator, Array
         }
         
         $className         = 'Mpeg4_Atom_' . ucfirst( $childType );
-        $atom              = new $className;
+        
+        if( !class_exists( $className ) ) {
+            
+            $atom = new Mpeg4_UnknownAtom( $childType );
+            
+        } else {
+            
+            $atom = new $className;
+        }
+        
         $atom->_parent     = $this;
         $this->_children[] = $atom;
         $this->_childrenCount++;
