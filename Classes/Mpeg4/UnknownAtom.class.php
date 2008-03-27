@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * MPEG-4 unknown atom
+ * 
+ * This class is used for the MPEG-4 atoms that are not part of ISO-14496-12.
+ * 
+ * @author          Stéphane Cherpit <stef@eosgarden.com>
+ * @author          Jean-David Gadina <macmade@eosgarden.com>
+ * @copyright       Copyright &copy; 2008
+ * @package         Mpeg4
+ * @version         0.1
+ */
 final class Mpeg4_UnknownAtom extends Mpeg4_DataAtom
 {
     /**
@@ -11,13 +22,26 @@ final class Mpeg4_UnknownAtom extends Mpeg4_DataAtom
     const DEVEL_STATE    = 'beta';
     const PHP_COMPATIBLE = '5.2.0';
     
+    // Atom type
     protected $_type = '';
     
+    /**
+     * Class constructor
+     * 
+     * @param   string  The atom type
+     * @return  NULL
+     */
     public function __construct( $type )
     {
+        // Sets the atom type
         $this->_type =substr( $type, 0, 4 );
     }
     
+    /**
+     * Process the atom data
+     * 
+     * @return  object  The processed atom data
+     */
     public function getProcessedData()
     {
         return new stdClass();
