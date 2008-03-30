@@ -70,7 +70,7 @@ final class Mpeg4_Atom_Iloc extends Mpeg4_FullBox
         $data                   = parent::getProcessedData();
         
         // Offset related data
-        $offset                 = $this->_bigEndianUnsignedShort( 4 )
+        $offset                 = $this->_bigEndianUnsignedShort( 4 );
         
         // Process the atom data
         $data->offset_size      = $offset & 0xF000; // Mask is 1111 0000 0000 0000
