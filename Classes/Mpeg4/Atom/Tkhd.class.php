@@ -66,9 +66,9 @@ final class Mpeg4_Atom_Tkhd extends Mpeg4_FullBox
         $flags                   = new stdClass();
         
         // Process the atom flags
-        $flags->track_enabled    = $rawFlags & 0x000001;
-        $flags->track_in_movie   = $rawFlags & 0x000002;
-        $flags->track_in_preview = $rawFlags & 0x000004;
+        $flags->track_enabled    = ( $rawFlags & 0x000001 ) ? true: false;
+        $flags->track_in_movie   = ( $rawFlags & 0x000002 ) ? true: false;
+        $flags->track_in_preview = ( $rawFlags & 0x000004 ) ? true: false;
         
         // Returns the atom flags
         return $flags;
