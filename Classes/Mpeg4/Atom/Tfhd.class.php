@@ -46,7 +46,7 @@ final class Mpeg4_Atom_Tfhd extends Mpeg4_FullBox
     protected function _processFlags( $rawFlags )
     {
         // Storage for the atom flags
-        $flags                   = new stdClass();
+        $flags                                   = new stdClass();
         
         // Process the atom flags
         $flags->base_data_offset_present         = ( $rawFlags & 0x000001 ) ? true: false;
