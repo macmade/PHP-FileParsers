@@ -28,25 +28,33 @@
                 
                 case 'video/mp4':
                     
-                    $parser    = new Mpeg4_Parser( $file[ 'tmp_name' ], true );
-                    $mpeg4File = $parser->getMpeg4File();
-                    $dataArray = $mpeg4File->getProcessedData();
-                    $warnings  = $parser->getWarnings();
-                    
-                    if( count( $warnings ) ) {
+                    try {
                         
-                        print '<h2>Warnings</h2>';
+                        $parser    = new Mpeg4_Parser( $file[ 'tmp_name' ], true );
+                        $mpeg4File = $parser->getMpeg4File();
+                        $dataArray = $mpeg4File->getProcessedData();
+                        $warnings  = $parser->getWarnings();
+                        
+                        if( count( $warnings ) ) {
+                            
+                            print '<h2>Warnings</h2>';
+                            print '<pre>';
+                            print_r( $warnings );
+                            print '</pre>';
+                        }
+                        
+                        print '<h2>Parsed data</h2>';
                         print '<pre>';
-                        print_r( $warnings );
+                        print_r( $dataArray );
                         print '</pre>';
+                        
+                        file_put_contents( 'Movies/debug.mp4', $mpeg4File );
+                        
+                    } catch( Exception $e ) {
+                        
+                        print '<div class="error">Exception: ' . $e->getMessage() .'</div>';
                     }
                     
-                    print '<h2>Parsed data</h2>';
-                    print '<pre>';
-                    print_r( $dataArray );
-                    print '</pre>';
-                    
-                    file_put_contents( 'Movies/debug.mp4', $mpeg4File );
                     break;
                 
                 case 'image/gif':
@@ -62,8 +70,9 @@
                         
                     } catch( Exception $e ) {
                         
-                        print '<div class="error">' . $e->getMessage() .'</div>';
+                        print '<div class="error">Exception: ' . $e->getMessage() .'</div>';
                     }
+                    
                     break;
                 
                 default:
