@@ -1,20 +1,16 @@
 <?php
 
 /**
- * MPEG-4 package initialization class
+ * Class manager
  * 
- * This class will handle every request to a class form the MPEG-4 package,
- * by automatically loading the class file (thanx to the SPL). In other words,
- * the only thing you have to care about if you want to use the MPEG-4 package
- * is to load this file. Then, every class from this package will be available.
+ * This class will handle every request to a class from this project,
+ * by automatically loading the class file (thanx to the SPL).
  * 
- * @author          Stéphane Cherpit <stef@eosgarden.com>
  * @author          Jean-David Gadina <macmade@eosgarden.com>
  * @copyright       Copyright &copy; 2008
- * @package         Mpeg4
  * @version         0.1
  */
-final class Mpeg4_Init
+final class ClassManager
 {
     /**
      * Class version constants.
@@ -25,44 +21,89 @@ final class Mpeg4_Init
     const DEVEL_STATE    = 'beta';
     const PHP_COMPATIBLE = '5.2.0';
     
-    // Unique instance of the class (singleton)
+    /**
+     * The unique instance of the class (singleton)
+     */
     private static $_instance = NULL;
     
-    // Loaded classes from this package
+    /**
+     * The loaded classes from this project
+     */
     private $_loadedClasses   = array();
     
-    // The directory which contains this file (and the other files from this package)
+    /**
+     * The available top packages
+     */
+    private $_packages        = array();
+    
+    /**
+     * The directory which contains this file (and the other files from this project)
+     */
     private $_dir             = '';
     
     /**
      * Class constructor
      * 
-     * @return  NULL
+     * The class constructor is private to avoid multiple instances of the
+     * class (singleton).
+     * 
+     * @return NULL
      */
     private function __construct()
     {
         // Stores the directory containing this file
-        $this->_dir = substr( dirname( __FILE__ ), 0, -5 );
+        $this->_dir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR;
+        
+        // Creates a directory iterator in the directory containing this file
+        $dirIterator = new DirectoryIterator( $this->_dir );
+        
+        // Process each directory
+        foreach( $dirIterator as $file ) {
+            
+            // Checks if the file is a directory
+            if( !$file->isDir() ) {
+                
+                // File - Process the next file
+                continue;
+            }
+            
+            // Checks if the directory is hidden
+            if( substr( $file, 0, 1 ) === '.' ) {
+                
+                // HIdden - Process the next file
+                continue;
+            }
+            
+            // Stores the directory name, with it's full path
+            $this->_packages[ ( string )$file ] = $file->getPathName();
+        }
     }
     
     /**
-     * Class cloning
+     * Clones an instance of the class
      * 
-     * This method disallows the cloning of this class (singleton).
+     * A call to this method will produce an exception, as the class cannot
+     * be cloned (singleton).
+     * 
+     * @return  NULL
+     * @throws  Exception   Always, as the class cannot be cloned (singleton)
      */
     public function __clone()
     {
-        trigger_error( 'The class ' . __CLASS__ . '  cannot be cloned, as it\'s a singleton. Please call the getInstance() method in order to get the unique instance of this class.' );
+        throw new Exception( 'Class ' . __CLASS__ . ' cannot be cloned' );
     }
     
     /**
-     * Gets the unique instance of this class (singleton)
+     * Gets the unique class instance
      * 
-     * @return  object  The unique instance of this class
+     * This method is used to get the unique instance of the class
+     * (singleton). If no instance is available, it will create it.
+     * 
+     * @return  object  The unique instance of the class
      */
     public static function getInstance()
     {
-        // Checks if the instance already exists
+        // Checks if the unique instance already exists
         if( !is_object( self::$_instance ) ) {
             
             // Creates the unique instance
@@ -93,20 +134,22 @@ final class Mpeg4_Init
             $instance = self::getInstance();
         }
         
-        // Checks if the requested class belongs to this package
-        if( substr( $className, 0, 6 ) === 'Mpeg4_' ) {
+        // Gets the class root package
+        $rootPkg = substr( $className, 0, strpos( $className, '_' ) );
+        
+        // Checks if the requested class belongs to this project
+        if( isset( $instance->_packages[ $rootPkg ] ) ) {
             
             // Loads the class
             return $instance->_loadClass( $className );
-            
         }
         
-        // The requested class does not belong to this package
+        // The requested class does not belong to this project
         return false;
     }
     
     /**
-     * Loads a class from this package
+     * Loads a class from this project
      * 
      * @param   string  $className  The name of the class to load
      * @return  boolean
@@ -143,23 +186,13 @@ final class Mpeg4_Init
     }
     
     /**
-     * Gets the loaded classes from this package
+     * Gets the loaded classes from this project
      * 
      * @return  array   An array with the loaded classes
      */
     public function getLoadedClasses()
     {
-        // Returns the loaded classes from this package
+        // Returns the loaded classes from this project
         return $this->_loadedClasses;
     }
 }
-
-// Checks the PHP version required for this file
-if( version_compare( PHP_VERSION, Mpeg4_Init::PHP_COMPATIBLE, '<' ) ) {
-    
-    // PHP version is too old
-    trigger_error( 'Class Mpeg4_Init requires PHP version ' . Mpeg4_Init::PHP_COMPATIBLE . ' (actual version is ' . PHP_VERSION . ')' , E_USER_ERROR );
-}
-
-// Registers a SPL autoload method to use to load the classes form this package
-spl_autoload_register( array( 'Mpeg4_Init', 'autoLoad' ) );
