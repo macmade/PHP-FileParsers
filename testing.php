@@ -75,6 +75,24 @@
                     
                     break;
                 
+                case 'image/png':
+                    
+                    try {
+                        
+                        $parser    = new Png_Parser( $file[ 'tmp_name' ] );
+                        
+                        print '<h2>Parsed data</h2>';
+                        print '<pre>';
+                        print_r( $parser->getInfos() );
+                        print '</pre>';
+                        
+                    } catch( Exception $e ) {
+                        
+                        print '<div class="error">Exception: ' . $e->getMessage() .'</div>';
+                    }
+                    
+                    break;
+                
                 default:
                     
                     print '<div class="error">Sorry, the file type is not recognized or supported</div>';
