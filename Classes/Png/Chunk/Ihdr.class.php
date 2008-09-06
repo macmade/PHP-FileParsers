@@ -29,7 +29,29 @@ class Png_Chunk_Ihdr extends Png_Chunk
      */
     public function getProcessedData()
     {
+        // Storage
         $data = new stdClass();
+        
+        // Gets the PNG dimensions
+        $data->width             = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 0 );
+        $data->height            = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 4 );
+        
+        // Gets the bit depth
+        $data->bitDepth          = self::$_binUtils->unsignedChar( $this->_data, 8 );
+        
+        
+        $data->colourType        = self::$_binUtils->unsignedChar( $this->_data, 9 );
+        
+        
+        $data->compressionMethod = self::$_binUtils->unsignedChar( $this->_data, 10 );
+        
+        
+        $data->filterMethod      = self::$_binUtils->unsignedChar( $this->_data, 11 );
+        
+        
+        $data->interlaceMethod   = self::$_binUtils->unsignedChar( $this->_data, 12 );
+        
+        // Returns the processed data
         return $data;
     }
 }
