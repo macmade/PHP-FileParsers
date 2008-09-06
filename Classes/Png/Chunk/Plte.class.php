@@ -29,6 +29,42 @@ class Png_Chunk_Plte extends Png_Chunk
      */
     public function getProcessedData()
     {
-        return false;
+        // Storage
+        $data          = new stdClass();
+        $data->palette = array();
+        
+        // Process each color
+        for( $i = 0; $i < $this->_dataLength; $i += 3 ) {
+            
+            // Storage
+            $color        = new StdClass();
+            
+            // Gets the colors values
+            $red          = self::$_binUtils->unsignedChar( $this->_data, $i );
+            $green        = self::$_binUtils->unsignedChar( $this->_data, $i + 1 );
+            $blue         = self::$_binUtils->unsignedChar( $this->_data, $i + 2 );
+            
+            // Gets the hexadecimal values
+            $redHex       = dechex( $red );
+            $greenHex     = dechex( $green );
+            $blueHex      = dechex( $blue );
+            
+            // Completes each hexadecimal value if needed
+            $redHex       = ( strlen( $redHex )   == 1 ) ? '0' . $redHex   : $redHex;
+            $greenHex     = ( strlen( $greenHex ) == 1 ) ? '0' . $greenHex : $greenHex;
+            $blueHex      = ( strlen( $blueHex )  == 1 ) ? '0' . $blueHex  : $blueHex;
+            
+            // Stores the color values
+            $color->red   = $red;
+            $color->green = $green;
+            $color->blue  = $blue;
+            $color->hex   = '#' . strtoupper( $redHex . $greenHex . $blueHex );
+            
+            // Adds the current color
+            $data->palette[] = $color;
+        }
+        
+        // Returns the processed data
+        return $data;
     }
 }
