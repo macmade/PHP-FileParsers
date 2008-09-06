@@ -139,7 +139,7 @@ class Png_File
     {
         if( $error = $this->_checkInvalidChunk( $chunkType ) ) {
             
-            throw new Png_Exception( $error );
+            throw new Png_Exception( $error, Png_Exception::EXCEPTION_INVALID_CHUNK );
         }
             
         $className        = 'Png_Chunk_' . ucfirst( strtolower( $chunkType ) );

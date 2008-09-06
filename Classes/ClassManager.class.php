@@ -90,7 +90,7 @@ final class ClassManager
      */
     public function __clone()
     {
-        throw new Singleton_Exception( 'Class ' . __CLASS__ . ' cannot be cloned' );
+        throw new Singleton_Exception( 'Class ' . __CLASS__ . ' cannot be cloned', Singleton_Exception::EXCEPTION_CLONE );
     }
     
     /**

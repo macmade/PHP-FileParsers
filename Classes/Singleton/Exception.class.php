@@ -9,4 +9,9 @@
  * @version         0.1
  */
 class Singleton_Exception extends Exception_Base
-{}
+{
+    /**
+     * Error codes for the exceptions
+     */
+    const EXCEPTION_CLONE = 0x01;
+}

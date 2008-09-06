@@ -64,14 +64,14 @@ abstract class Parser_Base
         if( !file_exists( $file ) ) {
             
             // File does not exist
-            throw new Parser_Exception( 'The requested file ' . $file . ' does not exist.' );
+            throw new Parser_Exception( 'The requested file ' . $file . ' does not exist.', Parser_Exception::EXCEPTION_NO_FILE );
         }
         
         // Checks if the requested file can be read
         if( !is_readable( $file ) ) {
             
             // Unreadable file
-            throw new Parser_Exception( 'The requested file ' . $file . ' is not readable.' );
+            throw new Parser_Exception( 'The requested file ' . $file . ' is not readable.', Parser_Exception::EXCEPTION_UNREADABLE );
         }
         
         // Opens a binary file hander
@@ -81,7 +81,7 @@ abstract class Parser_Base
         if( !$this->_fileHandle ) {
             
             // Invalid file handler
-            throw new Parser_Exception( 'Cannot open requested file ' . $file . '.' );
+            throw new Parser_Exception( 'Cannot open requested file ' . $file . '.', Parser_Exception::EXCEPTION_INVALID_HANDLER );
         }
         
         // Stores the file path

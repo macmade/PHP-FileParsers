@@ -349,7 +349,7 @@ class Gif_Parser extends Parser_Base
         if( $this->_read( 3 ) !== 'GIF' ) {
             
             // Wrong file type
-            throw new Gif_Exception( 'File ' . $this->_filePath . ' is not a GIF file.' );
+            throw new Gif_Exception( 'File ' . $this->_filePath . ' is not a GIF file.', Gif_Exception::EXCEPTION_NOT_GIF );
         }
         
         // Storage
@@ -430,7 +430,7 @@ class Gif_Parser extends Parser_Base
             default:
                 
                 // Invalid block identifier
-                throw new Gif_Exception( 'Invalid GIF block identifier: \'0x' . dechex( $id ) . '\'.' );
+                throw new Gif_Exception( 'Invalid GIF block identifier: \'0x' . dechex( $id ) . '\'.', Gif_Exception::EXCEPTION_BAD_ID );
                 break;
         }
     }
@@ -503,7 +503,7 @@ class Gif_Parser extends Parser_Base
             default:
                 
                 // Invalid sub block identifier
-                throw new Gif_Exception( 'Invalid GIF extension block identifier: \'0x' . dechex( $id ) . '\'.' );
+                throw new Gif_Exception( 'Invalid GIF extension block identifier: \'0x' . dechex( $id ) . '\'.', Gif_Exception::EXCEPTION_BAD_EXT_ID );
                 break;
         }
     }

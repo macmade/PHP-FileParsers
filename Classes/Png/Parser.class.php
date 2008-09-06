@@ -57,7 +57,7 @@ class Png_Parser extends Parser_Base
         if( $this->_read( 8 ) !== $signature ) {
             
             // Wrong file type
-            throw new Png_Exception( 'File ' . $this->_filePath . ' is not a PNG file.' );
+            throw new Png_Exception( 'File ' . $this->_filePath . ' is not a PNG file.', Png_Exception::EXCEPTION_BAD_SIGNATURE );
         }
         
         // Process the file till the end
@@ -96,7 +96,7 @@ class Png_Parser extends Parser_Base
             if( $crc !== crc32( $chunkType . $chunkData ) ) {
                 
                 // Invalid CRC
-                throw new Png_Exception( 'Invalid cyclic redundancy check for chunk ' . $chunkType );
+                throw new Png_Exception( 'Invalid cyclic redundancy check for chunk ' . $chunkType, Png_Exception::EXCEPTION_BAD_CRC );
             }
             
             // Checks if the current chunk is the PNG terminator chunk

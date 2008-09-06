@@ -9,4 +9,9 @@
  * @version         0.1
  */
 class Mpeg4_Exception extends Exception_Base
-{}
+{
+    /**
+     * Error codes for the exceptions
+     */
+    const EXCEPTION_INVALID_ATOM = 0x01;
+}
