@@ -13,7 +13,6 @@
  *      bit( 24 ) flags = f;
  * }
  * 
- * @author          Stéphane Cherpit <stef@eosgarden.com>
  * @author          Jean-David Gadina <macmade@eosgarden.com>
  * @copyright       Copyright &copy; 2008
  * @package         Mpeg4
