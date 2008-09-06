@@ -117,4 +117,36 @@ abstract class Png_Chunk
         $this->_data       = $data;
         $this->_dataLength = strlen( $data );
     }
+    
+    /**
+     * 
+     */
+    public function isCritical()
+    {
+        return !( ( ord( substr( $this->_type, 0, 1 ) ) >> 4 ) & 0x2 );
+    }
+    
+    /**
+     * 
+     */
+    public function isAncillary()
+    {
+        return ( ord( substr( $this->_type, 0, 1 ) ) >> 4 ) & 0x2;
+    }
+    
+    /**
+     * 
+     */
+    public function isPrivate()
+    {
+        return !( ( ord( substr( $this->_type, 1, 1 ) ) >> 4 ) & 0x2 );
+    }
+    
+    /**
+     * 
+     */
+    public function isSafeToCopy()
+    {
+        return ( ord( substr( $this->_type, 3, 1 ) ) >> 4 ) & 0x2;
+    }
 }
