@@ -51,11 +51,11 @@ final class Binary_Utils
      * be cloned (singleton).
      * 
      * @return  NULL
-     * @throws  Exception   Always, as the class cannot be cloned (singleton)
+     * @throws  Singleton_Exception Always, as the class cannot be cloned (singleton)
      */
     public function __clone()
     {
-        throw new Exception( 'Class ' . __CLASS__ . ' cannot be cloned' );
+        throw new Singleton_Exception( 'Class ' . __CLASS__ . ' cannot be cloned' );
     }
     
     /**

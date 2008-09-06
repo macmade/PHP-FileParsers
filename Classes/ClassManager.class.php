@@ -86,11 +86,11 @@ final class ClassManager
      * be cloned (singleton).
      * 
      * @return  NULL
-     * @throws  Exception   Always, as the class cannot be cloned (singleton)
+     * @throws  Singleton_Exception Always, as the class cannot be cloned (singleton)
      */
     public function __clone()
     {
-        throw new Exception( 'Class ' . __CLASS__ . ' cannot be cloned' );
+        throw new Singleton_Exception( 'Class ' . __CLASS__ . ' cannot be cloned' );
     }
     
     /**
@@ -164,6 +164,13 @@ final class ClassManager
             
             // Includes the class file
             require_once( $classPath );
+            
+            // Checks if the PHP_COMPATIBLE constant is defined
+            if( !defined( $className . '::PHP_COMPATIBLE' ) ) {
+                
+                // Class does not respect the project conventions
+                trigger_error( 'The requested constant PHP_COMPATIBLE is not defined in class ' . $className, E_USER_ERROR );
+            }
             
             // Checks the minimal PHP version required (eval() is required as late static bindings are implemented only in PHP 5.3)
             eval( '$phpCompatible = ' . $className . '::PHP_COMPATIBLE;' );
