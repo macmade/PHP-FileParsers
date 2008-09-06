@@ -107,4 +107,15 @@ abstract class Parser_Base
         // Static variables are set
         self::$_hasStatic = true;
     }
+    
+    /**
+     * Reads bytes from the file handler
+     * 
+     * @param   int     The number of bytes to read
+     * @return  string  The bytes from the file
+     */
+    protected function _read( $length )
+    {
+        return fread( $this->_fileHandle, $length );
+    }
 }

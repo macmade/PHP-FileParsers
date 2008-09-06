@@ -44,7 +44,7 @@ class Gif_Parser extends Parser_Base
         $lsd                         = new stdClass();
         
         // Gets the logical screen descriptor data
-        $lsdData                     = fread( $this->_fileHandle, 7 );
+        $lsdData                     = $this->_read( 7 );
         
         // Gets the image dimensions
         $lsd->width                  = self::$_binUtils->littleEndianUnsignedShort( $lsdData, 0 );
@@ -90,7 +90,7 @@ class Gif_Parser extends Parser_Base
         for( $i = 0; $i < $length; $i++ ) {
             
             // Gets the current color data
-            $colorData          = fread( $this->_fileHandle, 3 );
+            $colorData          = $this->_read( 3 );
             
             // Storage
             $table[ $i ]        = new stdClass();
@@ -130,7 +130,7 @@ class Gif_Parser extends Parser_Base
         $block = new stdClass();
         
         // Gets the block data
-        $blockData                    = fread( $this->_fileHandle, 10 );
+        $blockData                    = $this->_read( 10 );
         
         // Gets the position
         $block->left                  = self::$_binUtils->littleEndianUnsignedShort( $blockData, 0 );
@@ -181,7 +181,7 @@ class Gif_Parser extends Parser_Base
         $data = array();
         
         // Gets the next block size
-        $blockSizeData = fread( $this->_fileHandle, 1 );
+        $blockSizeData = $this->_read( 1 );
         $blockSize     = self::$_binUtils->unsignedChar( $blockSizeData );
         
         // Process the data blocks until the end of the parent block
@@ -200,7 +200,7 @@ class Gif_Parser extends Parser_Base
             $data[]      = $block;
             
             // Gets the next block size
-            $blockSizeData = fread( $this->_fileHandle, 1 );
+            $blockSizeData = $this->_read( 1 );
             $blockSize     = self::$_binUtils->unsignedChar( $blockSizeData );
         }
         
@@ -217,7 +217,7 @@ class Gif_Parser extends Parser_Base
         $block = new stdClass();
         
         // Gets the block data
-        $blockData                    = fread( $this->_fileHandle, 5 );
+        $blockData                    = $this->_read( 5 );
         
         // Gets the block size
         $block->size                  = self::$_binUtils->unsignedChar( $blockData, 0 );
@@ -241,7 +241,7 @@ class Gif_Parser extends Parser_Base
         $block->transparentColorIndex = self::$_binUtils->unsignedChar( $blockData, 4 );
         
         // Block terminator
-        fread( $this->_fileHandle, 1 );
+        $this->_read( 1 );
         
         // Return the block informations
         return $block;
@@ -256,7 +256,7 @@ class Gif_Parser extends Parser_Base
         $block              = new stdClass();
         
         // Gets the block data
-        $blockData          = fread( $this->_fileHandle, 1 );
+        $blockData          = $this->_read( 1 );
         
         // Gets the block size
         $block->size        = self::$_binUtils->unsignedChar( $blockData );
@@ -277,7 +277,7 @@ class Gif_Parser extends Parser_Base
         $block                           = new stdClass();
         
         // Gets the block data
-        $blockData                       = fread( $this->_fileHandle, 13 );
+        $blockData                       = $this->_read( 13 );
         
         // Gets the block size
         $block->size                     = self::$_binUtils->unsignedChar( $blockData, 0 );
@@ -322,7 +322,7 @@ class Gif_Parser extends Parser_Base
         $block = new stdClass();
         
         // Gets the block data
-        $blockData                        = fread( $this->_fileHandle, 12 );
+        $blockData                        = $this->_read( 12 );
         
         // Gets the block size
         $block->size                      = self::$_binUtils->unsignedChar( $blockData );
@@ -346,7 +346,7 @@ class Gif_Parser extends Parser_Base
     protected function _parseFile()
     {
         // Checks the GIF signature
-        if( fread( $this->_fileHandle, 3 ) !== 'GIF' ) {
+        if( $this->_read( 3 ) !== 'GIF' ) {
             
             // Wrong file type
             throw new Exception( 'File ' . $this->_filePath . ' is not a GIF file.' );
@@ -356,7 +356,7 @@ class Gif_Parser extends Parser_Base
         $infos                          = new stdClass();
         
         // Gets the GIF version
-        $infos->version                 = fread( $this->_fileHandle, 3 );
+        $infos->version                 = $this->_read( 3 );
         
         // Gets the logical screen descriptor
         $infos->logicalScreenDescriptor = $this->_getLogicalScreenDescriptor();
@@ -369,7 +369,7 @@ class Gif_Parser extends Parser_Base
         }
         
         // Gets the identifier of the next block
-        $blockidData                    = fread( $this->_fileHandle, 1 );
+        $blockidData                    = $this->_read( 1 );
         $blockId                        = self::$_binUtils->unsignedChar( $blockidData );
         
         // Process the blocks until the trailer (0x3b) is reached
@@ -379,7 +379,7 @@ class Gif_Parser extends Parser_Base
             $this->_parseBlock( $blockId, $infos );
             
             // Gets the identifier of the next block
-            $blockidData = fread( $this->_fileHandle, 1 );
+            $blockidData = $this->_read( 1 );
             $blockId     = self::$_binUtils->unsignedChar( $blockidData );
         }
         
@@ -419,7 +419,7 @@ class Gif_Parser extends Parser_Base
             case self::EXTENSION :
                 
                 // Gets the extension block identifier
-                $extBlockIdData = fread( $this->_fileHandle, 1 );
+                $extBlockIdData = $this->_read( 1 );
                 $extBlockId     = self::$_binUtils->unsignedChar( $extBlockIdData );
                 
                 // Parses the extension block

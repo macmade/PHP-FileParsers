@@ -68,7 +68,7 @@ class Mpeg4_Parser extends Parser_Base
         
         // Reads 8 bytes of the MPEG-4 files till the end of the file
         // 8 bytes is the atom length and the atom type
-        while( $chunk = fread( $this->_fileHandle, 8 ) ) {
+        while( $chunk = $this->_read( 8 ) ) {
             
             // Gets the atom length
             $atomLength     = self::$_binUtils->bigEndianUnsignedLong( $chunk );
@@ -136,7 +136,7 @@ class Mpeg4_Parser extends Parser_Base
                 
             } elseif( $atomLength === 1 ) {
                 
-                $lengthData       = fread( $this->_fileHandle, 8 );
+                $lengthData       = $this->_read( 8 );
                 $length1          = self::$_binUtils->bigEndianUnsignedLong( $lengthData, 0 );
                 $length2          = self::$_binUtils->bigEndianUnsignedLong( $lengthData, 4 );
                 $atomSize         = ( double )( ( $length1 << 32 ) + $length2 );
@@ -160,7 +160,7 @@ class Mpeg4_Parser extends Parser_Base
                     $dataBytesCount = 0;
                     $letters        = array();
                     $binData        = '';
-                    $data           = fread( $this->_fileHandle, $atomDataLength );
+                    $data           = $this->_read( $atomDataLength );
                     
                     if( $atomObject ) {
                         

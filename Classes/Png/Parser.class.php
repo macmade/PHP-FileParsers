@@ -34,7 +34,7 @@ class Png_Parser extends Parser_Base
                    . chr( 13 )  . chr( 10 ) . chr( 26 ) . chr( 10 );
         
         // Checks the GIF signature
-        if( fread( $this->_fileHandle, 8 ) !== $signature ) {
+        if( $this->_read( 8 ) !== $signature ) {
             
             // Wrong file type
             throw new Exception( 'File ' . $this->_filePath . ' is not a PNG file.' );
@@ -47,7 +47,7 @@ class Png_Parser extends Parser_Base
             $chunk           = new stdClass();
             
             // Chunk header data
-            $chunkHeaderData = fread( $this->_fileHandle, 8 );
+            $chunkHeaderData = $this->_read( 8 );
             
             // Gets the chunk size
             $chunk->size     = self::$_binUtils->bigEndianUnsignedLong( $chunkHeaderData );
@@ -63,7 +63,7 @@ class Png_Parser extends Parser_Base
             }
             
             // Gets the CRC data
-            $crcData           = fread( $this->_fileHandle, 4 );
+            $crcData           = $this->_read( 4 );
             
             // Gets the cyclic redundancy check
             $chunk->crc        = self::$_binUtils->bigEndianUnsignedLong( $crcData );
