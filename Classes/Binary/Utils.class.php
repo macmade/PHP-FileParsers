@@ -234,7 +234,7 @@ final class Binary_Utils
     }
     
     /**
-     * Gets a fixed point number from the atom data
+     * Gets a fixed point number
      * 
      * Actually, only 8.8, 16.16, 30.2 and 2.30 fixed point formats are supported.
      * 
