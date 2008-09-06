@@ -27,7 +27,7 @@ abstract class Parser_Base
     /**
      * The instance of the binary utilities class
      */
-    protected static $_binUtils = NULL;
+    protected static $_binUtils  = NULL;
     
     /**
      * Wether the static variables are set or not
@@ -37,7 +37,12 @@ abstract class Parser_Base
     /**
      * The PHP file handler
      */
-    protected $_fileHandle       = NULL;;
+    protected $_fileHandle       = NULL;
+    
+    /**
+     * The file path
+     */
+    protected $_filePath         = '';
     
     /**
      * Class constructor
@@ -78,6 +83,9 @@ abstract class Parser_Base
             // Invalid file handler
             throw new Exception( 'Cannot open requested file ' . $file . '.' );
         }
+        
+        // Stores the file path
+        $this->_filePath = $file;
         
         // Parses the file
         $this->_parseFile();
