@@ -71,13 +71,13 @@ final class Mpeg4_Atom_Iloc extends Mpeg4_FullBox
         $data                   = parent::getProcessedData();
         
         // Offset related data
-        $offset                 = $this->_bigEndianUnsignedShort( 4 );
+        $offset                 = self::$_binUtils->bigEndianUnsignedShort( $this->_data, 4 );
         
         // Process the atom data
         $data->offset_size      = $offset & 0xF000; // Mask is 1111 0000 0000 0000
         $data->length_size      = $offset & 0x0F00; // Mask is 0000 1111 0000 0000
         $data->base_offset_size = $offset & 0x00F0; // Mask is 0000 0000 1111 0000
-        $data->item_count       = $this->_bigEndianUnsignedShort( 6 );
+        $data->item_count       = self::$_binUtils->bigEndianUnsignedShort( $this->_data, 6 );
         
         // Storage for items
         $data->items            = array();
@@ -92,8 +92,8 @@ final class Mpeg4_Atom_Iloc extends Mpeg4_FullBox
             $item = new stdClass();
             
             // Process the current item data
-            $item->item_ID              = $this->bigEndianUnsignedShort( $itemOffset );
-            $item->data_reference_index = $this->bigEndianUnsignedShort( $itemOffset + 2 );
+            $item->item_ID              = self::$_binUtils->bigEndianUnsignedShort( $this->_data, $itemOffset );
+            $item->data_reference_index = self::$_binUtils->bigEndianUnsignedShort( $this->_data, $itemOffset + 2 );
             
             // Stores the current item
             $data->items[]              = $item;

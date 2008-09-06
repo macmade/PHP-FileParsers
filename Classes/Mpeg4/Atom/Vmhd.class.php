@@ -54,11 +54,11 @@ final class Mpeg4_Atom_Vmhd extends Mpeg4_FullBox
         // Gets the processed data from the parent (fullbox)
         $data = parent::getProcessedData();
         
-        $data->graphicsmode   = $this->_bigEndianUnsignedShort( 4 );
+        $data->graphicsmode   = self::$_binUtils->bigEndianUnsignedShort( $this->_data, 4 );
         $data->opcolor        = new stdClass();
-        $data->opcolor->red   = $this->_bigEndianUnsignedShort( 6 );
-        $data->opcolor->green = $this->_bigEndianUnsignedShort( 8 );
-        $data->opcolor->blue  = $this->_bigEndianUnsignedShort( 10 );
+        $data->opcolor->red   = self::$_binUtils->bigEndianUnsignedShort( $this->_data, 6 );
+        $data->opcolor->green = self::$_binUtils->bigEndianUnsignedShort( $this->_data, 8 );
+        $data->opcolor->blue  = self::$_binUtils->bigEndianUnsignedShort( $this->_data, 10 );
         
         // Return the processed data
         return $data;

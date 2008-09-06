@@ -79,12 +79,12 @@ final class Mpeg4_Atom_Sdtp extends Mpeg4_FullBox
             if( $i === 0 ) {
                 
                 // Gets the raw data for the current entry
-                $entryData = ( $this->_bigEndianUnsignedShort( $i ) & 0xFF00 ) >> 8;
+                $entryData = ( self::$_binUtils->bigEndianUnsignedShort( $this->_data, $i ) & 0xFF00 ) >> 8;
                 
             } else {
                 
                 // Gets the raw data for the current entry
-                $entryData = $this->_bigEndianUnsignedShort( $i - 1 ) & 0x00FF;
+                $entryData = self::$_binUtils->bigEndianUnsignedShort( $this->_data, $i - 1 ) & 0x00FF;
             }
             
             // Storage for the current sample

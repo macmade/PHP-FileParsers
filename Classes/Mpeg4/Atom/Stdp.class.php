@@ -75,7 +75,7 @@ final class Mpeg4_Atom_Stdp extends Mpeg4_FullBox
         for( $i = 4; $i < $stsz->entry_count; $i += 2 ) {
             
             // Stores the current priority
-            $data->priorities[] = $this->_bigEndianUnsignedShort( $i );
+            $data->priorities[] = self::$_binUtils->bigEndianUnsignedShort( $this->_data, $i );
         }
         
         // Return the processed data

@@ -77,7 +77,7 @@ final class Mpeg4_Atom_Trun extends Mpeg4_FullBox
         $data               = parent::getProcessedData();
         
         // Sample count
-        $data->sample_count = $this->_bigEndianUnsignedLong( 4 );
+        $data->sample_count = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 4 );
         
         // Storage for the samples
         $data->samples      = array();
@@ -89,7 +89,7 @@ final class Mpeg4_Atom_Trun extends Mpeg4_FullBox
         if( $data->flags->data_offset_present ) {
             
             // Data offset
-            $data->data_offset = $this->_bigEndianUnsignedLong( $dataOffset );
+            $data->data_offset = self::$_binUtils->bigEndianUnsignedLong( $this->_data, $dataOffset );
             
             // Updates the data offset
             $dataOffset       += 4;
@@ -99,7 +99,7 @@ final class Mpeg4_Atom_Trun extends Mpeg4_FullBox
         if( $data->flags->first_sample_flags_present ) {
             
             // First sample flags
-            $data->first_sample_flags = $this->_bigEndianUnsignedLong( $dataOffset );
+            $data->first_sample_flags = self::$_binUtils->bigEndianUnsignedLong( $this->_data, $dataOffset );
             
             // Updates the data offset
             $dataOffset              += 4;
@@ -115,7 +115,7 @@ final class Mpeg4_Atom_Trun extends Mpeg4_FullBox
             if( $data->flags->sample_duration_present ) {
                 
                 // Sample duration
-                $sample->sample_duration = $this->_bigEndianUnsignedLong( $dataOffset );
+                $sample->sample_duration = self::$_binUtils->bigEndianUnsignedLong( $this->_data, $dataOffset );
                 
                 // Updates the data offset
                 $dataOffset             += 4;
@@ -125,7 +125,7 @@ final class Mpeg4_Atom_Trun extends Mpeg4_FullBox
             if( $data->flags->sample_size_present ) {
                 
                 // Sample size
-                $sample->sample_size = $this->_bigEndianUnsignedLong( $dataOffset );
+                $sample->sample_size = self::$_binUtils->bigEndianUnsignedLong( $this->_data, $dataOffset );
                 
                 // Updates the data offset
                 $dataOffset         += 4;
@@ -135,7 +135,7 @@ final class Mpeg4_Atom_Trun extends Mpeg4_FullBox
             if( $data->flags->sample_flags_present ) {
                 
                 // Sample flags
-                $sample->sample_flags = $this->_bigEndianUnsignedLong( $dataOffset );
+                $sample->sample_flags = self::$_binUtils->bigEndianUnsignedLong( $this->_data, $dataOffset );
                 
                 // Updates the data offset
                 $dataOffset          += 4;
@@ -145,7 +145,7 @@ final class Mpeg4_Atom_Trun extends Mpeg4_FullBox
             if( $data->flags->sample_composition_time_offsets_present ) {
                 
                 // Sample composition tome offset
-                $sample->sample_composition_time_offsets = $this->_bigEndianUnsignedLong( $dataOffset );
+                $sample->sample_composition_time_offsets = self::$_binUtils->bigEndianUnsignedLong( $this->_data, $dataOffset );
                 
                 // Updates the data offset
                 $dataOffset                             += 4;

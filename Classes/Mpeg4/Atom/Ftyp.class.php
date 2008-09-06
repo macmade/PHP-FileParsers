@@ -20,7 +20,7 @@ final class Mpeg4_Atom_Ftyp extends Mpeg4_DataAtom
     {
         $data                    = new stdClass();
         $data->major_brand       = substr( $this->_data, 0, 4 );
-        $data->minor_version     = $this->_bigEndianUnsignedLong( 4 );
+        $data->minor_version     = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 4 );
         $data->compatible_brands = array();
         
         if( $this->_dataLength > 8 ) {

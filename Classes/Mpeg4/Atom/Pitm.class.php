@@ -53,7 +53,7 @@ final class Mpeg4_Atom_Pitm extends Mpeg4_FullBox
         $data          = parent::getProcessedData();
         
         // Process the atom data
-        $data->item_ID = $this->_bigEndianUnsignedShort( 4 );
+        $data->item_ID = self::$_binUtils->bigEndianUnsignedShort( $this->_data, 4 );
         
         // Returns the processed data
         return $data;

@@ -72,7 +72,7 @@ final class Mpeg4_Atom_Tfhd extends Mpeg4_FullBox
         $data           = parent::getProcessedData();
         
         // Track ID
-        $data->track_ID = $this->_bigEndianUnsignedLong( 4 );
+        $data->track_ID = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 4 );
         
         // Data offset for the remaining data
         $dataOffset     = 8;
@@ -81,7 +81,7 @@ final class Mpeg4_Atom_Tfhd extends Mpeg4_FullBox
         if( $data->flags->base_data_offset_present ) {
             
             // Base data offset
-            $data->base_data_offset = $this->_bigEndianUnsignedLong( $dataOffset ); // Value is 64bits!!!
+            $data->base_data_offset = self::$_binUtils->bigEndianUnsignedLong( $this->_data, $dataOffset ); // Value is 64bits!!!
             
             // Updates the data offset
             $dataOffset            += 8;
@@ -91,7 +91,7 @@ final class Mpeg4_Atom_Tfhd extends Mpeg4_FullBox
         if( $data->flags->sample_description_index_present ) {
             
             // Base data offset
-            $data->sample_description_index = $this->_bigEndianUnsignedLong( $dataOffset );
+            $data->sample_description_index = self::$_binUtils->bigEndianUnsignedLong( $this->_data, $dataOffset );
             
             // Updates the data offset
             $dataOffset                    += 4;
@@ -101,7 +101,7 @@ final class Mpeg4_Atom_Tfhd extends Mpeg4_FullBox
         if( $data->flags->default_sample_duration_present ) {
             
             // Base data offset
-            $data->default_sample_duration = $this->_bigEndianUnsignedLong( $dataOffset );
+            $data->default_sample_duration = self::$_binUtils->bigEndianUnsignedLong( $this->_data, $dataOffset );
             
             // Updates the data offset
             $dataOffset                   += 4;
@@ -111,7 +111,7 @@ final class Mpeg4_Atom_Tfhd extends Mpeg4_FullBox
         if( $data->flags->default_sample_size_present ) {
             
             // Base data offset
-            $data->default_sample_size = $this->_bigEndianUnsignedLong( $dataOffset );
+            $data->default_sample_size = self::$_binUtils->bigEndianUnsignedLong( $this->_data, $dataOffset );
             
             // Updates the data offset
             $dataOffset               += 4;
@@ -121,7 +121,7 @@ final class Mpeg4_Atom_Tfhd extends Mpeg4_FullBox
         if( $data->flags->default_sample_flags_present ) {
             
             // Base data offset
-            $data->default_sample_flags = $this->_bigEndianUnsignedLong( $dataOffset );
+            $data->default_sample_flags = self::$_binUtils->bigEndianUnsignedLong( $this->_data, $dataOffset );
         }
         
         // Return the processed data

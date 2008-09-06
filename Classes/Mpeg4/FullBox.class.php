@@ -51,13 +51,13 @@ abstract class Mpeg4_FullBox extends Mpeg4_DataAtom
         $data = new stdClass();
         
         // Gets the first 32 bits from the atom data
-        $unpackData = unpack( 'N', substr( $this->_data, 0, 4 ) );
+        $unpackData = self::$_binUtils->bigEndianUnsignedLong( $this->_data );
         
         // Atom version - 8 first bits - Used to know how to handle the data
-        $data->version = $unpackData[ 1 ] & 0xFF000000;
+        $data->version = $unpackData & 0xFF000000;
         
         // Atom flags - 24 last bits
-        $flags         = $unpackData[ 1 ] & 0x00FFFFFF;
+        $flags         = $unpackData & 0x00FFFFFF;
         
         // Process te atom flags - The method is called from the child class
         $data->flags   = $this->_processFlags( $flags );

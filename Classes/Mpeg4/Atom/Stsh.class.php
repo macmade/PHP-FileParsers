@@ -24,14 +24,14 @@ final class Mpeg4_Atom_Stsh extends Mpeg4_FullBox
     public function getProcessedData()
     {
         $data              = parent::getProcessedData();
-        $data->entry_count = $this->_bigEndianUnsignedLong( 4 );
+        $data->entry_count = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 4 );
         $data->entries     = array();
         
         for( $i = 8; $i < $this->_dataLength; $i += 8 ) {
             
             $entry                         = new stdClass();
-            $entry->shadowed_sample_number = $this->_bigEndianUnsignedLong( $i );
-            $entry->sync_sample_number     = $this->_bigEndianUnsignedLong( $i + 4 );
+            $entry->shadowed_sample_number = self::$_binUtils->bigEndianUnsignedLong( $this->_data, $i );
+            $entry->sync_sample_number     = self::$_binUtils->bigEndianUnsignedLong( $this->_data, $i + 4 );
             $data->entries[]               = $entry;
         }
         

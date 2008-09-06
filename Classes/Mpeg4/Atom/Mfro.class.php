@@ -53,7 +53,7 @@ final class Mpeg4_Atom_Mfro extends Mpeg4_FullBox
         $data       = parent::getProcessedData();
         
         // Process the atom data
-        $data->size = $this->_bigEndianUnsignedLong( 4 );
+        $data->size = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 4 );
         
         // Returns the processed data
         return $data;

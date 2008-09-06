@@ -79,7 +79,7 @@ final class Mpeg4_Atom_Subs extends Mpeg4_FullBox
         $data              = parent::getProcessedData();
         
         // Number of entries
-        $data->entry_count = $this->_bigEndianUnsignedLong( 4 );
+        $data->entry_count = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 4 );
         
         // Storage for the entries
         $data->entries     = array();
@@ -94,8 +94,8 @@ final class Mpeg4_Atom_Subs extends Mpeg4_FullBox
             $entry                  = new stdClass();
             
             // Process the data for the current entry
-            $entry->sample_delta    = $this->_bigEndianUnsignedLong( $entryOffset );
-            $entry->subsample_count = $this->_bigEndianUnsignedShort( $entryOffset + 4 );
+            $entry->sample_delta    = self::$_binUtils->bigEndianUnsignedLong( $this->_data, $entryOffset );
+            $entry->subsample_count = self::$_binUtils->bigEndianUnsignedShort( $this->_data, $entryOffset + 4 );
             $entry->subsamples      = array();
             
             // Updates the data offset
@@ -114,7 +114,7 @@ final class Mpeg4_Atom_Subs extends Mpeg4_FullBox
                     if( $data->version === 1 ) {
                         
                         // Size of the subsample
-                        $subSample->subsample_size = $this->_bigEndianUnsignedLong( $entryOffset );
+                        $subSample->subsample_size = self::$_binUtils->bigEndianUnsignedLong( $this->_data, $entryOffset );
                         
                         // Updates the data offset
                         $entryOffset              += 4;
@@ -122,14 +122,14 @@ final class Mpeg4_Atom_Subs extends Mpeg4_FullBox
                     } else {
                         
                         // Size of the subsample
-                        $subSample->subsample_size = $this->_bigEndianUnsignedShort( $entryOffset );
+                        $subSample->subsample_size = self::$_binUtils->bigEndianUnsignedShort( $this->_data, $entryOffset );
                         
                         // Updates the data offset
                         $entryOffset              += 2;
                     }
                     
                     // Remaining subsample data
-                    $subSampleData                 = $this->_bigEndianUnsignedShort( $entryOffset );
+                    $subSampleData                 = self::$_binUtils->bigEndianUnsignedShort( $this->_data, $entryOffset );
                     
                     // Process the remaining data
                     $subSample->subsample_priority = $subSampleData > 8;        // 8 first bits

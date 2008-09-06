@@ -52,7 +52,7 @@ final class Mpeg4_Atom_Tref extends Mpeg4_DataAtom
         while( $entriesOffset < $this->_dataLength ) {
             
             // Length of the current entry
-            $entryLength           = $this->_bigEndianUnsignedLong( $entriesOffset );
+            $entryLength           = self::$_binUtils->bigEndianUnsignedLong( $this->_data, $entriesOffset );
             
             // Storage for the current entry
             $entry                 = new stdClass();
@@ -67,7 +67,7 @@ final class Mpeg4_Atom_Tref extends Mpeg4_DataAtom
             for( $i = 8; $i < $entryLength; $i +=4 ) {
                 
                 // Gets the track ID
-                $entry->track_IDs[] = $this->_bigEndianUnsignedLong( $entriesOffset + $i );
+                $entry->track_IDs[] = self::$_binUtils->bigEndianUnsignedLong( $this->_data, $entriesOffset + $i );
             }
             
             // Stores the current entry

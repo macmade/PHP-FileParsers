@@ -116,7 +116,7 @@ final class Mpeg4_Atom_Stsd extends Mpeg4_FullBox
         $data = parent::getProcessedData();
         
         // Number of entries
-        $data->entry_count = $this->_bigEndianUnsignedLong( 4 );
+        $data->entry_count = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 4 );
         
         // Checks for the HDLR atom
         if( !isset( $this->_parent->_parent->_parent->hdlr ) ) {
@@ -181,10 +181,10 @@ final class Mpeg4_Atom_Stsd extends Mpeg4_FullBox
         
         // Process the atom data
         $data->format               = substr( $this->_data, $startOffset + 4 , 4 );
-        $data->data_reference_index = $this->_bigEndianUnsignedShort( $startOffset + 14 );
-        $data->channelcount         = $this->_bigEndianUnsignedShort( $dataStartOffset + 8 );
-        $data->samplesize           = $this->_bigEndianUnsignedShort( $dataStartOffset + 10 );
-        $data->samplerate           = $this->_bigEndianFixedPoint( $dataStartOffset + 16, 16, 16 );
+        $data->data_reference_index = self::$_binUtils->bigEndianUnsignedShort( $this->_data, $startOffset + 14 );
+        $data->channelcount         = self::$_binUtils->bigEndianUnsignedShort( $this->_data, $dataStartOffset + 8 );
+        $data->samplesize           = self::$_binUtils->bigEndianUnsignedShort( $this->_data, $dataStartOffset + 10 );
+        $data->samplerate           = self::$_binUtils->bigEndianFixedPoint( $this->_data, 16, 16, $dataStartOffset + 16 );
         
         // Returns the processed data
         return $data;
@@ -210,18 +210,18 @@ final class Mpeg4_Atom_Stsd extends Mpeg4_FullBox
         $dataStartOffset            = $startOffset + 16;
         
         // Length of the compressor string
-        $compressorNameLength       = ( $this->_bigEndianUnsignedShort( $dataStartOffset + 36, 2 ) && 0xFF00 ) >> 8;
+        $compressorNameLength       = ( self::$_binUtils->bigEndianUnsignedShort( $this->_data, $dataStartOffset + 36, 2 ) && 0xFF00 ) >> 8;
         
         // Process the atom data
         $data->format               = substr( $this->_data, $startOffset + 4 , 4 );
-        $data->data_reference_index = $this->_bigEndianUnsignedShort( $startOffset + 14 );
-        $data->width                = $this->_bigEndianUnsignedShort( $dataStartOffset + 16 );
-        $data->height               = $this->_bigEndianUnsignedShort( $dataStartOffset + 18 );
-        $data->horizresolution      = $this->_bigEndianFixedPoint( $dataStartOffset + 20, 16, 16 );
-        $data->vertresolution       = $this->_bigEndianFixedPoint( $dataStartOffset + 24, 16, 16 );
-        $data->frame_count          = $this->_bigEndianUnsignedShort( $dataStartOffset + 32);
+        $data->data_reference_index = self::$_binUtils->bigEndianUnsignedShort( $this->_data, $startOffset + 14 );
+        $data->width                = self::$_binUtils->bigEndianUnsignedShort( $this->_data, $dataStartOffset + 16 );
+        $data->height               = self::$_binUtils->bigEndianUnsignedShort( $this->_data, $dataStartOffset + 18 );
+        $data->horizresolution      = self::$_binUtils->bigEndianFixedPoint( $this->_data, 16, 16, $dataStartOffset + 20 );
+        $data->vertresolution       = self::$_binUtils->bigEndianFixedPoint( $this->_data, 16, 16, $dataStartOffset + 24 );
+        $data->frame_count          = self::$_binUtils->bigEndianUnsignedShort( $this->_data, $dataStartOffset + 32);
         $data->compressorname       = ( $compressorNameLength > 0 ) ? substr( $this->_data, 37, $compressorNameLength ) : '';
-        $data->depth                = $this->_bigEndianUnsignedShort( $dataStartOffset, 40 );
+        $data->depth                = self::$_binUtils->bigEndianUnsignedShort( $this->_data, $dataStartOffset, 40 );
         
         // Returns the processed data
         return $data;
@@ -243,14 +243,14 @@ final class Mpeg4_Atom_Stsd extends Mpeg4_FullBox
         while( $entryOffset < $this->_dataLength ) {
             
             // Current entry length
-            $entryLength                 = $this->_bigEndianUnsignedLong( $entryOffset );
+            $entryLength                 = self::$_binUtils->bigEndianUnsignedLong( $this->_data, $entryOffset );
             
             // Storage for the current entry
             $entry                       = new stdClass();
             
             // Process the current entry
             $entry->protocol             = substr( $this->_data, $entryOffset + 4, 4 );
-            $entry->data_reference_index = $this->_bigEndianUnsignedShort( $entryOffset + 14 );
+            $entry->data_reference_index = self::$_binUtils->bigEndianUnsignedShort( $this->_data, $entryOffset + 14 );
             
             // Storage for the data of the current entry
             $entry->data                 = array();
@@ -259,7 +259,7 @@ final class Mpeg4_Atom_Stsd extends Mpeg4_FullBox
             for( $i = 16; $i < $entryLength; $i++ ) {
                 
                 // Adds the current data
-                $entry->data[] = ( $this->_bigEndianUnsignedShort( $i - 2, 2 ) && 0x00FF );
+                $entry->data[] = ( self::$_binUtils->bigEndianUnsignedShort( $this->_data, $i - 2, 2 ) && 0x00FF );
             }
             
             // Updates the entry offset

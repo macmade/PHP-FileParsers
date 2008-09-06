@@ -27,25 +27,25 @@ final class Mpeg4_Atom_Mvhd extends Mpeg4_FullBox
         
         if( $data->version === 1 ) {
             
-            $data->creation_time     = $this->_bigEndianUnsignedLong( 4 ); // Value is 64bits!!!
-            $data->modification_time = $this->_bigEndianUnsignedLong( 12 ); // Value is 64bits!!!
-            $data->timescale         = $this->_bigEndianUnsignedLong( 20 );
-            $data->duration          = $this->_bigEndianUnsignedLong( 24 ); // Value is 64bits!!!
-            $data->rate              = $this->_bigEndianFixedPoint( 32, 16, 16 );
-            $data->volume            = $this->_bigEndianFixedPoint( 36, 8, 8 );
+            $data->creation_time     = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 4 ); // Value is 64bits!!!
+            $data->modification_time = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 12 ); // Value is 64bits!!!
+            $data->timescale         = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 20 );
+            $data->duration          = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 24 ); // Value is 64bits!!!
+            $data->rate              = self::$_binUtils->bigEndianFixedPoint( $this->_data, 16, 16, 32 );
+            $data->volume            = self::$_binUtils->bigEndianFixedPoint( $this->_data, 8, 8, 36 );
             $data->matrix            = $this->_decodeMatrix( 48 );
-            $data->next_track_ID     = $this->_bigEndianUnsignedLong( 108 );
+            $data->next_track_ID     = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 108 );
             
         } else {
             
-            $data->creation_time     = $this->_bigEndianUnsignedLong( 4 );
-            $data->modification_time = $this->_bigEndianUnsignedLong( 8 );
-            $data->timescale         = $this->_bigEndianUnsignedLong( 12 );
-            $data->duration          = $this->_bigEndianUnsignedLong( 16 );
-            $data->rate              = $this->_bigEndianFixedPoint( 20, 16, 16 );
-            $data->volume            = $this->_bigEndianFixedPoint( 24, 8, 8 );
+            $data->creation_time     = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 4 );
+            $data->modification_time = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 8 );
+            $data->timescale         = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 12 );
+            $data->duration          = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 16 );
+            $data->rate              = self::$_binUtils->bigEndianFixedPoint( $this->_data, 16, 16, 20 );
+            $data->volume            = self::$_binUtils->bigEndianFixedPoint( $this->_data, 8, 8, 24 );
             $data->matrix            = $this->_decodeMatrix( 36 );
-            $data->next_track_ID     = $this->_bigEndianUnsignedLong( 96 );
+            $data->next_track_ID     = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 96 );
         }
         
         return $data;

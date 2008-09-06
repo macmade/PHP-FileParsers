@@ -66,8 +66,8 @@ final class Mpeg4_Atom_Pdin extends Mpeg4_FullBox
             $entry                = new stdClass();
             
             // Process the current entry
-            $entry->rate          = $this->_bigEndianUnsignedLong( $i );
-            $entry->initial_delay = $this->_bigEndianUnsignedLong( $i + 4 );
+            $entry->rate          = self::$_binUtils->bigEndianUnsignedLong( $this->_data, $i );
+            $entry->initial_delay = self::$_binUtils->bigEndianUnsignedLong( $this->_data, $i + 4 );
             
             // Stores the current entry
             $data->entries[]      = $entry;

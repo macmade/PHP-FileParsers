@@ -27,19 +27,19 @@ final class Mpeg4_Atom_Mdhd extends Mpeg4_FullBox
         
         if( $data->version === 1 ) {
             
-            $data->creation_time     = $this->_bigEndianUnsignedLong( 4 );
-            $data->modification_time = $this->_bigEndianUnsignedLong( 12 );
-            $data->timescale         = $this->_bigEndianUnsignedLong( 20 );
-            $data->duration          = $this->_bigEndianUnsignedLong( 24 );
-            $data->language          = $this->_bigEndianIso639Code( 32 );
+            $data->creation_time     = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 4 );
+            $data->modification_time = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 12 );
+            $data->timescale         = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 20 );
+            $data->duration          = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 24 );
+            $data->language          = self::$_binUtils->bigEndianIso639Code( $this->_data, 32 );
             
         } else {
             
-            $data->creation_time     = $this->_bigEndianUnsignedLong( 4 );
-            $data->modification_time = $this->_bigEndianUnsignedLong( 8 );
-            $data->timescale         = $this->_bigEndianUnsignedLong( 12 );
-            $data->duration          = $this->_bigEndianUnsignedLong( 16 );
-            $data->language          = $this->_bigEndianIso639Code( 20 );
+            $data->creation_time     = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 4 );
+            $data->modification_time = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 8 );
+            $data->timescale         = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 12 );
+            $data->duration          = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 16 );
+            $data->language          = self::$_binUtils->bigEndianIso639Code( $this->_data, 20 );
         }
         
         return $data;

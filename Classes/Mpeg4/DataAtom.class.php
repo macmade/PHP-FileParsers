@@ -74,15 +74,15 @@ abstract class Mpeg4_DataAtom extends Mpeg4_Atom
         $matrix    = new stdClass();
         
         // Process the matrix field from the atom data
-        $matrix->a = $this->_bigEndianFixedPoint( $dataOffset,      16, 16 );
-        $matrix->b = $this->_bigEndianFixedPoint( $dataOffset + 4,  16, 16 );
-        $matrix->u = $this->_bigEndianFixedPoint( $dataOffset + 8,   2, 30 );
-        $matrix->c = $this->_bigEndianFixedPoint( $dataOffset + 12, 16, 16 );
-        $matrix->d = $this->_bigEndianFixedPoint( $dataOffset + 16, 16, 16 );
-        $matrix->v = $this->_bigEndianFixedPoint( $dataOffset + 20,  2, 30 );
-        $matrix->x = $this->_bigEndianFixedPoint( $dataOffset + 24, 16, 16 );
-        $matrix->y = $this->_bigEndianFixedPoint( $dataOffset + 28, 16, 16 );
-        $matrix->w = $this->_bigEndianFixedPoint( $dataOffset + 32,  2, 30 );
+        $matrix->a = self::$_binUtils->bigEndianFixedPoint( $this->_data, 16, 16, $dataOffset );
+        $matrix->b = self::$_binUtils->bigEndianFixedPoint( $this->_data, 16, 16, $dataOffset + 4 );
+        $matrix->u = self::$_binUtils->bigEndianFixedPoint( $this->_data,  2, 30, $dataOffset + 8 );
+        $matrix->c = self::$_binUtils->bigEndianFixedPoint( $this->_data, 16, 16, $dataOffset + 12 );
+        $matrix->d = self::$_binUtils->bigEndianFixedPoint( $this->_data, 16, 16, $dataOffset + 16 );
+        $matrix->v = self::$_binUtils->bigEndianFixedPoint( $this->_data,  2, 30, $dataOffset + 20 );
+        $matrix->x = self::$_binUtils->bigEndianFixedPoint( $this->_data, 16, 16, $dataOffset + 24 );
+        $matrix->y = self::$_binUtils->bigEndianFixedPoint( $this->_data, 16, 16, $dataOffset + 28 );
+        $matrix->w = self::$_binUtils->bigEndianFixedPoint( $this->_data,  2, 30, $dataOffset + 32 );
         
         // Returns the matrix
         return $matrix;

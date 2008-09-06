@@ -24,7 +24,7 @@ final class Mpeg4_Atom_Smhd extends Mpeg4_FullBox
     public function getProcessedData()
     {
         $data          = parent::getProcessedData();
-        $data->balance = $this->_bigEndianFixedPoint( 4, 8, 8 );
+        $data->balance = self::$_binUtils->bigEndianFixedPoint( $this->_data, 8, 8, 4 );
         
         return $data;
     }

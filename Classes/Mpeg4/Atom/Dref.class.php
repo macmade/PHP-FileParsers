@@ -24,12 +24,12 @@ final class Mpeg4_Atom_Dref extends Mpeg4_FullBox
     public function getProcessedData()
     {
         $data              = parent::getProcessedData();
-        $data->entry_count = $this->_bigEndianUnsignedLong( 4 );
+        $data->entry_count = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 4 );
         $data->entries     = array();
         
         for( $i = 8; $i < $this->_dataLength; $i++ ) {
             
-            $entryLength = $this->_bigEndianUnsignedLong( $i );
+            $entryLength = self::$_binUtils->bigEndianUnsignedLong( $this->_data, $i );
             $entryType   = substr( $this->_data, $i + 4, 4 );
             
             if( $entryType === 'urn ' ) {

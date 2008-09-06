@@ -24,7 +24,7 @@ final class Mpeg4_Atom_Elst extends Mpeg4_FullBox
     public function getProcessedData()
     {
         $data              = parent::getProcessedData();
-        $data->entry_count = $this->_bigEndianUnsignedLong( 4 );
+        $data->entry_count = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 4 );
         $data->entries     = array();
         
         if( $data->version === 1 ) {
@@ -32,9 +32,9 @@ final class Mpeg4_Atom_Elst extends Mpeg4_FullBox
             for( $i = 8; $i < $this->_dataLength; $i += 20 ) {
                 
                 $entry                   =  new stdClass();
-                $entry->segment_duration = $this->_bigEndianUnsignedLong( $i );
-                $entry->media_time       = $this->_bigEndianUnsignedLong( $i + 8 );
-                $entry->media_rate       = $this->_bigEndianFixedPoint( $i + 16, 16, 16 );
+                $entry->segment_duration = self::$_binUtils->bigEndianUnsignedLong( $this->_data, $i );
+                $entry->media_time       = self::$_binUtils->bigEndianUnsignedLong( $this->_data, $i + 8 );
+                $entry->media_rate       = self::$_binUtils->bigEndianFixedPoint( $this->_data, 16, 16, $i + 16 );
                 $data->entries[]         = $entry;
             }
             
@@ -43,9 +43,9 @@ final class Mpeg4_Atom_Elst extends Mpeg4_FullBox
             for( $i = 8; $i < $this->_dataLength; $i += 12 ) {
                 
                 $entry                   =  new stdClass();
-                $entry->segment_duration = $this->_bigEndianUnsignedLong( $i );
-                $entry->media_time       = $this->_bigEndianUnsignedLong( $i + 4 );
-                $entry->media_rate       = $this->_bigEndianFixedPoint( $i + 8, 16, 16 );
+                $entry->segment_duration = self::$_binUtils->bigEndianUnsignedLong( $this->_data, $i );
+                $entry->media_time       = self::$_binUtils->bigEndianUnsignedLong( $this->_data, $i + 4 );
+                $entry->media_rate       = self::$_binUtils->bigEndianFixedPoint( $this->_data, 16, 16, $i + 8 );
                 $data->entries[]         = $entry;
             }
         }

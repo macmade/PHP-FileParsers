@@ -24,10 +24,10 @@ final class Mpeg4_Atom_Hmhd extends Mpeg4_FullBox
     public function getProcessedData()
     {
         $data             = parent::getProcessedData();
-        $data->maxPDUsize = $this->_bigEndianUnsignedShort( 4 );
-        $data->avgPDUsize = $this->_bigEndianUnsignedShort( 6 );
-        $data->maxbitrate = $this->_bigEndianUnsignedLong( 8 );
-        $data->avgbitrate = $this->_bigEndianUnsignedLong( 12 );
+        $data->maxPDUsize = self::$_binUtils->bigEndianUnsignedShort( $this->_data, 4 );
+        $data->avgPDUsize = self::$_binUtils->bigEndianUnsignedShort( $this->_data, 6 );
+        $data->maxbitrate = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 8 );
+        $data->avgbitrate = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 12 );
         
         return $data;
     }

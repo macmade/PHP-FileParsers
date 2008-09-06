@@ -56,10 +56,10 @@ final class Mpeg4_Atom_Cprt extends Mpeg4_FullBox
         $data           = parent::getProcessedData();
         
         // Process the atom data
-        $data->language = $this->_bigEndianIso639Code( 4 );
+        $data->language = self::$_binUtils->bigEndianIso639Code( $this->_data, 4 );
         
         // Tries the get the byte order mark
-        $noticeBom      = $this->_bigEndianUnsignedShort( 6 );
+        $noticeBom      = self::$_binUtils->bigEndianUnsignedShort( $this->_data, 6 );
         
         // Checks for the byte order mark
         if( ( $noticeBom & 0xFEFF ) === $noticeBom ) {

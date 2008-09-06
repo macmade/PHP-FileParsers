@@ -54,7 +54,7 @@ final class Mpeg4_Atom_Xml extends Mpeg4_FullBox
         $data = parent::getProcessedData();
         
         // Tries the get the byte order mark
-        $bom  = $this->_bigEndianUnsignedShort( 4 );
+        $bom  = self::$_binUtils->bigEndianUnsignedShort( $this->_data, 4 );
         
         // Checks for the byte order mark
         if( ( $bom & 0xFEFF ) === $bom ) {

@@ -58,7 +58,7 @@ final class Mpeg4_Atom_Stco extends Mpeg4_FullBox
         $data              = parent::getProcessedData();
         
         // Number of entries
-        $data->entry_count = $this->_bigEndianUnsignedLong( 4 );
+        $data->entry_count = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 4 );
         
         // Storage for the entries
         $data->entries     = array();
@@ -70,7 +70,7 @@ final class Mpeg4_Atom_Stco extends Mpeg4_FullBox
             $entry               = new stdClass();
             
             // Process the entry data
-            $entry->chunk_offset = $this->_bigEndianUnsignedLong( $i );
+            $entry->chunk_offset = self::$_binUtils->bigEndianUnsignedLong( $this->_data, $i );
             
             // Stores the current entry
             $data->entries[]     = $entry;

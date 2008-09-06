@@ -60,8 +60,8 @@ final class Mpeg4_Atom_Sbgp extends Mpeg4_FullBox
         $data                = parent::getProcessedData();
         
         // Process the atom data
-        $data->grouping_type = $this->_bigEndianUnsignedLong( 4 );
-        $data->entry_count   = $this->_bigEndianUnsignedLong( 8 );
+        $data->grouping_type = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 4 );
+        $data->entry_count   = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 8 );
         
         // Storage for the entries
         $data->entries       = array();
@@ -73,8 +73,8 @@ final class Mpeg4_Atom_Sbgp extends Mpeg4_FullBox
             $entry                          = new stdClass();
             
             // Process the entry data
-            $entry->sample_count            = $this->_bigEndianUnsignedLong( $i );
-            $entry->group_description_index = $this->_bigEndianUnsignedLong( $i + 4 );
+            $entry->sample_count            = self::$_binUtils->bigEndianUnsignedLong( $this->_data, $i );
+            $entry->group_description_index = self::$_binUtils->bigEndianUnsignedLong( $this->_data, $i + 4 );
             
             // Stores the current entry
             $data->entries[]                = $entry;

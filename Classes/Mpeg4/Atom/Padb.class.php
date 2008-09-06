@@ -82,7 +82,7 @@ final class Mpeg4_Atom_Padb extends Mpeg4_FullBox
             $entry           = new stdClass();
             
             // Gets the raw data for the entry
-            $entryData       = $this->_bigEndianUnsignedShort( $i - 1 );
+            $entryData       = self::$_binUtils->bigEndianUnsignedShort( $this->_data, $i - 1 );
             
             // Process the entry data
             $entry->pad1     = $entryData & 0x0070; // Mask is 0000 0000 0111 0000 

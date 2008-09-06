@@ -89,30 +89,30 @@ final class Mpeg4_Atom_Tkhd extends Mpeg4_FullBox
         if( $data->version === 1 ) {
             
             // Process data
-            #$data->creation_time     = $this->_bigEndianUnsignedLong( 4 ); // Value is 64bits!!!
-            #$data->modification_time = $this->_bigEndianUnsignedLong( 12 ); // Value is 64bits!!!
-            $data->track_ID          = $this->_bigEndianUnsignedLong( 20 );
-            #$data->duration          = $this->_bigEndianUnsignedLong( 28 ); // Value is 64bits!!!
-            $data->layer             = $this->_bigEndianUnsignedShort( 44 );
-            $data->alternate_group   = $this->_bigEndianUnsignedShort( 46 );
-            $data->volume            = $this->_bigEndianFixedPoint( 48, 8, 8 );
+            #$data->creation_time     = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 4 ); // Value is 64bits!!!
+            #$data->modification_time = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 12 ); // Value is 64bits!!!
+            $data->track_ID          = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 20 );
+            #$data->duration          = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 28 ); // Value is 64bits!!!
+            $data->layer             = self::$_binUtils->bigEndianUnsignedShort( $this->_data, 44 );
+            $data->alternate_group   = self::$_binUtils->bigEndianUnsignedShort( $this->_data, 46 );
+            $data->volume            = self::$_binUtils->bigEndianFixedPoint( $this->_data, 8, 8, 48 );
             $data->matrix            = $this->_decodeMatrix( 52 );
-            $data->width             = $this->_bigEndianFixedPoint( 88, 16, 16 );
-            $data->height            = $this->_bigEndianFixedPoint( 92, 16, 16 );
+            $data->width             = self::$_binUtils->bigEndianFixedPoint( $this->_data, 16, 16, 88 );
+            $data->height            = self::$_binUtils->bigEndianFixedPoint( $this->_data, 16, 16, 92 );
             
         } else {
             
             // Process data
-            $data->creation_time     = $this->_bigEndianUnsignedLong( 4 );
-            $data->modification_time = $this->_bigEndianUnsignedLong( 8 );
-            $data->track_ID          = $this->_bigEndianUnsignedLong( 12 );
-            $data->duration          = $this->_bigEndianUnsignedLong( 20 );
-            $data->layer             = $this->_bigEndianUnsignedShort( 32 );
-            $data->alternate_group   = $this->_bigEndianUnsignedShort( 34 );
-            $data->volume            = $this->_bigEndianFixedPoint( 36, 8, 8 );
+            $data->creation_time     = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 4 );
+            $data->modification_time = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 8 );
+            $data->track_ID          = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 12 );
+            $data->duration          = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 20 );
+            $data->layer             = self::$_binUtils->bigEndianUnsignedShort( $this->_data, 32 );
+            $data->alternate_group   = self::$_binUtils->bigEndianUnsignedShort( $this->_data, 34 );
+            $data->volume            = self::$_binUtils->bigEndianFixedPoint( $this->_data, 8, 8, 36 );
             $data->matrix            = $this->_decodeMatrix( 40 );
-            $data->width             = $this->_bigEndianFixedPoint( 76, 16, 16 );
-            $data->height            = $this->_bigEndianFixedPoint( 80, 16, 16 );
+            $data->width             = self::$_binUtils->bigEndianFixedPoint( $this->_data, 16, 16, 76 );
+            $data->height            = self::$_binUtils->bigEndianFixedPoint( $this->_data, 16, 16, 80 );
         }
         
         // Return the processed data
