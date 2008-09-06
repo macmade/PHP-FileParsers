@@ -52,7 +52,7 @@
                         
                     } catch( Exception $e ) {
                         
-                        print '<div class="error">Exception: ' . $e->getMessage() .'</div>';
+                        print $e->getInfos();
                     }
                     
                     break;
@@ -70,7 +70,7 @@
                         
                     } catch( Exception $e ) {
                         
-                        print '<div class="error">Exception: ' . $e->getMessage() .'</div>';
+                        print $e->getInfos();
                     }
                     
                     break;
@@ -80,15 +80,17 @@
                     try {
                         
                         $parser    = new Png_Parser( $file[ 'tmp_name' ] );
+                        $pngFile   = $parser->getPngFile();
+                        $dataArray = $pngFile->getProcessedData();
                         
                         print '<h2>Parsed data</h2>';
                         print '<pre>';
-                        print_r( $parser->getInfos() );
+                        print_r( $dataArray );
                         print '</pre>';
                         
                     } catch( Exception $e ) {
                         
-                        print '<div class="error">Exception: ' . $e->getMessage() .'</div>';
+                        print $e->getInfos();
                     }
                     
                     break;

@@ -20,9 +20,29 @@ class Png_Parser extends Parser_Base
     const PHP_COMPATIBLE = '5.2.0';
     
     /**
+     * An instance of the Mpeg4_File class
+     */
+    protected $Png_File              = NULL;
+    
+    /**
      * An array that will be filled with the PNG informations
      */
-    protected $_pngInfos   = array();
+    protected $_pngInfos             = array();
+    
+    /**
+     * Class constructor
+     * 
+     * @param   string          The location of the PNG file
+     * @return  NULL
+     */
+    public function __construct( $file )
+    {
+        // Create a new instance of Png_File
+        $this->_pngFile = new Png_File();
+        
+        // Calls the parent constructor
+        parent::__construct( $file );
+    }
     
     /**
      * 
@@ -43,36 +63,33 @@ class Png_Parser extends Parser_Base
         // Process the file till the end
         while( !feof( $this->_fileHandle ) ) {
             
-            // Storage
-            $chunk           = new stdClass();
-            
             // Chunk header data
             $chunkHeaderData = $this->_read( 8 );
             
             // Gets the chunk size
-            $chunk->size     = self::$_binUtils->bigEndianUnsignedLong( $chunkHeaderData );
+            $chunkSize       = self::$_binUtils->bigEndianUnsignedLong( $chunkHeaderData );
             
             // Gets the chunk type
-            $chunk->type     = substr( $chunkHeaderData, 4 );
+            $chunkType       = substr( $chunkHeaderData, 4 );
+            
+            // Adds the chunk
+            $chunk           = $this->_pngFile->addChunk( $chunkType );
             
             // Checks for data
-            if( $chunk->size > 0 ) {
+            if( $chunkSize > 0 ) {
                 
-                // Do not process the data at this time
-                fseek( $this->_fileHandle, $chunk->size, SEEK_CUR );
+                // Stores the raw data
+                $chunk->setRawData( $this->_read( $chunkSize ) );
             }
             
             // Gets the CRC data
-            $crcData           = $this->_read( 4 );
+            $crcData = $this->_read( 4 );
             
             // Gets the cyclic redundancy check
-            $chunk->crc        = self::$_binUtils->bigEndianUnsignedLong( $crcData );
-            
-            // Adds the current chunk
-            $this->_pngInfos[] = $chunk;
+            $crc     = self::$_binUtils->bigEndianUnsignedLong( $crcData );
             
             // Checks if the current chunk is the PNG terminator chunk
-            if( $chunk->type === 'IEND' ) {
+            if( $chunkType === 'IEND' ) {
                 
                 // No more chunks
                 break;
@@ -81,10 +98,12 @@ class Png_Parser extends Parser_Base
     }
     
     /**
+     * Gets the Png_File instance
      * 
+     * @return  object  The instance of Png_File
      */
-    public function getInfos()
+    public function getPngFile()
     {
-        return $this->_pngInfos;
+        return $this->_pngFile;
     }
 }
