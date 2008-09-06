@@ -47,7 +47,7 @@ final class Mpeg4_Atom_Tkhd extends Mpeg4_FullBox
      * and the PHP lower compatible version.
      */
     const CLASS_VERSION  = '0.1';
-    const DEVEL_STATE    = 'beta';
+    const DEVEL_STATE    = 'alpha';
     const PHP_COMPATIBLE = '5.2.0';
     
     /**

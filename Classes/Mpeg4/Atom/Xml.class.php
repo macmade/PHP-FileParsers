@@ -23,7 +23,7 @@ final class Mpeg4_Atom_Xml extends Mpeg4_FullBox
      * and the PHP lower compatible version.
      */
     const CLASS_VERSION  = '0.2';
-    const DEVEL_STATE    = 'beta';
+    const DEVEL_STATE    = 'alpha';
     const PHP_COMPATIBLE = '5.2.0';
     
     /**
