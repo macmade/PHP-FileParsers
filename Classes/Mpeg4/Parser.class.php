@@ -42,11 +42,10 @@ class Mpeg4_Parser extends Parser_Base
     /**
      * Class constructor
      * 
-     * @param   string      The location of the MPEG-4 file
-     * @param   boolean     Allows invalid atom hierarchy (not as in ISO-IEC 14496-12)
-     * @param   boolean     Allows unrecognized atoms (not in ISO-IEC 14496-12)
+     * @param   string          The location of the MPEG-4 file
+     * @param   boolean         Allows invalid atom hierarchy (not as in ISO-IEC 14496-12)
+     * @param   boolean         Allows unrecognized atoms (not in ISO-IEC 14496-12)
      * @return  NULL
-     * @throws  Exception   If the file does not exist, is not readable, or if PHP isn't able to open a file handle
      */
     public function __construct( $file, $allowInvalidStucture = false, $allowUnknownAtoms = false )
     {

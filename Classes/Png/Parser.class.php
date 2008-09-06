@@ -37,7 +37,7 @@ class Png_Parser extends Parser_Base
         if( $this->_read( 8 ) !== $signature ) {
             
             // Wrong file type
-            throw new Exception( 'File ' . $this->_filePath . ' is not a PNG file.' );
+            throw new Png_Exception( 'File ' . $this->_filePath . ' is not a PNG file.' );
         }
         
         // Process the file till the end

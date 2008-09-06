@@ -47,9 +47,9 @@ abstract class Parser_Base
     /**
      * Class constructor
      * 
-     * @param   string      The location of the file to parse
+     * @param   string              The location of the file to parse
      * @return  NULL
-     * @throws  Exception   If the file does not exist, is not readable, or if PHP isn't able to open a file handle
+     * @throws  Parser_Exception    If the file does not exist, is not readable, or if PHP isn't able to open a file handle
      */
     public function __construct( $file )
     {
@@ -64,14 +64,14 @@ abstract class Parser_Base
         if( !file_exists( $file ) ) {
             
             // File does not exist
-            throw new Exception( 'The requested file ' . $file . ' does not exist.' );
+            throw new Parser_Exception( 'The requested file ' . $file . ' does not exist.' );
         }
         
         // Checks if the requested file can be read
         if( !is_readable( $file ) ) {
             
             // Unreadable file
-            throw new Exception( 'The requested file ' . $file . ' is not readable.' );
+            throw new Parser_Exception( 'The requested file ' . $file . ' is not readable.' );
         }
         
         // Opens a binary file hander
@@ -81,7 +81,7 @@ abstract class Parser_Base
         if( !$this->_fileHandle ) {
             
             // Invalid file handler
-            throw new Exception( 'Cannot open requested file ' . $file . '.' );
+            throw new Parser_Exception( 'Cannot open requested file ' . $file . '.' );
         }
         
         // Stores the file path

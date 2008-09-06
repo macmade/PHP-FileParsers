@@ -142,7 +142,7 @@ abstract class Mpeg4_ContainerAtom extends Mpeg4_Atom implements Iterator, Array
     {
         if( !$this->_allowAnyChildrenType && !$this->validChildType( $childType ) ) {
             
-            throw new Exception( 'Atom of type ' . $childType . ' cannot be contained in ' . $this->_type );
+            throw new Mpeg4_Exception( 'Atom of type ' . $childType . ' cannot be contained in ' . $this->_type );
         }
         
         $className         = 'Mpeg4_Atom_' . ucfirst( $childType );
