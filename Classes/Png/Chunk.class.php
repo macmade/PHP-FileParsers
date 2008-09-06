@@ -41,9 +41,14 @@ abstract class Png_Chunk
      */
     protected function __toString()
     {
+        // Gets the chunk length
         $length = pack( 'N', $this->_dataLength );
         
-        return $length . $this->_type . $this->_data;
+        // Computes the CRC
+        $crc    = crc32( $this->_type . $this->_data );
+        
+        // Returns the full chunk
+        return $length . $this->_type . $this->_data . $crc;
     }
     
     /**
