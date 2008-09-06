@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Abstract for the PNG chunks
+ * PNG IEND chunk
  * 
  * @author          Jean-David Gadina <macmade@eosgarden.com>
  * @copyright       Copyright &copy; 2008
- * @package         Png
+ * @package         Png/Chunk
  * @version         0.1
  */
 class Png_Chunk_Iend extends Png_Chunk

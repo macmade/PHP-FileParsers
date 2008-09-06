@@ -1,14 +1,14 @@
 <?php
 
 /**
- * PNG IDAT chunk
+ * PNG PLTE chunk
  * 
  * @author          Jean-David Gadina <macmade@eosgarden.com>
  * @copyright       Copyright &copy; 2008
  * @package         Png/Chunk
  * @version         0.1
  */
-class Png_Chunk_Idat extends Png_Chunk
+class Png_Chunk_Plte extends Png_Chunk
 {
     /**
      * Class version constants.
@@ -22,14 +22,13 @@ class Png_Chunk_Idat extends Png_Chunk
     /**
      * The chunk type
      */
-    protected $_type = 'IDAT';
+    protected $_type = 'PLTE';
     
     /**
      * 
      */
     public function getProcessedData()
     {
-        $data = new stdClass();
-        return $data;
+        return false;
     }
 }
