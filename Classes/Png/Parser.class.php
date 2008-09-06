@@ -27,15 +27,6 @@ class Png_Parser extends Parser_Base
     /**
      * 
      */
-    protected function _readBigEndianUnsignedLong()
-    {
-        $data = unpack( 'N', fread( $this->_fileHandle, 4 ) );
-        return array_shift( $data );
-    }
-    
-    /**
-     * 
-     */
     protected function _parseFile()
     {
         // The PNG file signature (\211   P   N   G  \r  \n \032 \n)
@@ -53,13 +44,16 @@ class Png_Parser extends Parser_Base
         while( !feof( $this->_fileHandle ) ) {
             
             // Storage
-            $chunk       = new stdClass();
+            $chunk           = new stdClass();
+            
+            // Chunk header data
+            $chunkHeaderData = fread( $this->_fileHandle, 8 );
             
             // Gets the chunk size
-            $chunk->size = $this->_readBigEndianUnsignedLong();
+            $chunk->size     = self::$_binUtils->bigEndianUnsignedLong( $chunkHeaderData );
             
             // Gets the chunk type
-            $chunk->type = fread( $this->_fileHandle, 4 );
+            $chunk->type     = substr( $chunkHeaderData, 4 );
             
             // Checks for data
             if( $chunk->size > 0 ) {
@@ -68,8 +62,11 @@ class Png_Parser extends Parser_Base
                 fseek( $this->_fileHandle, $chunk->size, SEEK_CUR );
             }
             
+            // Gets the CRC data
+            $crcData           = fread( $this->_fileHandle, 4 );
+            
             // Gets the cyclic redundancy check
-            $chunk->crc = $this->_readBigEndianUnsignedLong();
+            $chunk->crc        = self::$_binUtils->bigEndianUnsignedLong( $crcData );
             
             // Adds the current chunk
             $this->_pngInfos[] = $chunk;
