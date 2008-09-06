@@ -22,7 +22,7 @@ abstract class Exception_Base extends Exception
     /**
      * Wheter to print the backtrace or not, when an exception is not caught
      */
-    protected static $_debug        = false;
+    protected static $_debug        = true;
     
     /**
      * The common CSS styles for the HTML elements produced by this class
