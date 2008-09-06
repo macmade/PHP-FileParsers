@@ -20,6 +20,16 @@ class Mpeg4_Parser
     const PHP_COMPATIBLE = '5.2.0';
     
     /**
+     * The instance of the binary utilities class
+     */
+    protected static $_binUtils = NULL;
+    
+    /**
+     * Wether the static variables are set or not
+     */
+    protected static $_hasStatic = false;
+    
+    /**
      * The PHP file handler
      */
     protected $_fileHandle           = NULL;
@@ -55,6 +65,13 @@ class Mpeg4_Parser
      */
     public function __construct( $file, $allowInvalidStucture = false, $allowUnknownAtoms = false )
     {
+        // Checks if the static variables are set
+        if( !self::$_hasStatic ) {
+            
+            // Sets the static variables
+            self::_setStaticVars();
+        }
+        
         // Sets the options for the current instance
         $this->_allowInvalidStucture = $allowInvalidStucture;
         $this->_allowUnknownAtoms    = $allowUnknownAtoms;
@@ -93,7 +110,21 @@ class Mpeg4_Parser
         fclose( $this->_fileHandle );
     }
     
-    private function _parseFile( $bytes = 0, $level = 0, $parent = NULL )
+    /**
+     * Sets the needed static variables
+     * 
+     * @return  NULL
+     */
+    protected static function _setStaticVars()
+    {
+        // Gets the instance of the binary utilities class
+        self::$_binUtils  = Binary_Utils::getInstance();
+        
+        // Static variables are set
+        self::$_hasStatic = true;
+    }
+    
+    protected function _parseFile( $bytes = 0, $level = 0, $parent = NULL )
     {
         // Number of bytes read in the current parsing level
         $bytesRead = 0;
@@ -103,8 +134,7 @@ class Mpeg4_Parser
         while( $chunk = fread( $this->_fileHandle, 8 ) ) {
             
             // Gets the atom length
-            $atomLength     = unpack( 'N', substr( $chunk, 0, 4 ) );
-            $atomLength     = $atomLength[ 1 ];
+            $atomLength     = self::$_binUtils->bigEndianUnsignedLong( $chunk );
             
             // Gets the atom type
             $atomType       = substr( $chunk, 4 );
@@ -169,8 +199,10 @@ class Mpeg4_Parser
                 
             } elseif( $atomLength === 1 ) {
                 
-                $extendedSize     = unpack( 'Nlength1/Nlenght2', fread( $this->_fileHandle, 8 ) );
-                $atomSize         = ( double )( ( $length[ 'length1' ] << 32 ) + $length[ 'length2' ] );
+                $lengthData       = fread( $this->_fileHandle, 8 );
+                $length1          = self::$_binUtils->bigEndianUnsignedLong( $lengthData, 0 );
+                $length2          = self::$_binUtils->bigEndianUnsignedLong( $lengthData, 4 );
+                $atomSize         = ( double )( ( $length1 << 32 ) + $length2 );
                 $atomDataLength   = $atomDataLength + 8;
                 
                 if( $atomObject ) {
