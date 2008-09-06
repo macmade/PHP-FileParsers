@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>MPEG-4 Parser</title>
+    <title>File Parser</title>
     <meta name="generator" content="BBEdit 8.7" />
     <link rel="stylesheet" href="Css/base.css" type="text/css" media="screen" charset="utf-8" />
 </head>
@@ -48,7 +48,7 @@
                         print_r( $dataArray );
                         print '</pre>';
                         
-                        file_put_contents( 'Movies/debug.mp4', $mpeg4File );
+                        file_put_contents( 'Ressources/Movies/debug.mp4', $mpeg4File );
                         
                     } catch( Exception $e ) {
                         
