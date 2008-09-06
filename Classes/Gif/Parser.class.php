@@ -31,19 +31,29 @@ class Gif_Parser
     const EXTENSION_APPLICATION     = 0xff;
     
     /**
+     * The instance of the binary utilities class
+     */
+    protected static $_binUtils     = NULL;
+    
+    /**
+     * Wether the static variables are set or not
+     */
+    protected static $_hasStatic    = false;
+    
+    /**
      * The PHP file handler for the GIF file
      */
-    protected $_fileHandle = NULL;
+    protected $_fileHandle          = NULL;
     
     /**
      * An stdClass object that will be filled with the GIF informations
      */
-    protected $_gifInfos   = NULL;
+    protected $_gifInfos            = NULL;
     
     /**
      * The file path
      */
-    protected $_filePath   = '';
+    protected $_filePath            = '';
     
     /**
      * Class constructor
@@ -54,6 +64,13 @@ class Gif_Parser
      */
     public function __construct( $file )
     {
+        // Checks if the static variables are set
+        if( !self::$_hasStatic ) {
+            
+            // Sets the static variables
+            self::_setStaticVars();
+        }
+        
         // Checks if the requested file exists
         if( !file_exists( $file ) ) {
             
@@ -89,21 +106,17 @@ class Gif_Parser
     }
     
     /**
+     * Sets the needed static variables
      * 
+     * @return  NULL
      */
-    protected function _readLittleEndianUnsignedChar()
+    protected static function _setStaticVars()
     {
-        $data  = unpack( 'C', fread( $this->_fileHandle, 1 ) );
-        return array_shift( $data );
-    }
-    
-    /**
-     * 
-     */
-    protected function _readLittleEndianUnsignedShort()
-    {
-        $data = unpack( 'v', fread( $this->_fileHandle, 2 ) );
-        return array_shift( $data );
+        // Gets the instance of the binary utilities class
+        self::$_binUtils  = Binary_Utils::getInstance();
+        
+        // Static variables are set
+        self::$_hasStatic = true;
     }
     
     /**
@@ -114,12 +127,15 @@ class Gif_Parser
         // Storage
         $lsd                         = new stdClass();
         
+        // Gets the logical screen descriptor data
+        $lsdData                     = fread( $this->_fileHandle, 7 );
+        
         // Gets the image dimensions
-        $lsd->width                  = $this->_readLittleEndianUnsignedShort();
-        $lsd->height                 = $this->_readLittleEndianUnsignedShort();
+        $lsd->width                  = self::$_binUtils->littleEndianUnsignedShort( $lsdData, 0 );
+        $lsd->height                 = self::$_binUtils->littleEndianUnsignedShort( $lsdData, 2 );
         
         // Gets the packed fields
-        $packedFields                = $this->_readLittleEndianUnsignedChar();
+        $packedFields                = self::$_binUtils->unsignedChar( $lsdData, 4 );
         
         // Wether to global color table will follow 
         $lsd->globalColorTableFlag   = ( $packedFields & 0x80 ) >> 7;  // Mask is 1000 0000
@@ -134,10 +150,10 @@ class Gif_Parser
         $lsd->sizeOfGlobalColorTable = ( $packedFields & 0x07 );       // Mask is 0000 0111
         
         // Gets the background color index
-        $lsd->bgColorIndex           = $this->_readLittleEndianUnsignedChar();
+        $lsd->bgColorIndex           = self::$_binUtils->unsignedChar( $lsdData, 5 );
         
         // Gets the pixel aspect ratio
-        $lsd->pixelAspectRatio       = $this->_readLittleEndianUnsignedChar();
+        $lsd->pixelAspectRatio       = self::$_binUtils->unsignedChar( $lsdData, 6 );
         
         // Returns the logical screen descriptor
         return $lsd;
@@ -157,13 +173,16 @@ class Gif_Parser
         // Process the global color table
         for( $i = 0; $i < $length; $i++ ) {
             
+            // Gets the current color data
+            $colorData          = fread( $this->_fileHandle, 3 );
+            
             // Storage
             $table[ $i ]        = new stdClass();
             
             // Gets the color values
-            $red                = $this->_readLittleEndianUnsignedChar();
-            $green              = $this->_readLittleEndianUnsignedChar();
-            $blue               = $this->_readLittleEndianUnsignedChar();
+            $red                = self::$_binUtils->unsignedChar( $colorData, 0 );
+            $green              = self::$_binUtils->unsignedChar( $colorData, 1 );
+            $blue               = self::$_binUtils->unsignedChar( $colorData, 2 );
             
             // Gets the hexadecimal values
             $redHex             = dechex( $red );
@@ -194,16 +213,19 @@ class Gif_Parser
         // Storage
         $block = new stdClass();
         
+        // Gets the block data
+        $blockData                    = fread( $this->_fileHandle, 10 );
+        
         // Gets the position
-        $block->left                  = $this->_readLittleEndianUnsignedShort();
-        $block->top                   = $this->_readLittleEndianUnsignedShort();
+        $block->left                  = self::$_binUtils->littleEndianUnsignedShort( $blockData, 0 );
+        $block->top                   = self::$_binUtils->littleEndianUnsignedShort( $blockData, 2 );
         
         // Gets the dimensions
-        $block->width                 = $this->_readLittleEndianUnsignedShort();
-        $block->height                = $this->_readLittleEndianUnsignedShort();
+        $block->width                 = self::$_binUtils->littleEndianUnsignedShort( $blockData, 4 );
+        $block->height                = self::$_binUtils->littleEndianUnsignedShort( $blockData, 6 );
         
         // Gets the packed fields
-        $packedFields                 = $this->_readLittleEndianUnsignedChar();
+        $packedFields                 = self::$_binUtils->unsignedChar( $blockData, 8 );
         
         // Wether to local color table will follow 
         $block->localColorTableFlag   = ( $packedFields & 0x80 ) >> 7;  // Mask is 1000 0000
@@ -225,7 +247,7 @@ class Gif_Parser
         }
         
         // Gets the LZW minimum code size
-        $block->lzwMinimumCodeSize    = $this->_readLittleEndianUnsignedChar();
+        $block->lzwMinimumCodeSize    = self::$_binUtils->unsignedChar( $blockData, 9 );
         
         // Gets the image data
         $block->imageData             = $this->_getDataSubBlocks();
@@ -243,7 +265,8 @@ class Gif_Parser
         $data = array();
         
         // Gets the next block size
-        $blockSize = $this->_readLittleEndianUnsignedChar();
+        $blockSizeData = fread( $this->_fileHandle, 1 );
+        $blockSize     = self::$_binUtils->unsignedChar( $blockSizeData );
         
         // Process the data blocks until the end of the parent block
         while( $blockSize !== 0x00 ) {
@@ -261,7 +284,8 @@ class Gif_Parser
             $data[]      = $block;
             
             // Gets the next block size
-            $blockSize   = $this->_readLittleEndianUnsignedChar();
+            $blockSizeData = fread( $this->_fileHandle, 1 );
+            $blockSize     = self::$_binUtils->unsignedChar( $blockSizeData );
         }
         
         // Returns the data of the sub blocks
@@ -276,11 +300,14 @@ class Gif_Parser
         // Storage
         $block = new stdClass();
         
+        // Gets the block data
+        $blockData                    = fread( $this->_fileHandle, 5 );
+        
         // Gets the block size
-        $block->size                  = $this->_readLittleEndianUnsignedChar();
+        $block->size                  = self::$_binUtils->unsignedChar( $blockData, 0 );
         
         // Gets the packed fields
-        $packedFields                 = $this->_readLittleEndianUnsignedChar();
+        $packedFields                 = self::$_binUtils->unsignedChar( $blockData, 1 );
         
         // The way in which the graphic is to be treated after being displayed
         $block->disposalMethod        = ( $packedFields & 0x1c ) >> 2;  // Mask is 0001 1100
@@ -292,10 +319,10 @@ class Gif_Parser
         $block->transparentColorFlag  = ( $packedFields & 0x01 );       // Mask is 0000 0001
         
         // Gets the delay time
-        $block->delayTime             = $this->_readLittleEndianUnsignedShort();
+        $block->delayTime             = self::$_binUtils->littleEndianUnsignedShort( $blockData, 2 );
         
         // Gets the transparent color index
-        $block->transparentColorIndex = $this->_readLittleEndianUnsignedChar();
+        $block->transparentColorIndex = self::$_binUtils->unsignedChar( $blockData, 4 );
         
         // Block terminator
         fread( $this->_fileHandle, 1 );
@@ -310,10 +337,13 @@ class Gif_Parser
     protected function _getCommentExtension()
     {
         // Storage
-        $block = new stdClass();
+        $block              = new stdClass();
+        
+        // Gets the block data
+        $blockData          = fread( $this->_fileHandle, 1 );
         
         // Gets the block size
-        $block->size        = $this->_readLittleEndianUnsignedChar();
+        $block->size        = self::$_binUtils->unsignedChar( $blockData );
         
         // Gets the comment data blocks
         $block->commentData = $this->_getDataSubBlocks();
@@ -330,32 +360,35 @@ class Gif_Parser
         // Storage
         $block                           = new stdClass();
         
+        // Gets the block data
+        $blockData                       = fread( $this->_fileHandle, 13 );
+        
         // Gets the block size
-        $block->size                     = $this->_readLittleEndianUnsignedChar();
+        $block->size                     = self::$_binUtils->unsignedChar( $blockData, 0 );
         
         // Gets the left position of the text grid
-        $block->textGridLeftPosition     = $this->_readLittleEndianUnsignedShort();
+        $block->textGridLeftPosition     = self::$_binUtils->littleEndianUnsignedShort( $blockData, 1 );
         
         // Gets the top position of the text grid
-        $block->textGridTopPosition      = $this->_readLittleEndianUnsignedShort();
+        $block->textGridTopPosition      = self::$_binUtils->littleEndianUnsignedShort( $blockData, 3 );
         
         // Gets the width of the text grid
-        $block->textGridWidth            = $this->_readLittleEndianUnsignedShort();
+        $block->textGridWidth            = self::$_binUtils->littleEndianUnsignedShort( $blockData, 5 );
         
         // Gets the height of the text grid
-        $block->textGridHeight           = $this->_readLittleEndianUnsignedShort();
+        $block->textGridHeight           = self::$_binUtils->littleEndianUnsignedShort( $blockData, 7 );
         
         // Gets the width of the character cell
-        $block->characterCellWidth       = $this->_readLittleEndianUnsignedChar();
+        $block->characterCellWidth       = self::$_binUtils->unsignedChar( $blockData, 9 );
         
         // Gets the height of the character cell
-        $block->characterCellHeight      = $this->_readLittleEndianUnsignedChar();
+        $block->characterCellHeight      = self::$_binUtils->unsignedChar( $blockData, 10 );
         
         // Gets the color index for the foreground color
-        $block->textForegroundColorIndex = $this->_readLittleEndianUnsignedChar();
+        $block->textForegroundColorIndex = self::$_binUtils->unsignedChar( $blockData, 11 );
         
         // Gets the color index for the background color
-        $block->textBackgroundColorIndex = $this->_readLittleEndianUnsignedChar();
+        $block->textBackgroundColorIndex = self::$_binUtils->unsignedChar( $blockData, 12 );
         
         // Gets the plain text data blocks
         $block->plainTextData            = $this->_getDataSubBlocks();
@@ -372,14 +405,17 @@ class Gif_Parser
         // Storage
         $block = new stdClass();
         
+        // Gets the block data
+        $blockData                        = fread( $this->_fileHandle, 12 );
+        
         // Gets the block size
-        $block->size                      = $this->_readLittleEndianUnsignedChar();
+        $block->size                      = self::$_binUtils->unsignedChar( $blockData );
         
         // Gets the application identifier
-        $block->applicationIdentifier     = fread( $this->_fileHandle, 8 );
+        $block->applicationIdentifier     = substr( $blockData, 1, 8 );
         
         // Gets the application identifier code
-        $block->applicationIdentifierCode = fread( $this->_fileHandle, 3 );
+        $block->applicationIdentifierCode = substr( $blockData, 9, 3 );
         
         // Gets the application data blocks
         $block->applicationData           = $this->_getDataSubBlocks();
@@ -417,7 +453,8 @@ class Gif_Parser
         }
         
         // Gets the identifier of the next block
-        $blockId                        = $this->_readLittleEndianUnsignedChar();
+        $blockidData                    = fread( $this->_fileHandle, 1 );
+        $blockId                        = self::$_binUtils->unsignedChar( $blockidData );
         
         // Process the blocks until the trailer (0x3b) is reached
         while( $blockId !== self::TRAILER ) {
@@ -426,7 +463,8 @@ class Gif_Parser
             $this->_parseBlock( $blockId, $infos );
             
             // Gets the identifier of the next block
-            $blockId = $this->_readLittleEndianUnsignedChar();
+            $blockidData = fread( $this->_fileHandle, 1 );
+            $blockId     = self::$_binUtils->unsignedChar( $blockidData );
         }
         
         // Returns the informations
@@ -452,20 +490,21 @@ class Gif_Parser
                 }
                 
                 // Adds the storage object for the current image
-                $image = new stdClass();
+                $image                 = new stdClass();
                 
                 // Gets the image separator block
                 $image->imageSeparator = $this->_getImageSeparator();
                 
                 // Adds the current image
-                $infos->images[] = $image;
+                $infos->images[]       = $image;
                 break;
             
             // Extension block
             case self::EXTENSION :
                 
                 // Gets the extension block identifier
-                $extBlockId = $this->_readLittleEndianUnsignedChar();
+                $extBlockIdData = fread( $this->_fileHandle, 1 );
+                $extBlockId     = self::$_binUtils->unsignedChar( $extBlockIdData );
                 
                 // Parses the extension block
                 $this->_parseExtensionBlock( $extBlockId, $infos );
