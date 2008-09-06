@@ -8,7 +8,7 @@
  * @package         Png
  * @version         0.1
  */
-class Png_Parser
+class Png_Parser extends Parser_Base
 {
     /**
      * Class version constants.
@@ -20,62 +20,9 @@ class Png_Parser
     const PHP_COMPATIBLE = '5.2.0';
     
     /**
-     * The PHP file handler for the PNG file
-     */
-    protected $_fileHandle = NULL;
-    
-    /**
      * An array that will be filled with the PNG informations
      */
     protected $_pngInfos   = array();
-    
-    /**
-     * The file path
-     */
-    protected $_filePath   = '';
-    
-    /**
-     * Class constructor
-     * 
-     * @param   string      The location of the PNG file
-     * @return  NULL
-     * @throws  Exception   If the file does not exist, is not readable, or if PHP isn't able to open a file handle
-     */
-    public function __construct( $file )
-    {
-        // Checks if the requested file exists
-        if( !file_exists( $file ) ) {
-            
-            // File does not exist
-            throw new Exception( 'The requested file ' . $file . ' does not exist.' );
-        }
-        
-        // Checks if the requested file can be read
-        if( !is_readable( $file ) ) {
-            
-            // Unreadable file
-            throw new Exception( 'The requested file ' . $file . ' is not readable.' );
-        }
-        
-        // Opens a binary file hander
-        $this->_fileHandle = fopen( $file, 'rb' );
-        
-        // Checks the file handler
-        if( !$this->_fileHandle ) {
-            
-            // Invalid file handler
-            throw new Exception( 'Cannot open requested file ' . $file . '.' );
-        }
-        
-        // Stores the file path
-        $this->_filePath = $file;
-        
-        // Parses the file and stores the informations
-        $this->_parseFile();
-        
-        // Closes the file handle
-        fclose( $this->_fileHandle );
-    }
     
     /**
      * 

@@ -8,7 +8,7 @@
  * @package         Gif
  * @version         0.1
  */
-class Gif_Parser
+class Gif_Parser extends Parser_Base
 {
     /**
      * Class version constants.
@@ -31,93 +31,9 @@ class Gif_Parser
     const EXTENSION_APPLICATION     = 0xff;
     
     /**
-     * The instance of the binary utilities class
-     */
-    protected static $_binUtils     = NULL;
-    
-    /**
-     * Wether the static variables are set or not
-     */
-    protected static $_hasStatic    = false;
-    
-    /**
-     * The PHP file handler for the GIF file
-     */
-    protected $_fileHandle          = NULL;
-    
-    /**
      * An stdClass object that will be filled with the GIF informations
      */
     protected $_gifInfos            = NULL;
-    
-    /**
-     * The file path
-     */
-    protected $_filePath            = '';
-    
-    /**
-     * Class constructor
-     * 
-     * @param   string      The location of the GIF file
-     * @return  NULL
-     * @throws  Exception   If the file does not exist, is not readable, or if PHP isn't able to open a file handle
-     */
-    public function __construct( $file )
-    {
-        // Checks if the static variables are set
-        if( !self::$_hasStatic ) {
-            
-            // Sets the static variables
-            self::_setStaticVars();
-        }
-        
-        // Checks if the requested file exists
-        if( !file_exists( $file ) ) {
-            
-            // File does not exist
-            throw new Exception( 'The requested file ' . $file . ' does not exist.' );
-        }
-        
-        // Checks if the requested file can be read
-        if( !is_readable( $file ) ) {
-            
-            // Unreadable file
-            throw new Exception( 'The requested file ' . $file . ' is not readable.' );
-        }
-        
-        // Opens a binary file hander
-        $this->_fileHandle = fopen( $file, 'rb' );
-        
-        // Checks the file handler
-        if( !$this->_fileHandle ) {
-            
-            // Invalid file handler
-            throw new Exception( 'Cannot open requested file ' . $file . '.' );
-        }
-        
-        // Stores the file path
-        $this->_filePath = $file;
-        
-        // Parses the file and stores the informations
-        $this->_gifInfos = $this->_parseFile();
-        
-        // Closes the file handle
-        fclose( $this->_fileHandle );
-    }
-    
-    /**
-     * Sets the needed static variables
-     * 
-     * @return  NULL
-     */
-    protected static function _setStaticVars()
-    {
-        // Gets the instance of the binary utilities class
-        self::$_binUtils  = Binary_Utils::getInstance();
-        
-        // Static variables are set
-        self::$_hasStatic = true;
-    }
     
     /**
      * 
@@ -467,8 +383,8 @@ class Gif_Parser
             $blockId     = self::$_binUtils->unsignedChar( $blockidData );
         }
         
-        // Returns the informations
-        return $infos;
+        // Stores the informations
+        $this->_gifInfos = $infos;
     }
     
     /**

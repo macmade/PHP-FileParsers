@@ -8,7 +8,7 @@
  * @package         Mpeg4
  * @version         0.3
  */
-class Mpeg4_Parser
+class Mpeg4_Parser extends Parser_Base
 {
     /**
      * Class version constants.
@@ -18,21 +18,6 @@ class Mpeg4_Parser
     const CLASS_VERSION  = '0.3';
     const DEVEL_STATE    = 'alpha';
     const PHP_COMPATIBLE = '5.2.0';
-    
-    /**
-     * The instance of the binary utilities class
-     */
-    protected static $_binUtils = NULL;
-    
-    /**
-     * Wether the static variables are set or not
-     */
-    protected static $_hasStatic = false;
-    
-    /**
-     * The PHP file handler
-     */
-    protected $_fileHandle           = NULL;
     
     /**
      * An instance of the Mpeg4_File class
@@ -65,63 +50,15 @@ class Mpeg4_Parser
      */
     public function __construct( $file, $allowInvalidStucture = false, $allowUnknownAtoms = false )
     {
-        // Checks if the static variables are set
-        if( !self::$_hasStatic ) {
-            
-            // Sets the static variables
-            self::_setStaticVars();
-        }
-        
         // Sets the options for the current instance
         $this->_allowInvalidStucture = $allowInvalidStucture;
         $this->_allowUnknownAtoms    = $allowUnknownAtoms;
         
-        // Checks if the requested file exists
-        if( !file_exists( $file ) ) {
-            
-            // File does not exist
-            throw new Exception( 'The requested file ' . $file . ' does not exist.' );
-        }
-        
-        // Checks if the requested file can be read
-        if( !is_readable( $file ) ) {
-            
-            // Unreadable file
-            throw new Exception( 'The requested file ' . $file . ' is not readable.' );
-        }
-        
-        // Opens a binary file hander
-        $this->_fileHandle = fopen( $file, 'rb' );
-        
-        // Checks the file handler
-        if( !$this->_fileHandle ) {
-            
-            // Invalid file handler
-            throw new Exception( 'Cannot open requested file ' . $file . '.' );
-        }
-        
         // Create a new instance of Mpeg4_File
         $this->_mpeg4File = new Mpeg4_File();
         
-        // Parses the file
-        $this->_parseFile();
-        
-        // Closes the file handle
-        fclose( $this->_fileHandle );
-    }
-    
-    /**
-     * Sets the needed static variables
-     * 
-     * @return  NULL
-     */
-    protected static function _setStaticVars()
-    {
-        // Gets the instance of the binary utilities class
-        self::$_binUtils  = Binary_Utils::getInstance();
-        
-        // Static variables are set
-        self::$_hasStatic = true;
+        // Calls the parent constructor
+        parent::__construct( $file );
     }
     
     protected function _parseFile( $bytes = 0, $level = 0, $parent = NULL )
