@@ -37,7 +37,7 @@ class Png_Parser
     /**
      * Class constructor
      * 
-     * @param   string      $file   The location of the PNG file
+     * @param   string      The location of the PNG file
      * @return  NULL
      * @throws  Exception   If the file does not exist, is not readable, or if PHP isn't able to open a file handle
      */

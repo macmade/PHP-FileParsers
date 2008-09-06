@@ -11,6 +11,9 @@ final class Mpeg4_Atom_Mehd extends Mpeg4_DataAtom
     const DEVEL_STATE    = 'beta';
     const PHP_COMPATIBLE = '5.2.0';
     
+    /**
+     * The atom type
+     */
     protected $_type = 'mehd';
     
     public function getProcessedData()

@@ -65,7 +65,7 @@ abstract class Mpeg4_DataAtom extends Mpeg4_Atom
      * 
      * template int( 32 )[ 9 ] matrix = { 0x00010000, 0, 0, 0, 0x00010000, 0, 0, 0, 0x40000000 };
      * 
-     * @param   int     $dataOffset The beginning of the matrix field in the atom data
+     * @param   int     The beginning of the matrix field in the atom data
      * @return  object  The matrix object
      */
     protected function _decodeMatrix( $dataOffset )

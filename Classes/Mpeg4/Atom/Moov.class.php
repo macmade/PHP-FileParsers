@@ -11,6 +11,9 @@ final class Mpeg4_Atom_Moov extends Mpeg4_ContainerAtom
     const DEVEL_STATE    = 'beta';
     const PHP_COMPATIBLE = '5.2.0';
     
+    /**
+     * The atom type
+     */
     protected $_type = 'moov';
     
     public function validChildType( $type )

@@ -11,6 +11,9 @@ final class Mpeg4_Atom_Edts extends Mpeg4_ContainerAtom
     const DEVEL_STATE    = 'beta';
     const PHP_COMPATIBLE = '5.2.0';
     
+    /**
+     * The atom type
+     */
     protected $_type = 'edts';
     
     public function validChildType( $type )

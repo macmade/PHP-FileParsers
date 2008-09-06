@@ -43,11 +43,9 @@ abstract class Mpeg4_Atom
     const DEVEL_STATE    = 'beta';
     const PHP_COMPATIBLE = '5.2.0';
     
-    // Abstract methods
     abstract public function __toString();
     abstract public function getLength();
     
-    // Dividers values for the fixed point methods
     private static $_dividers = array(
         2  => 4,            // 1 << 2  - (2 ** 2)  - For the 30.2 fixed point numbers
         8  => 256,          // 1 << 8  - (2 ** 8)  - For the 8.8 fixed point numbers
@@ -55,19 +53,25 @@ abstract class Mpeg4_Atom
         30 => 1073741824    // 1 << 30 - (2 ** 30) - For the 2.30 fixed point numbers
     );
     
-    // Atom type
+    /**
+     * The atom type
+     */
     protected $_type         = '';
     
-    // Extended state
+    /**
+     * Wether the atom has an extended length
+     */
     protected $_extended     = false;
     
-    // Parent atom, if any
+    /**
+     * The parent atom, if any
+     */
     protected $_parent       = NULL;
     
     /**
      * Gets a big endian unsigned long from the atom data
      * 
-     * @param   int     $dataOffset The beginning of the field in the atom data
+     * @param   int     The beginning of the field in the atom data
      * @return  float   The big endian unsigned long
      */
     protected function _bigEndianUnsignedLong( $dataOffset )
@@ -82,7 +86,7 @@ abstract class Mpeg4_Atom
     /**
      * Gets a big endian unsigned short from the atom data
      * 
-     * @param   int     $dataOffset The beginning of the field in the atom data
+     * @param   int     The beginning of the field in the atom data
      * @return  float   The big endian unsigned short
      */
     protected function _bigEndianUnsignedShort( $dataOffset )
@@ -99,9 +103,9 @@ abstract class Mpeg4_Atom
      * 
      * Actually, only 8.8, 16.16, 30.2 and 2.30 fixed point formats are supported.
      * 
-     * @param   int     $dataOffset         The beginning of the fixed point number field in the atom data
-     * @param   int     $integerLength      The number of bits for the integer part (2, 8, 16 or 30)
-     * @param   int     $fractionalLength   The number of bits for the fractional part (2, 8, 16 or 30)
+     * @param   int     The beginning of the fixed point number field in the atom data
+     * @param   int     The number of bits for the integer part (2, 8, 16 or 30)
+     * @param   int     The number of bits for the fractional part (2, 8, 16 or 30)
      * @return  float   The fixed point number
      */
     protected function _bigEndianFixedPoint( $dataOffset, $integerLength, $fractionalLength )
@@ -146,7 +150,7 @@ abstract class Mpeg4_Atom
     /**
      * Gets an ISO-639-2 language code from the atom data
      * 
-     * @param   int     $dataOffset The beginning of the language code field in the atom data (pad bit included, so 16 bits!)
+     * @param   int     The beginning of the language code field in the atom data (pad bit included, so 16 bits!)
      * @return  string  The ISO-639-2 language code
      */
     protected function _bigEndianIso639Code( $dataOffset )
@@ -167,7 +171,7 @@ abstract class Mpeg4_Atom
     /**
      * Marks the atom as extended (length on 64 bits), or not
      * 
-     * @param   boolean $value  True if the atom is extended, otherwise false
+     * @param   boolean True if the atom is extended, otherwise false
      * @return  boolean
      */
     public function setExtended( $value = true )

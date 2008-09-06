@@ -31,13 +31,15 @@ final class Mpeg4_Atom_Stdp extends Mpeg4_FullBox
     const DEVEL_STATE    = 'beta';
     const PHP_COMPATIBLE = '5.2.0';
     
-    // Atom type
+    /**
+     * The atom type
+     */
     protected $_type = 'stdp';
     
     /**
      * Process the atom flags
      * 
-     * @params  string  $rawFlags   The atom raw flags
+     * @params  string  The atom raw flags
      * @return  object  The processed atom flags
      */
     protected function _processFlags( $rawFlags )

@@ -117,7 +117,7 @@ final class ClassManager
     /**
      * SPL autoload method
      * 
-     * @param   string  $className  The name of the class to load
+     * @param   string  The name of the class to load
      * @return  boolean
      * @see     getInstance
      * @see     _loadClass
@@ -151,7 +151,7 @@ final class ClassManager
     /**
      * Loads a class from this project
      * 
-     * @param   string  $className  The name of the class to load
+     * @param   string  The name of the class to load
      * @return  boolean
      */
     private function _loadClass( $className )

@@ -21,7 +21,9 @@ final class Mpeg4_UnknownAtom extends Mpeg4_DataAtom
     const DEVEL_STATE    = 'beta';
     const PHP_COMPATIBLE = '5.2.0';
     
-    // Atom type
+    /**
+     * The atom type
+     */
     protected $_type = '';
     
     /**

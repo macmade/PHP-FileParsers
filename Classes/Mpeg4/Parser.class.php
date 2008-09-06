@@ -19,27 +19,37 @@ class Mpeg4_Parser
     const DEVEL_STATE    = 'beta';
     const PHP_COMPATIBLE = '5.2.0';
     
-    // File handler
+    /**
+     * The PHP file handler
+     */
     protected $_fileHandle           = NULL;
     
-    // Instance of Mpeg4_File
+    /**
+     * An instance of the Mpeg4_File class
+     */
     protected $_mpeg4File            = NULL;
     
-    // Parsing warnings/errors
+    /**
+     * The parsing warnings/errors
+     */
     protected $_warnings             = array();
     
-    // Allows invalid atom hierarchy (not as in ISO-IEC 14496-12)
+    /**
+     * Allows invalid atom hierarchy (not as in ISO-IEC 14496-12)
+     */
     protected $_allowInvalidStucture = false;
     
-    // Allows unrecognized atoms (not in ISO-IEC 14496-12)
+    /**
+     * Allows unrecognized atoms (not in ISO-IEC 14496-12)
+     */
     protected $_allowUnknownAtoms    = false;
     
     /**
      * Class constructor
      * 
-     * @param   string  $file                   The location of the MPEG-4 file
-     * @param   boolean $allowInvalidStucture   Allows invalid atom hierarchy (not as in ISO-IEC 14496-12)
-     * @param   boolean $allowUnknownAtoms      Allows unrecognized atoms (not in ISO-IEC 14496-12)
+     * @param   string      The location of the MPEG-4 file
+     * @param   boolean     Allows invalid atom hierarchy (not as in ISO-IEC 14496-12)
+     * @param   boolean     Allows unrecognized atoms (not in ISO-IEC 14496-12)
      * @return  NULL
      * @throws  Exception   If the file does not exist, is not readable, or if PHP isn't able to open a file handle
      */

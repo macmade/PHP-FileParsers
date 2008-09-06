@@ -82,9 +82,9 @@ final class Binary_Utils
     /**
      * Unpacks data to the specified format
      * 
-     * @param   string  $format     The unpack format (see function unpack())
-     * @param   string  $data       The data from which to read (passed by reference)
-     * @param   int     $dataOffset The offset from which to read the data
+     * @param   string  The unpack format (see function unpack())
+     * @param   string  The data from which to read (passed by reference)
+     * @param   int     The offset from which to read the data
      * @return  int     The unpacked data in the specified format
      */
     private function _unpackData( $format, &$data, $dataOffset )
@@ -116,8 +116,8 @@ final class Binary_Utils
     /**
      * Gets a signed char
      * 
-     * @param   string  $data       The data from which to read (passed by reference)
-     * @param   int     $dataOffset An optionnal offset from which to read the data
+     * @param   string  The data from which to read (passed by reference)
+     * @param   int     An optionnal offset from which to read the data
      * @return  int     The signed char
      */
     public function signedChar( &$data, $dataOffset = 0 )
@@ -128,8 +128,8 @@ final class Binary_Utils
     /**
      * Gets an unsigned char
      * 
-     * @param   string  $data       The data from which to read (passed by reference)
-     * @param   int     $dataOffset An optionnal offset from which to read the data
+     * @param   string  The data from which to read (passed by reference)
+     * @param   int     An optionnal offset from which to read the data
      * @return  int     The unsigned char
      */
     public function unsignedChar( &$data, $dataOffset = 0 )
@@ -140,8 +140,8 @@ final class Binary_Utils
     /**
      * Gets a signed short
      * 
-     * @param   string  $data       The data from which to read (passed by reference)
-     * @param   int     $dataOffset An optionnal offset from which to read the data
+     * @param   string  The data from which to read (passed by reference)
+     * @param   int     An optionnal offset from which to read the data
      * @return  int     The signed short
      */
     public function signedShort( &$data, $dataOffset = 0 )
@@ -152,8 +152,8 @@ final class Binary_Utils
     /**
      * Gets an unsigned short
      * 
-     * @param   string  $data       The data from which to read (passed by reference)
-     * @param   int     $dataOffset An optionnal offset from which to read the data
+     * @param   string  The data from which to read (passed by reference)
+     * @param   int     An optionnal offset from which to read the data
      * @return  int     The unsigned short
      */
     public function unsignedShort( &$data, $dataOffset = 0 )
@@ -164,8 +164,8 @@ final class Binary_Utils
     /**
      * Gets a big endian unsigned short
      * 
-     * @param   string  $data       The data from which to read (passed by reference)
-     * @param   int     $dataOffset An optionnal offset from which to read the data
+     * @param   string  The data from which to read (passed by reference)
+     * @param   int     An optionnal offset from which to read the data
      * @return  int     The big endian unsigned short
      */
     public function bigEndianUnsignedShort( &$data, $dataOffset = 0 )
@@ -176,8 +176,8 @@ final class Binary_Utils
     /**
      * Gets a little endian unsigned short
      * 
-     * @param   string  $data       The data from which to read (passed by reference)
-     * @param   int     $dataOffset An optionnal offset from which to read the data
+     * @param   string  The data from which to read (passed by reference)
+     * @param   int     An optionnal offset from which to read the data
      * @return  int     The little endian unsigned short
      */
     public function littleEndianUnsignedShort( &$data, $dataOffset = 0 )
@@ -188,8 +188,8 @@ final class Binary_Utils
     /**
      * Gets a signed long
      * 
-     * @param   string  $data       The data from which to read (passed by reference)
-     * @param   int     $dataOffset An optionnal offset from which to read the data
+     * @param   string  The data from which to read (passed by reference)
+     * @param   int     An optionnal offset from which to read the data
      * @return  int     The signed long
      */
     public function signedLong( &$data, $dataOffset = 0 )
@@ -200,8 +200,8 @@ final class Binary_Utils
     /**
      * Gets an unsigned long
      * 
-     * @param   string  $data       The data from which to read (passed by reference)
-     * @param   int     $dataOffset An optionnal offset from which to read the data
+     * @param   string  The data from which to read (passed by reference)
+     * @param   int     An optionnal offset from which to read the data
      * @return  int     The unsigned long
      */
     public function unsignedLong( &$data, $dataOffset = 0 )
@@ -212,8 +212,8 @@ final class Binary_Utils
     /**
      * Gets a big endian unsigned long
      * 
-     * @param   string  $data       The data from which to read (passed by reference)
-     * @param   int     $dataOffset An optionnal offset from which to read the data
+     * @param   string  The data from which to read (passed by reference)
+     * @param   int     An optionnal offset from which to read the data
      * @return  int     The big endian unsigned long
      */
     public function bigEndianUnsignedLong( &$data, $dataOffset = 0 )
@@ -224,8 +224,8 @@ final class Binary_Utils
     /**
      * Gets a little endian unsigned long
      * 
-     * @param   string  $data       The data from which to read (passed by reference)
-     * @param   int     $dataOffset An optionnal offset from which to read the data
+     * @param   string  The data from which to read (passed by reference)
+     * @param   int     An optionnal offset from which to read the data
      * @return  int     The little endian unsigned long
      */
     public function littleEndianUnsignedLong( &$data, $dataOffset = 0 )
@@ -238,10 +238,10 @@ final class Binary_Utils
      * 
      * Actually, only 8.8, 16.16, 30.2 and 2.30 fixed point formats are supported.
      * 
-     * @param   string  $data               The data from which to read (passed by reference)
-     * @param   int     $integerLength      The number of bits for the integer part (2, 8, 16 or 30)
-     * @param   int     $fractionalLength   The number of bits for the fractional part (2, 8, 16 or 30)
-     * @param   int     $dataOffset         An optionnal offset from which to read the data
+     * @param   string  The data from which to read (passed by reference)
+     * @param   int     The number of bits for the integer part (2, 8, 16 or 30)
+     * @param   int     The number of bits for the fractional part (2, 8, 16 or 30)
+     * @param   int     An optionnal offset from which to read the data
      * @return  float   The fixed point number
      */
     public function bigEndianFixedPoint( &$data, $integerLength, $fractionalLength, $dataOffset )
@@ -280,8 +280,8 @@ final class Binary_Utils
     /**
      * Gets an ISO-639-2 language code
      * 
-     * @param   string  $data       The data from which to read (passed by reference)
-     * @param   int     $dataOffset An optionnal offset from which to read the data
+     * @param   string  The data from which to read (passed by reference)
+     * @param   int     An optionnal offset from which to read the data
      * @return  string  The ISO-639-2 language code
      */
     public function bigEndianIso639Code( &$data, $dataOffset )

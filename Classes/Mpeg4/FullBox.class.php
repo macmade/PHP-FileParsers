@@ -29,7 +29,9 @@ abstract class Mpeg4_FullBox extends Mpeg4_DataAtom
     const DEVEL_STATE    = 'beta';
     const PHP_COMPATIBLE = '5.2.0';
     
-    // Abstract methods
+    /**
+     * The abstract method used to process the atom flags
+     */
     abstract protected function _processFlags( $rawFlags );
     
     /**

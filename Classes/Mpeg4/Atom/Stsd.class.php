@@ -85,13 +85,15 @@ final class Mpeg4_Atom_Stsd extends Mpeg4_FullBox
     const DEVEL_STATE    = 'beta';
     const PHP_COMPATIBLE = '5.2.0';
     
-    // Atom type
+    /**
+     * The atom type
+     */
     protected $_type = 'stsd';
     
     /**
      * Process the atom flags
      * 
-     * @params  string  $rawFlags   The atom raw flags
+     * @params  string  The atom raw flags
      * @return  object  The processed atom flags
      */
     protected function _processFlags( $rawFlags )
@@ -161,7 +163,7 @@ final class Mpeg4_Atom_Stsd extends Mpeg4_FullBox
     /**
      * Process the atom data (audio entry)
      * 
-     * @param   int     $entryNumber    The current entry number
+     * @param   int     The current entry number
      * @return  object  The processed atom data
      */
     protected function _audioSampleEntry( $entryNumber )
@@ -191,7 +193,7 @@ final class Mpeg4_Atom_Stsd extends Mpeg4_FullBox
     /**
      * Process the atom data (visual entry)
      * 
-     * @param   int     $entryNumber    The current entry number
+     * @param   int     The current entry number
      * @return  object  The processed atom data
      */
     protected function _visualSampleEntry( $entryNumber  )

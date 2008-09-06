@@ -11,6 +11,9 @@ final class Mpeg4_Atom_Ctts extends Mpeg4_FullBox
     const DEVEL_STATE    = 'beta';
     const PHP_COMPATIBLE = '5.2.0';
     
+    /**
+     * The atom type
+     */
     protected $_type = 'ctts';
     
     protected function _processFlags( $flags )
