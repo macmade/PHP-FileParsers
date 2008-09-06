@@ -81,18 +81,6 @@ class Mpeg4_Parser extends Parser_Base
             // Storage for the current atom
             $atomObject     = NULL;
             
-            // Special case for the XML atom, as it's only 3 characters
-            if( $atomType === 'xml ' ) {
-                
-                // Name of the atom class to use
-                $className = 'Mpeg4_Atom_Xml';
-                
-            } else {
-                
-                // Name of the atom class to use
-                $className = 'Mpeg4_Atom_' . ucfirst( $atomType );
-            }
-            
             // Checks the parsing level (top or not)
             if( $level === 0 ) {
                 
