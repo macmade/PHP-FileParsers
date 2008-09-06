@@ -75,18 +75,29 @@ class Png_Parser extends Parser_Base
             // Adds the chunk
             $chunk           = $this->_pngFile->addChunk( $chunkType );
             
+            // Storage for the chunk data
+            $chunkData       = '';
+            
             // Checks for data
             if( $chunkSize > 0 ) {
                 
+                // Gets the chunk data
+                $chunkData = $this->_read( $chunkSize );
+                
                 // Stores the raw data
-                $chunk->setRawData( $this->_read( $chunkSize ) );
+                $chunk->setRawData( $chunkData );
             }
             
-            // Gets the CRC data
-            $crcData = $this->_read( 4 );
-            
             // Gets the cyclic redundancy check
+            $crcData = $this->_read( 4 );
             $crc     = self::$_binUtils->bigEndianUnsignedLong( $crcData );
+            
+            // Checks the CRC
+            if( $crc !== crc32( $chunkType . $chunkData ) ) {
+                
+                // Invalid CRC
+                throw new Png_Exception( 'Invalid cyclic redundancy check for chunk ' . $chunkType );
+            }
             
             // Checks if the current chunk is the PNG terminator chunk
             if( $chunkType === 'IEND' ) {
