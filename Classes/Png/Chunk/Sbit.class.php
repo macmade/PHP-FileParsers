@@ -98,7 +98,6 @@ class Png_Chunk_Sbit extends Png_Chunk
                 $data->significantBlueBits  = self::$_binUtils->unsignedChar( $this->_data, 2 );
                 $data->significantAlphaBits = self::$_binUtils->unsignedChar( $this->_data, 3 );
                 break;
-            
         }
         
         // Returns the processed data
