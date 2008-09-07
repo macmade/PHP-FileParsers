@@ -14,6 +14,9 @@ if( !function_exists( 'spl_autoload_register' ) ) {
     trigger_error( 'The SPL (Standard PHP Library) is required to use this script', E_USER_ERROR );
 }
 
+// Sets the timezone
+date_default_timezone_set( 'Europe/Zurich' );
+
 // Sets the error reporting level to the highest possible value
 error_reporting ( E_ALL | E_STRICT );
 
