@@ -35,26 +35,19 @@ class Mpeg4_Parser extends Parser_Base
     protected $_allowInvalidStucture = false;
     
     /**
-     * Allows unrecognized atoms (not in ISO-IEC 14496-12)
-     */
-    protected $_allowUnknownAtoms    = false;
-    
-    /**
      * Class constructor
      * 
      * @param   string          The location of the MPEG-4 file
      * @param   boolean         Allows invalid atom hierarchy (not as in ISO-IEC 14496-12)
-     * @param   boolean         Allows unrecognized atoms (not in ISO-IEC 14496-12)
      * @return  NULL
      */
     public function __construct( $file, $allowInvalidStucture = false, $allowUnknownAtoms = false )
     {
         // Sets the options for the current instance
         $this->_allowInvalidStucture = $allowInvalidStucture;
-        $this->_allowUnknownAtoms    = $allowUnknownAtoms;
         
         // Create a new instance of Mpeg4_File
-        $this->_mpeg4File = new Mpeg4_File();
+        $this->_mpeg4File            = new Mpeg4_File();
         
         // Calls the parent constructor
         parent::__construct( $file );
