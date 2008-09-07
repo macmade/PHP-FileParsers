@@ -29,6 +29,18 @@ class Png_Chunk_Hist extends Png_Chunk
      */
     public function getProcessedData()
     {
-        return false;
+        // Storage
+        $data            = new stdClass();
+        $data->frequency = array();
+        
+        // Process each frequency
+        for( $i = 0; $i < $this->_dataLength; $i += 2 ) {
+            
+            // Adds the current frequency
+            $data->frequency[] = self::$_binUtils->bigEndianUnsignedShort( $this->_data, $i );
+        }
+        
+        // Returns the processed data
+        return $data;
     }
 }
