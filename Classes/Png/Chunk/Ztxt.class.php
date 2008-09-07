@@ -48,8 +48,17 @@ class Png_Chunk_Ztxt extends Png_Chunk
         // Gets the compression method
         $data->compressionMethod        = self::$_binUtils->unsignedChar( $this->_data, $null + 1 );
         
-        // Gets the compression profile
-        $data->compressedTextDataStream = substr( $this->_data, $null + 2 );
+        // Checks the compression method
+        if( $data->compressionMethod === 0 ) {
+            
+            // Deflate
+            $data->compressedTextDataStream = gzuncompress( substr( $this->_data, $null + 2 ) );
+            
+        } else {
+            
+            // Unrecognized compression method - Stores the raw data
+            $data->compressedTextDataStream = substr( $this->_data, $null + 2 );
+        }
         
         // Returns the processed data
         return $data;
