@@ -59,8 +59,17 @@ class Png_Chunk_Itxt extends Png_Chunk
         // Gets the translated keyword
         $data->translatedKeyword = substr( $this->_data, $null2 + 1, $null3 - ( $null2 + 1 ) );
         
-        // Gets the text
-        $data->text              = substr( $this->_data, $null3 );
+        // Checks the compression method
+        if( $data->compressionFlag && $data->compressionMethod === 0 ) {
+            
+            // Deflate
+            $data->text = gzuncompress( substr( $this->_data, $null3 ) );
+            
+        } else {
+            
+            // No compression, or unrecognized compression method - Stores the raw data
+            $data->text = substr( $this->_data, $null3 );
+        }
         
         // Returns the processed data
         return $data;
