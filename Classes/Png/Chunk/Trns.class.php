@@ -50,9 +50,9 @@ class Png_Chunk_Trns extends Png_Chunk
         $data->colourType0->greySampleValue  = self::$_binUtils->bigEndianUnsignedShort( $this->_data, 0 );
         
         // Gets the values for the coulour type 2
-        $data->colourType0->redSampleValue   = self::$_binUtils->bigEndianUnsignedShort( $this->_data, 2 );
-        $data->colourType0->greenSampleValue = self::$_binUtils->bigEndianUnsignedShort( $this->_data, 4 );
-        $data->colourType0->blueSampleValue  = self::$_binUtils->bigEndianUnsignedShort( $this->_data, 6 );
+        $data->colourType2->redSampleValue   = self::$_binUtils->bigEndianUnsignedShort( $this->_data, 2 );
+        $data->colourType2->greenSampleValue = self::$_binUtils->bigEndianUnsignedShort( $this->_data, 4 );
+        $data->colourType2->blueSampleValue  = self::$_binUtils->bigEndianUnsignedShort( $this->_data, 6 );
         
         // Gets the hexadecimal values
         $redHex                              = dechex( $data->colourType0->redSampleValue );
@@ -65,7 +65,7 @@ class Png_Chunk_Trns extends Png_Chunk
         $blueHex                             = ( strlen( $blueHex )  == 1 ) ? '0' . $blueHex  : $blueHex;
         
         // Adds the hexadecimal color value to colour type 2
-        $data->colourType0->hex              = '#' . strtoupper( $redHex . $greenHex . $blueHex );
+        $data->colourType2->hex              = '#' . strtoupper( $redHex . $greenHex . $blueHex );
         
         // Process the remaining chunk data till the end
         for( $i = 8; $i < $this->_dataLength; $i++ ) {
