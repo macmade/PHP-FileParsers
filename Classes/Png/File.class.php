@@ -120,13 +120,17 @@ class Png_File
         
         foreach( $this->_chunks as $chunk ) {
             
-            $chunkData       = new stdClass();
+            $chunkData               = new stdClass();
             
-            $chunkData->type = $chunk->getType();
-            $chunkData->size = $chunk->getDataLength();
-            $chunkData->data = $chunk->getProcessedData();
+            $chunkData->type         = $chunk->getType();
+            $chunkData->size         = $chunk->getDataLength();
+            $chunkData->isCritical   = $chunk->isCritical();
+            $chunkData->isAncillary  = $chunk->isAncillary();
+            $chunkData->isPrivate    = $chunk->isPrivate();
+            $chunkData->isSafeToCopy = $chunk->isSafeToCopy();
+            $chunkData->data         = $chunk->getProcessedData();
             
-            $data[]          = $chunkData;
+            $data[]                   = $chunkData;
         }
         
         return $data;
