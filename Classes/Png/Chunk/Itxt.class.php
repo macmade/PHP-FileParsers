@@ -29,6 +29,33 @@ class Png_Chunk_Itxt extends Png_Chunk
      */
     public function getProcessedData()
     {
-        return false;
+        // Storage
+        $data                    = new stdClass();
+        
+        // Position of the null separators
+        $null1                   = strpos( $this->_data, chr( 0 ) );
+        $null2                   = strpos( $this->_data, chr( 0 ), $null1 + 1 );
+        $null3                   = strpos( $this->_data, chr( 0 ), $null2 + 1 );
+        
+        // Gets the profile name
+        $data->keyword           = substr( $this->_data, 0, $null );
+        
+        // Gets the compression flag
+        $data->compressionFlag   = self::$_binUtils->unsignedChar( $this->_data, $null1 + 1 );
+        
+        // Gets the compression method
+        $data->compressionMethod = self::$_binUtils->unsignedChar( $this->_data, $null1 + 2 );
+        
+        // Gets the language tag
+        $data->languageTag       = substr( $this->_data, $null1 + 3, $null2 - ( $null1 + 3 ) );
+        
+        // Gets the translated keyword
+        $data->translatedKeyword = substr( $this->_data, $null2 + 1, $null3 - ( $null2 + 1 ) );
+        
+        // Gets the text
+        $data->text              = substr( $this->_data, $null3 );
+        
+        // Returns the processed data
+        return $data;
     }
 }
