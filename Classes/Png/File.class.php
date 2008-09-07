@@ -8,7 +8,7 @@
  * @package         Png
  * @version         0.1
  */
-class Png_File
+class Png_File implements Iterator, ArrayAccess
 {
     /**
      * Class version constants.
@@ -23,6 +23,16 @@ class Png_File
      * Allows invalid chunk structure (not as in the PNG specification)
      */
     protected $_allowInvalidStucture  = false;
+    
+    /**
+     * The current position for the SPL Iterator methods
+     */
+    protected $_iteratorIndex         = 0;
+    
+    /**
+     * The number of added chunks
+     */
+    protected $_chunksCount           = 0;
     
     /**
      * THe type of the last chunk added
@@ -42,7 +52,7 @@ class Png_File
     /**
      * The name and count of the added chunks
      */
-    protected $_chunkNames            = array();
+    protected $_chunksByName          = array();
     
     /**
      * The valid PNG chunks, as in the PNG specification
@@ -112,6 +122,102 @@ class Png_File
         return $data;
     }
     
+    /**
+     * 
+     */
+    public function __get( $name )
+    {
+        if( !isset( $this->_chunksByName[ $name ] ) ) {
+            
+            return NULL;
+        }
+        
+        return $this->_chunksByName[ $name ][ 0 ];
+    }
+    
+    /**
+     * 
+     */
+    public function __isset( $name )
+    {
+        return isset( $this->_chunksByName[ $name ] );
+    }
+    
+    /**
+     * 
+     */
+    public function offsetExists( $offset )
+    {
+        return isset( $this->_chunks[ $offset ] );
+    }
+    
+    /**
+     * 
+     */
+    public function offsetGet( $offset )
+    {
+        return $this->_chunks[ $offset ];
+    }
+    
+    /**
+     * 
+     */
+    public function offsetSet( $offset, $value )
+    {
+        return false;
+    }
+    
+    /**
+     * 
+     */
+    public function offsetUnset( $offset )
+    {
+        return false;
+    }
+    
+    /**
+     * 
+     */
+    public function rewind()
+    {
+        $this->_iteratorIndex = 0;
+    }
+    
+    /**
+     * 
+     */
+    public function current()
+    {
+        return $this->_chunks[ $this->_iteratorIndex ];
+    }
+    
+    /**
+     * 
+     */
+    public function key()
+    {
+        return $this->_chunks[ $this->_iteratorIndex ]->getType();
+    }
+    
+    /**
+     * 
+     */
+    public function next()
+    {
+        $this->_iteratorIndex++;
+    }
+    
+    /**
+     * 
+     */
+    public function valid()
+    {
+        return $this->_iteratorIndex < $this->_chunksCount;
+    }
+    
+    /**
+     * 
+     */
     public function getProcessedData()
     {
         $data = array();
@@ -139,37 +245,56 @@ class Png_File
      */
     public function addChunk( $chunkType )
     {
+        // Checks if the chunk is invalid
         $invalid = $this->isInvalidChunk( $chunkType );
         
+        // Checks the invalid state, and if invalid chunks are allowed
         if( $invalid && !$this->_allowInvalidStucture ) {
             
+            // Invalid chunk
             throw new Png_Exception( $invalid, Png_Exception::EXCEPTION_INVALID_CHUNK );
         }
-            
+        
+        // Name of the chunk class
         $className        = 'Png_Chunk_' . ucfirst( strtolower( $chunkType ) );
         
+        // Checks if the class exists
         if( class_exists( $className ) ) {
             
+            // Creates the chunk
             $chunk = new $className;
             
         } else {
             
+            // Chunk is unknown - Creates an instance of the Png_UnknownChunk class
             $chunk = new Png_UnknownChunk( $chunkType );
         }
         
+        // Adds the chunk to the list of the chunks
         $this->_chunks[]  = $chunk;
-            
+        
+        // Stores the chunk type
         $this->_lastChunk = $chunkType;
         
-        if( isset( $this->_chunkNames[ $chunkType ] ) ) {
+        // Checks if the chunk type has already been registered
+        if( isset( $this->_chunksByName[ $chunkType ] ) ) {
             
-            $this->_chunkNames[ $chunkType ]++;
+            // Adds the chunk to the chunk list
+            $this->_chunksByName[ $chunkType ][] = $chunk;
             
         } else {
             
-            $this->_chunkNames[ $chunkType ] = 1;
+            // Creates the storage place for the chunk type
+            $this->_chunksByName[ $chunkType ]   = array();
+            
+            // Adds the chunk to the chunk list
+            $this->_chunksByName[ $chunkType ][] = $chunk;
         }
         
+        // Increments the number of chunks
+        $this->_chunksCount++;
+        
+        // Returns the chunk
         return $chunk;
     }
     
@@ -188,25 +313,25 @@ class Png_File
         }
         
         // Checks if the chunk already exists and if it can be added multiple times
-        if( isset( $this->_chunkNames[ $type ] ) && !isset( $this->_allowedMultipleChunks[ $type ] ) ) {
+        if( isset( $this->_chunksByName[ $type ] ) && !isset( $this->_allowedMultipleChunks[ $type ] ) ) {
             
             return 'Chunk ' . $type . ' cannot be added more than once';
         }
         
         // The IHDR chunk must be present before any other chunk
-        if( $type !== 'IHDR' && !isset( $this->_chunkNames[ 'IHDR' ] ) ) {
+        if( $type !== 'IHDR' && !isset( $this->_chunksByName[ 'IHDR' ] ) ) {
             
             return 'Cannot add chunk ' . $type . ' as there is no IHDR chunk';
         }
         
         // IDAT chunks must be consecutives
-        if( $type === 'IDAT' && isset( $this->_chunkNames[ 'IDAT' ] ) && $this->_lastChunk != 'IDAT' ) {
+        if( $type === 'IDAT' && isset( $this->_chunksByName[ 'IDAT' ] ) && $this->_lastChunk != 'IDAT' ) {
             
             return 'IDAT chunks must be consecutives';
         }
         
         // No chunk can be placed if the IEND chunk exists
-        if( isset( $this->_chunkNames[ 'IEND' ] ) ) {
+        if( isset( $this->_chunksByName[ 'IEND' ] ) ) {
             
             return 'Cannot add chunk ' . $type . ' as the IEND chunk is already present';
         }
