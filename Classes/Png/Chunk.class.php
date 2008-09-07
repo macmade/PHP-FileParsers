@@ -30,6 +30,11 @@ abstract class Png_Chunk
     protected static $_binUtils  = NULL;
     
     /**
+     * The instance of the Png_File class in which the chunk is placed
+     */
+    protected $_pngFile          = NULL;
+    
+    /**
      * Wether the static variables are set or not
      */
     protected static $_hasStatic = false;
@@ -52,9 +57,10 @@ abstract class Png_Chunk
     /**
      * Class constructor
      * 
+     * @param   Png_File    The instance of the Png_File class in which the chunk is placed
      * @return  NULL
      */
-    public function __construct()
+    public function __construct( Png_File $pngFile )
     {
         // Checks if the static variables are set
         if( !self::$_hasStatic ) {
@@ -62,6 +68,9 @@ abstract class Png_Chunk
             // Sets the static variables
             self::_setStaticVars();
         }
+        
+        // Stores a reference to the PNG file
+        $this->_pngFile = $pngFile;
     }
     
     /**

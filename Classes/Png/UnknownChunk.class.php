@@ -27,16 +27,17 @@ class Png_UnknownChunk extends Png_Chunk
     /**
      * Class constructor
      * 
-     * @param   string  The chunk type
+     * @param   Png_File    The instance of the Png_File class in which the chunk is placed
+     * @param   string      The chunk type
      * @return  NULL
      */
-    public function __construct( $type )
+    public function __construct( Png_File $pngFile, $type )
     {
         // Sets the chunk type
         $this->_type = substr( $type, 0, 4 );
         
         // Calls the parent constructor
-        parent::__construct();
+        parent::__construct( $pngFile );
     }
     
     /**

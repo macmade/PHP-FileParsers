@@ -262,12 +262,12 @@ class Png_File implements Iterator, ArrayAccess
         if( class_exists( $className ) ) {
             
             // Creates the chunk
-            $chunk = new $className;
+            $chunk = new $className( $this );
             
         } else {
             
             // Chunk is unknown - Creates an instance of the Png_UnknownChunk class
-            $chunk = new Png_UnknownChunk( $chunkType );
+            $chunk = new Png_UnknownChunk( $this, $chunkType );
         }
         
         // Adds the chunk to the list of the chunks
