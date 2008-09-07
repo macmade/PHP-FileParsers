@@ -85,8 +85,40 @@ class Png_Parser extends Parser_Base
             // Gets the chunk type
             $chunkType       = substr( $chunkHeaderData, 4 );
             
-            // Adds the chunk
-            $chunk           = $this->_pngFile->addChunk( $chunkType );
+            // Checks if the chunk is valid or not
+            $invalid = $this->_pngFile->isInvalidChunk( $chunkType );
+            
+            // Checks the invalid state
+            if( $invalid ) {
+                
+                // Adds a warning
+                $this->_warnings[] = array(
+                    'chunkType'   => $chunkType,
+                    'chunkLength' => $chunkSize,
+                    'fileOffset'  => ftell( $this->_fileHandle ) - 8,
+                    'message'     => $invalid
+                );
+                
+                // Checks if we allows invalid chunks
+                if( $this->_allowInvalidStucture ) {
+                    
+                    // Tells the PNG file class to not complains about bad chunks
+                    $this->_pngFile->allowAnyChunkType( true );
+                    
+                    // Adds the chunk
+                    $chunk = $this->_pngFile->addChunk( $chunkType );
+                    
+                } else {
+                    
+                    // No invalid chunk is allowed - The current chunk will be skipped
+                    $chunk = false;
+                }
+                
+            } else {
+                
+                // Chunk is valid - Adds it
+                $chunk = $this->_pngFile->addChunk( $chunkType );
+            }
             
             // Storage for the chunk data
             $chunkData       = '';
@@ -97,8 +129,12 @@ class Png_Parser extends Parser_Base
                 // Gets the chunk data
                 $chunkData = $this->_read( $chunkSize );
                 
-                // Stores the raw data
-                $chunk->setRawData( $chunkData );
+                // Checks if the chunk object exists
+                if( $chunk ) {
+                    
+                    // Stores the raw data
+                    $chunk->setRawData( $chunkData );
+                }
             }
             
             // Gets the cyclic redundancy check
