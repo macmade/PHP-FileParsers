@@ -45,35 +45,61 @@ class Png_Chunk_Sbit extends Png_Chunk
     public function getProcessedData()
     {
         // Storage
-        $data                                        = new stdClass();
-        $data->colourType0                           = new stdClass();
-        $data->colourType2                           = new stdClass();
-        $data->colourType3                           = new stdClass();
-        $data->colourType4                           = new stdClass();
-        $data->colourType6                           = new stdClass();
+        $data     = new stdClass();
         
-        // Gets the significant bits for the coulour type 0
-        $data->colourType0->significantGreyscaleBits = self::$_binUtils->unsignedChar( $this->_data, 0 );
+        // Gets the IHDR chunk
+        $ihdr     = $this->_pngFile->IHDR;
         
-        // Gets the significant bits for the coulour type 2
-        $data->colourType2->significantRedBits       = self::$_binUtils->unsignedChar( $this->_data, 1 );
-        $data->colourType2->significantGreenBits     = self::$_binUtils->unsignedChar( $this->_data, 2 );
-        $data->colourType2->significantBlueBits      = self::$_binUtils->unsignedChar( $this->_data, 3 );
+        // Process the IHDR data
+        $ihdrData = $ihdr->getProcessedData();
         
-        // Colour type 3 is the same as coulour type 2
-        $data->colourType3->significantRedBits       = $data->colourType2->significantRedBits;
-        $data->colourType3->significantGreenBits     = $data->colourType2->significantGreenBits;
-        $data->colourType3->significantBlueBits      = $data->colourType2->significantBlueBits;
-        
-        // Gets the significant bits for the coulour type 4
-        $data->colourType4->significantGreyscaleBits = self::$_binUtils->unsignedChar( $this->_data, 4 );
-        $data->colourType4->significantAlphaBits     = self::$_binUtils->unsignedChar( $this->_data, 5 );
-        
-        // Gets the significant bits for the coulour type 6
-        $data->colourType6->significantRedBits       = self::$_binUtils->unsignedChar( $this->_data, 6 );
-        $data->colourType6->significantGreenBits     = self::$_binUtils->unsignedChar( $this->_data, 7 );
-        $data->colourType6->significantBlueBits      = self::$_binUtils->unsignedChar( $this->_data, 8 );
-        $data->colourType6->significantAlphaBits     = self::$_binUtils->unsignedChar( $this->_data, 9 );
+        // Checks the data length
+        switch( $ihdrData->colourType ) {
+            
+            // Greyscale
+            case 0:
+                
+                // Gets the significant bits
+                $data->significantGreyscaleBits = self::$_binUtils->unsignedChar( $this->_data, 0 );
+                break;
+            
+            // RGB
+            case 2:
+                
+                // Gets the significant bits
+                $data->significantRedBits   = self::$_binUtils->unsignedChar( $this->_data, 0 );
+                $data->significantGreenBits = self::$_binUtils->unsignedChar( $this->_data, 1 );
+                $data->significantBlueBits  = self::$_binUtils->unsignedChar( $this->_data, 2 );
+                break;
+            
+            // Indexed color
+            case 3:
+                
+                // Gets the significant bits
+                $data->significantRedBits   = self::$_binUtils->unsignedChar( $this->_data, 0 );
+                $data->significantGreenBits = self::$_binUtils->unsignedChar( $this->_data, 1 );
+                $data->significantBlueBits  = self::$_binUtils->unsignedChar( $this->_data, 2 );
+                break;
+            
+            // Greyscale with alpha
+            case 4:
+                
+                // Gets the significant bits
+                $data->significantGreyscaleBits = self::$_binUtils->unsignedChar( $this->_data, 0 );
+                $data->significantAlphaBits     = self::$_binUtils->unsignedChar( $this->_data, 1 );
+                break;
+            
+            // RGB with alpha
+            case 6:
+                
+                // Gets the significant bits
+                $data->significantRedBits   = self::$_binUtils->unsignedChar( $this->_data, 0 );
+                $data->significantGreenBits = self::$_binUtils->unsignedChar( $this->_data, 1 );
+                $data->significantBlueBits  = self::$_binUtils->unsignedChar( $this->_data, 2 );
+                $data->significantAlphaBits = self::$_binUtils->unsignedChar( $this->_data, 3 );
+                break;
+            
+        }
         
         // Returns the processed data
         return $data;
