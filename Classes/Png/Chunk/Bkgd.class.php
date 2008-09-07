@@ -84,9 +84,6 @@ class Png_Chunk_Bkgd extends Png_Chunk
             // Indexed color
             case 3:
                 
-                // Sets the colour type
-                $data->colourType   = 3;
-                
                 // Gets the palette index
                 $data->paletteIndex = self::$_binUtils->unsignedChar( $this->_data );
                 break;
