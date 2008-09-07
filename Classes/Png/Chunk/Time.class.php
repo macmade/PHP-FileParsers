@@ -30,7 +30,7 @@ class Png_Chunk_Time extends Png_Chunk
     public function getProcessedData()
     {
         // Storage
-        $data                  = new stdClass();
+        $data         = new stdClass();
         
         // Gets the date informations
         $data->year   = self::$_binUtils->bigEndianUnsignedShort( $this->_data, 0 );
