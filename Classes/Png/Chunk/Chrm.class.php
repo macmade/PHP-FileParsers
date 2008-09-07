@@ -29,6 +29,26 @@ class Png_Chunk_Chrm extends Png_Chunk
      */
     public function getProcessedData()
     {
-        return false;
+        // Storage
+        $data              = new stdClass();
+        
+        // Gets the XY chromaticities for the white point
+        $data->whitePointX = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 0 ) / 100000;
+        $data->whitePointY = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 4 ) / 100000;
+        
+        // Gets the XY chromaticities for red
+        $data->redX        = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 8 ) / 100000;
+        $data->redY        = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 12 ) / 100000;
+        
+        // Gets the XY chromaticities for green
+        $data->greenX      = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 16 ) / 100000;
+        $data->greenY      = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 20 ) / 100000;
+        
+        // Gets the XY chromaticities for blue
+        $data->blueX       = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 24 ) / 100000;
+        $data->blueY       = self::$_binUtils->bigEndianUnsignedLong( $this->_data, 28 ) / 100000;
+        
+        // Returns the processed data
+        return $data;
     }
 }
