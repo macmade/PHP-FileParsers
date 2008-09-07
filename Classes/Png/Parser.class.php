@@ -25,9 +25,19 @@ class Png_Parser extends Parser_Base
     protected $Png_File              = NULL;
     
     /**
+     * Allows invalid chunk structure (not as in the PNG specification)
+     */
+    protected $_allowInvalidStucture = false;
+    
+    /**
      * An array that will be filled with the PNG informations
      */
     protected $_pngInfos             = array();
+    
+    /**
+     * The parsing warnings/errors
+     */
+    protected $_warnings             = array();
     
     /**
      * Class constructor
@@ -35,10 +45,13 @@ class Png_Parser extends Parser_Base
      * @param   string          The location of the PNG file
      * @return  NULL
      */
-    public function __construct( $file )
+    public function __construct( $file, $allowInvalidStucture = false )
     {
         // Create a new instance of Png_File
-        $this->_pngFile = new Png_File();
+        $this->_pngFile              = new Png_File();
+        
+        // Sets the options for the current instance
+        $this->_allowInvalidStucture = $allowInvalidStucture;
         
         // Calls the parent constructor
         parent::__construct( $file );
@@ -116,5 +129,15 @@ class Png_Parser extends Parser_Base
     public function getPngFile()
     {
         return $this->_pngFile;
+    }
+    
+    /**
+     * Gets the parsing errors/warnings
+     * 
+     * @return  array   An array with the parsing errors/warnings
+     */
+    public function getWarnings()
+    {
+        return $this->_warnings;
     }
 }
