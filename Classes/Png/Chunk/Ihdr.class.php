@@ -46,16 +46,16 @@ class Png_Chunk_Ihdr extends Png_Chunk
         // Gets the bit depth
         $data->bitDepth          = self::$_binUtils->unsignedChar( $this->_data, 8 );
         
-        
+        // Gets the colour type
         $data->colourType        = self::$_binUtils->unsignedChar( $this->_data, 9 );
         
-        
+        // Gets the compression method
         $data->compressionMethod = self::$_binUtils->unsignedChar( $this->_data, 10 );
         
-        
+        // Gets the filter method
         $data->filterMethod      = self::$_binUtils->unsignedChar( $this->_data, 11 );
         
-        
+        // Gets the interlace method
         $data->interlaceMethod   = self::$_binUtils->unsignedChar( $this->_data, 12 );
         
         // Returns the processed data
