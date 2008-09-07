@@ -123,7 +123,7 @@ abstract class Png_Chunk
      */
     public function isCritical()
     {
-        return !( ( ord( substr( $this->_type, 0, 1 ) ) >> 4 ) & 0x2 );
+        return ( boolean )!( ( ord( substr( $this->_type, 0, 1 ) ) >> 4 ) & 0x2 );
     }
     
     /**
@@ -131,7 +131,7 @@ abstract class Png_Chunk
      */
     public function isAncillary()
     {
-        return ( ord( substr( $this->_type, 0, 1 ) ) >> 4 ) & 0x2;
+        return ( boolean )( ( ord( substr( $this->_type, 0, 1 ) ) >> 4 ) & 0x2 );
     }
     
     /**
@@ -139,7 +139,7 @@ abstract class Png_Chunk
      */
     public function isPrivate()
     {
-        return !( ( ord( substr( $this->_type, 1, 1 ) ) >> 4 ) & 0x2 );
+        return ( boolean )!( ( ord( substr( $this->_type, 1, 1 ) ) >> 4 ) & 0x2 );
     }
     
     /**
@@ -147,6 +147,6 @@ abstract class Png_Chunk
      */
     public function isSafeToCopy()
     {
-        return ( ord( substr( $this->_type, 3, 1 ) ) >> 4 ) & 0x2;
+        return ( boolean )( ( ord( substr( $this->_type, 3, 1 ) ) >> 4 ) & 0x2 );
     }
 }
