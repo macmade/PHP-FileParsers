@@ -29,6 +29,22 @@ class Png_Chunk_Iccp extends Png_Chunk
      */
     public function getProcessedData()
     {
-        return false;
+        // Storage
+        $data                     = new stdClass();
+        
+        // Position of the null separator
+        $null                     = strpos( $this->_data, chr( 0 ) );
+        
+        // Gets the profile name
+        $data->profileName        = substr( $this->_data, 0, $null );
+        
+        // Gets the compression method
+        $data->compressionMethod  = self::$_binUtils->unsignedChar( $this->_data, $null + 1 );
+        
+        // Gets the compression profile
+        $data->compressionProfile = substr( $this->_data, $null + 2 );
+        
+        // Returns the processed data
+        return $data;
     }
 }
