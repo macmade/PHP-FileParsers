@@ -85,7 +85,7 @@ class Png_Chunk_Bkgd extends Png_Chunk
             case 3:
                 
                 // Gets the palette index
-                $data->paletteIndex = self::$_binUtils->unsignedChar( $this->_data );
+                $data->paletteIndex = self::$_binUtils->unsignedChar( $this->_data, 0 );
                 break;
             
             // Greyscale with alpha
