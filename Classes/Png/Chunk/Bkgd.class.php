@@ -60,9 +60,9 @@ class Png_Chunk_Bkgd extends Png_Chunk
         $data->colourType2->blueSampleValue  = self::$_binUtils->bigEndianUnsignedShort( $this->_data, 6 );
         
         // Gets the hexadecimal values
-        $redHex                              = dechex( $data->colourType0->redSampleValue );
-        $greenHex                            = dechex( $data->colourType0->greenSampleValue );
-        $blueHex                             = dechex( $data->colourType0->blueSampleValue );
+        $redHex                              = dechex( $data->colourType2->redSampleValue );
+        $greenHex                            = dechex( $data->colourType2->greenSampleValue );
+        $blueHex                             = dechex( $data->colourType2->blueSampleValue );
         
         // Completes each hexadecimal value if needed
         $redHex                              = ( strlen( $redHex )   == 1 ) ? '0' . $redHex   : $redHex;
