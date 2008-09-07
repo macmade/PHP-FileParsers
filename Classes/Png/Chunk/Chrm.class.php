@@ -1,7 +1,11 @@
 <?php
 
 /**
- * PNG cHRM chunk
+ * PNG cHRM chunk (primary chromaticities and white point)
+ * 
+ * The cHRM chunk may be used to specify the 1931 CIE x,y chromaticities of the
+ * red, green, and blue display primaries used in the image, and the referenced
+ * white point.
  * 
  * @author          Jean-David Gadina <macmade@eosgarden.com>
  * @copyright       Copyright &copy; 2008
@@ -25,7 +29,14 @@ class Png_Chunk_Chrm extends Png_Chunk
     protected $_type = 'cHRM';
     
     /**
+     * Process the chunk data
      * 
+     * This method will process the chunk raw data and returns human readable
+     * values, stored as properties of an stdClass object. Please take a look
+     * at the PNG specification for this specific chunk to see which data will
+     * be extracted.
+     * 
+     * @return  stdClass    The human readable chunk data
      */
     public function getProcessedData()
     {

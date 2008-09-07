@@ -1,7 +1,11 @@
 <?php
 
 /**
- * PNG sRGB chunk
+ * PNG sRGB chunk (standard RGB colour space)
+ * 
+ * If the sRGB chunk is present, the image samples conform to the sRGB colour
+ * space [IEC 61966-2-1] and should be displayed using the specified rendering
+ * intent defined by the International Color Consortium [ICC-1] and [ICC-1A].
  * 
  * @author          Jean-David Gadina <macmade@eosgarden.com>
  * @copyright       Copyright &copy; 2008
@@ -33,7 +37,14 @@ class Png_Chunk_Srgb extends Png_Chunk
     protected $_type = 'sRGB';
     
     /**
+     * Process the chunk data
      * 
+     * This method will process the chunk raw data and returns human readable
+     * values, stored as properties of an stdClass object. Please take a look
+     * at the PNG specification for this specific chunk to see which data will
+     * be extracted.
+     * 
+     * @return  stdClass    The human readable chunk data
      */
     public function getProcessedData()
     {

@@ -1,7 +1,15 @@
 <?php
 
 /**
- * PNG sBIT chunk
+ * PNG sBIT chunk (significant bits)
+ * 
+ * To simplify decoders, PNG specifies that only certain sample depths may be
+ * used, and further specifies that sample values should be scaled to the full
+ * range of possible values at the sample depth. The sBIT chunk defines the
+ * original number of significant bits (which can be less than or equal to the
+ * sample depth). This allows PNG decoders to recover the original data
+ * losslessly even if the data had a sample depth not  directly supported
+ * by PNG.
  * 
  * @author          Jean-David Gadina <macmade@eosgarden.com>
  * @copyright       Copyright &copy; 2008
@@ -25,10 +33,17 @@ class Png_Chunk_Sbit extends Png_Chunk
     protected $_type = 'sBIT';
     
     /**
+     * Process the chunk data
      * 
+     * This method will process the chunk raw data and returns human readable
+     * values, stored as properties of an stdClass object. Please take a look
+     * at the PNG specification for this specific chunk to see which data will
+     * be extracted.
+     * 
+     * @return  stdClass    The human readable chunk data
      */
     public function getProcessedData()
     {
-        return false;
+        return new stdClass();
     }
 }

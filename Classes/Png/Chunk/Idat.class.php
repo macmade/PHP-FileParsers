@@ -1,7 +1,7 @@
 <?php
 
 /**
- * PNG IDAT chunk
+ * PNG IDAT chunk (image data)
  * 
  * @author          Jean-David Gadina <macmade@eosgarden.com>
  * @copyright       Copyright &copy; 2008
@@ -25,11 +25,17 @@ class Png_Chunk_Idat extends Png_Chunk
     protected $_type = 'IDAT';
     
     /**
+     * Process the chunk data
      * 
+     * This method will process the chunk raw data and returns human readable
+     * values, stored as properties of an stdClass object. Please take a look
+     * at the PNG specification for this specific chunk to see which data will
+     * be extracted.
+     * 
+     * @return  stdClass    The human readable chunk data
      */
     public function getProcessedData()
     {
-        $data = new stdClass();
-        return $data;
+        return new stdClass();
     }
 }

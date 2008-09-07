@@ -1,7 +1,13 @@
 <?php
 
 /**
- * PNG hIST chunk
+ * PNG hIST chunk (image histogram)
+ * 
+ * The hIST chunk gives the approximate usage frequency of each colour in the
+ * palette. A histogram chunk can appear only when a PLTE chunk appears. If a
+ * viewer is unable to provide all the colours listed in the palette,
+ * the histogram may help it decide how to choose a subset of the colours
+ * for display.
  * 
  * @author          Jean-David Gadina <macmade@eosgarden.com>
  * @copyright       Copyright &copy; 2008
@@ -25,7 +31,14 @@ class Png_Chunk_Hist extends Png_Chunk
     protected $_type = 'hIST';
     
     /**
+     * Process the chunk data
      * 
+     * This method will process the chunk raw data and returns human readable
+     * values, stored as properties of an stdClass object. Please take a look
+     * at the PNG specification for this specific chunk to see which data will
+     * be extracted.
+     * 
+     * @return  stdClass    The human readable chunk data
      */
     public function getProcessedData()
     {

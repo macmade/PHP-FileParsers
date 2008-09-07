@@ -1,7 +1,7 @@
 <?php
 
 /**
- * PNG IEND chunk
+ * PNG IEND chunk (image trailer)
  * 
  * @author          Jean-David Gadina <macmade@eosgarden.com>
  * @copyright       Copyright &copy; 2008
@@ -25,7 +25,14 @@ class Png_Chunk_Iend extends Png_Chunk
     protected $_type = 'IEND';
     
     /**
+     * Process the chunk data
      * 
+     * This method will process the chunk raw data and returns human readable
+     * values, stored as properties of an stdClass object. Please take a look
+     * at the PNG specification for this specific chunk to see which data will
+     * be extracted.
+     * 
+     * @return  stdClass    The human readable chunk data
      */
     public function getProcessedData()
     {

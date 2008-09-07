@@ -1,7 +1,11 @@
 <?php
 
 /**
- * PNG tRNs chunk
+ * PNG tRNs chunk (transparency)
+ * 
+ * The tRNS chunk specifies either alpha values that are associated with
+ * palette entries (for indexed-colour images) or a single transparent colour
+ * (for greyscale and truecolour images).
  * 
  * @author          Jean-David Gadina <macmade@eosgarden.com>
  * @copyright       Copyright &copy; 2008
@@ -25,10 +29,17 @@ class Png_Chunk_Trns extends Png_Chunk
     protected $_type = 'tRNs';
     
     /**
+     * Process the chunk data
      * 
+     * This method will process the chunk raw data and returns human readable
+     * values, stored as properties of an stdClass object. Please take a look
+     * at the PNG specification for this specific chunk to see which data will
+     * be extracted.
+     * 
+     * @return  stdClass    The human readable chunk data
      */
     public function getProcessedData()
     {
-        return false;
+        return new stdClass();
     }
 }
