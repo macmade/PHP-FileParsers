@@ -82,6 +82,15 @@
                         $parser    = new Png_Parser( $file[ 'tmp_name' ] );
                         $pngFile   = $parser->getPngFile();
                         $dataArray = $pngFile->getProcessedData();
+                        $warnings  = $parser->getWarnings();
+                        
+                        if( count( $warnings ) ) {
+                            
+                            print '<h2>Warnings</h2>';
+                            print '<pre>';
+                            print_r( $warnings );
+                            print '</pre>';
+                        }
                         
                         print '<h2>Parsed data</h2>';
                         print '<pre>';
