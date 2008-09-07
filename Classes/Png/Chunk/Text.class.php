@@ -29,6 +29,19 @@ class Png_Chunk_Text extends Png_Chunk
      */
     public function getProcessedData()
     {
-        return false;
+        // Storage
+        $data             = new stdClass();
+        
+        // Position of the null separator
+        $null             = strpos( $this->_data, chr( 0 ) );
+        
+        // Gets the keyword
+        $data->keyword    = substr( $this->_data, 0, $null );
+        
+        // Gets the text string
+        $data->textString = substr( $this->_data, $null + 1 );
+        
+        // Returns the processed data
+        return $data;
     }
 }
