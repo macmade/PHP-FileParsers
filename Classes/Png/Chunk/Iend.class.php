@@ -36,6 +36,6 @@ class Png_Chunk_Iend extends Png_Chunk
      */
     public function getProcessedData()
     {
-        return false;
+        return new stdClass();
     }
 }
