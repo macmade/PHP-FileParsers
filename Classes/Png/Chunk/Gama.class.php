@@ -29,6 +29,13 @@ class Png_Chunk_Gama extends Png_Chunk
      */
     public function getProcessedData()
     {
-        return false;
+        // Storage
+        $data             = new stdClass();
+        
+        // Gets the image gamma
+        $data->imageGamma = self::$_binUtils->bigEndianUnsignedLong( $this->_data ) / 100000;
+        
+        // Returns the processed data
+        return $data;
     }
 }
