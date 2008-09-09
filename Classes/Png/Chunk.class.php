@@ -96,7 +96,7 @@ abstract class Png_Chunk
         $length = pack( 'N', $this->_dataLength );
         
         // Computes the CRC
-        $crc    = crc32( $this->_type . $this->_data );
+        $crc    = pack( 'N', crc32( $this->_type . $this->_data ) );
         
         // Returns the full chunk
         return $length . $this->_type . $this->_data . $crc;
