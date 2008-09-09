@@ -94,7 +94,9 @@ class Png_File implements Iterator, ArrayAccess
     );
     
     /**
+     * Class constructor
      * 
+     * @return  NULL
      */
     public function __construct()
     {
@@ -104,7 +106,9 @@ class Png_File implements Iterator, ArrayAccess
     }
     
     /**
+     * Writes the PNG file
      * 
+     * @return  string  The content of the PNG file
      */
     public function __toString()
     {
@@ -123,20 +127,29 @@ class Png_File implements Iterator, ArrayAccess
     }
     
     /**
+     * Gets a chunk by its name
      * 
+     * @param   string  The name of the chunk
+     * @return  mixed   The chunk object, or NULL if there is no such chunk
      */
     public function __get( $name )
     {
+        // Checks if the chunk exists
         if( !isset( $this->_chunksByName[ $name ] ) ) {
             
+            // No such chunk
             return NULL;
         }
         
+        // Returns the chunk
         return $this->_chunksByName[ $name ][ 0 ];
     }
     
     /**
+     * Checks if a chunk exists
      * 
+     * @param   string  The name of the chunk
+     * @retrun  boolean
      */
     public function __isset( $name )
     {
@@ -144,7 +157,10 @@ class Png_File implements Iterator, ArrayAccess
     }
     
     /**
+     * Checks if an offset exists in the chunks array (SPL ArrayAccess method)
      * 
+     * @param   int     The offset to check
+     * @return  boolean
      */
     public function offsetExists( $offset )
     {
@@ -152,7 +168,10 @@ class Png_File implements Iterator, ArrayAccess
     }
     
     /**
+     * Gets a chunk at the specified offset (SPL ArrayAccess method)
      * 
+     * @param   int     The offset in the chunks array
+     * @return  object  The chunk object
      */
     public function offsetGet( $offset )
     {
@@ -160,7 +179,14 @@ class Png_File implements Iterator, ArrayAccess
     }
     
     /**
+     * Sets a chunk at the specified offset (SPL ArrayAccess method)
      * 
+     * This method will always return false. Please use the addChunk()
+     * method instead.
+     * 
+     * @param   int         The offset in the chunks array
+     * @param   mixed       The PNG chunk to set
+     * @return  boolean Always false, as a chunk cannot be set by this way
      */
     public function offsetSet( $offset, $value )
     {
@@ -168,7 +194,13 @@ class Png_File implements Iterator, ArrayAccess
     }
     
     /**
+     * Unsets a chunk at the specified offset (SPL ArrayAccess method)
      * 
+     * This method will always return false, as there is no way to remove a
+     * chunk once it has been added
+     * 
+     * @param   int     The offset in the chunks array
+     * @return  boolean Always false, as a chunk cannot be set by this way
      */
     public function offsetUnset( $offset )
     {
@@ -176,7 +208,9 @@ class Png_File implements Iterator, ArrayAccess
     }
     
     /**
+     * Resets the iterator index (SPL Iterator method)
      * 
+     * @return  NULL
      */
     public function rewind()
     {
@@ -184,7 +218,9 @@ class Png_File implements Iterator, ArrayAccess
     }
     
     /**
+     * Gets the current chunk (SPL Iterator method)
      * 
+     * @return  Png_Chunk   The current chunk
      */
     public function current()
     {
@@ -192,7 +228,9 @@ class Png_File implements Iterator, ArrayAccess
     }
     
     /**
+     * Gets the current chunk type (SPL Iterator method)
      * 
+     * @return  string  The chunk type
      */
     public function key()
     {
@@ -200,7 +238,9 @@ class Png_File implements Iterator, ArrayAccess
     }
     
     /**
+     * Increments the iterator index (SPL Iterator method)
      * 
+     * @return  NULL
      */
     public function next()
     {
@@ -208,7 +248,9 @@ class Png_File implements Iterator, ArrayAccess
     }
     
     /**
+     * Checks if another chunk can be got (SPL Iterator method)
      * 
+     * @return  boolean
      */
     public function valid()
     {
@@ -216,32 +258,46 @@ class Png_File implements Iterator, ArrayAccess
     }
     
     /**
+     * Gets the processed data of all the chunks contained in the current file
      * 
+     * @return  array   The processed data for all the chunks
      */
     public function getProcessedData()
     {
+        // Storage
         $data = array();
         
+        // Process each chunk
         foreach( $this->_chunks as $chunk ) {
             
+            // Creates a storage object
             $chunkData               = new stdClass();
             
+            // Sets the common properties
             $chunkData->type         = $chunk->getType();
             $chunkData->size         = $chunk->getDataLength();
             $chunkData->isCritical   = $chunk->isCritical();
             $chunkData->isAncillary  = $chunk->isAncillary();
             $chunkData->isPrivate    = $chunk->isPrivate();
             $chunkData->isSafeToCopy = $chunk->isSafeToCopy();
+            
+            // Gets the chunk data
             $chunkData->data         = $chunk->getProcessedData();
             
+            // Adds the chunk processed data
             $data[]                   = $chunkData;
         }
         
+        // Returns the processed data
         return $data;
     }
     
     /**
+     * Adds a chunk in the current file
      * 
+     * @param   string          The type of the chunk to add
+     * @return  object          The chunk object corresponding to the given type
+     * @throws  Png_Exception   If the chunk type is invalid
      */
     public function addChunk( $chunkType )
     {
@@ -309,30 +365,35 @@ class Png_File implements Iterator, ArrayAccess
         // Checks if the chunk is valid
         if( !isset( $this->_validChunks[ $type ] ) ) {
             
+            // Chunk is not in the PNG specification
             return 'Chunk ' . $type . ' is not part of the PNG specification';
         }
         
         // Checks if the chunk already exists and if it can be added multiple times
         if( isset( $this->_chunksByName[ $type ] ) && !isset( $this->_allowedMultipleChunks[ $type ] ) ) {
             
+            // Chunk cannot be added twice
             return 'Chunk ' . $type . ' cannot be added more than once';
         }
         
         // The IHDR chunk must be present before any other chunk
         if( $type !== 'IHDR' && !isset( $this->_chunksByName[ 'IHDR' ] ) ) {
             
+            // No IHDR chunk
             return 'Cannot add chunk ' . $type . ' as there is no IHDR chunk';
         }
         
         // IDAT chunks must be consecutives
         if( $type === 'IDAT' && isset( $this->_chunksByName[ 'IDAT' ] ) && $this->_lastChunk != 'IDAT' ) {
             
+            // IDAT chunks are not consecutives
             return 'IDAT chunks must be consecutives';
         }
         
         // No chunk can be placed if the IEND chunk exists
         if( isset( $this->_chunksByName[ 'IEND' ] ) ) {
             
+            // IEND already added
             return 'Cannot add chunk ' . $type . ' as the IEND chunk is already present';
         }
         
