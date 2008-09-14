@@ -21,14 +21,14 @@ date_default_timezone_set( 'Europe/Zurich' );
 error_reporting ( E_ALL | E_STRICT );
 
 // Includes the class manager
-require_once( './Classes/ClassManager.class.php' );
+require_once( './Classes/Fp/Core/ClassManager.class.php' );
 
 // Checks the PHP version required to use the class manager
-if( version_compare( PHP_VERSION, ClassManager::PHP_COMPATIBLE, '<' ) ) {
+if( version_compare( PHP_VERSION, Fp_Core_ClassManager::PHP_COMPATIBLE, '<' ) ) {
     
     // PHP version is too old
-    trigger_error( 'Class ClassManager requires PHP version ' . ClassManager::PHP_COMPATIBLE . ' (actual version is ' . PHP_VERSION . ')' , E_USER_ERROR );
+    trigger_error( 'Class ClassManager requires PHP version ' . Fp_Core_ClassManager::PHP_COMPATIBLE . ' (actual version is ' . PHP_VERSION . ')' , E_USER_ERROR );
 }
 
 // Registers an SPL autoload method to use to load the classes form this package
-spl_autoload_register( array( 'ClassManager', 'autoLoad' ) );
+spl_autoload_register( array( 'Fp_Core_ClassManager', 'autoLoad' ) );

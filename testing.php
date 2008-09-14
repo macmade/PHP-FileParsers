@@ -30,7 +30,7 @@
                     
                     try {
                         
-                        $parser    = new Mpeg4_Parser( $file[ 'tmp_name' ], true );
+                        $parser    = new Fp_Mpeg4_Parser( $file[ 'tmp_name' ], true );
                         $mpeg4File = $parser->getMpeg4File();
                         $dataArray = $mpeg4File->getProcessedData();
                         $warnings  = $parser->getWarnings();
@@ -61,7 +61,7 @@
                     
                     try {
                         
-                        $parser    = new Gif_Parser( $file[ 'tmp_name' ] );
+                        $parser    = new Fp_Gif_Parser( $file[ 'tmp_name' ] );
                         
                         print '<h2>Parsed data</h2>';
                         print '<pre>';
@@ -79,7 +79,7 @@
                     
                     try {
                         
-                        $parser    = new Png_Parser( $file[ 'tmp_name' ] );
+                        $parser    = new Fp_Png_Parser( $file[ 'tmp_name' ] );
                         $pngFile   = $parser->getPngFile();
                         $dataArray = $pngFile->getProcessedData();
                         $warnings  = $parser->getWarnings();
