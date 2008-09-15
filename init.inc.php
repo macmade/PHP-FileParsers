@@ -21,7 +21,17 @@ date_default_timezone_set( 'Europe/Zurich' );
 error_reporting ( E_ALL | E_STRICT );
 
 // Includes the class manager
-require_once( './Classes/Fp/Core/ClassManager.class.php' );
+require_once(
+    dirname( __FILE__ )
+  . DIRECTORY_SEPARATOR
+  . 'Classes'
+  . DIRECTORY_SEPARATOR
+  . 'Fp'
+  . DIRECTORY_SEPARATOR
+  . 'Core'
+  . DIRECTORY_SEPARATOR
+  . 'ClassManager.class.php'
+);
 
 // Checks the PHP version required to use the class manager
 if( version_compare( PHP_VERSION, Fp_Core_ClassManager::PHP_COMPATIBLE, '<' ) ) {
