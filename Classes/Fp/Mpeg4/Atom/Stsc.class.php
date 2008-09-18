@@ -1,5 +1,7 @@
 <?php
 
+# $Id$
+
 final class Fp_Mpeg4_Atom_Stsc extends Fp_Mpeg4_FullBox
 {
     /**

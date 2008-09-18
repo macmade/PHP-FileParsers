@@ -1,5 +1,7 @@
 <?php
 
+# $Id$
+
 final class Fp_Mpeg4_Atom_Co64 extends Fp_Mpeg4_DataAtom
 {
     /**

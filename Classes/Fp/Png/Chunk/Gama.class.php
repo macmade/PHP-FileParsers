@@ -1,5 +1,7 @@
 <?php
 
+# $Id$
+
 /**
  * PNG gAMMA chunk (image gamma)
  * 

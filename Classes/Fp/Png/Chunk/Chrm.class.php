@@ -1,5 +1,7 @@
 <?php
 
+# $Id$
+
 /**
  * PNG cHRM chunk (primary chromaticities and white point)
  * 

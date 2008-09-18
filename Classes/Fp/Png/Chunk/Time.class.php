@@ -1,5 +1,7 @@
 <?php
 
+# $Id$
+
 /**
  * PNG tIMe chunk (image last-modification time)
  * 

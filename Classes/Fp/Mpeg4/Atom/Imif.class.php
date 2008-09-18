@@ -1,5 +1,7 @@
 <?php
 
+# $Id$
+
 final class Fp_Mpeg4_Atom_Imif extends Fp_Mpeg4_DataAtom
 {
     /**

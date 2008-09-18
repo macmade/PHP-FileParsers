@@ -1,5 +1,7 @@
 <?php
 
+# $Id$
+
 /**
  * PNG tRNs chunk (transparency)
  * 

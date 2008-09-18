@@ -1,5 +1,7 @@
 <?php
 
+# $Id$
+
 /**
  * PNG pHYs chunk (physical pixel dimensions)
  * 

@@ -1,5 +1,7 @@
 <?php
 
+# $Id$
+
 /**
  * Placeholder for the unknown PNG chunks
  * 

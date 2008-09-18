@@ -1,5 +1,7 @@
 <?php
 
+# $Id$
+
 /**
  * PNG PLTE chunk (color palette)
  * 

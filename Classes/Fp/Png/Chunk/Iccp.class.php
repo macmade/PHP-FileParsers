@@ -1,5 +1,7 @@
 <?php
 
+# $Id$
+
 /**
  * PNG iCCP chunk (embedded ICC profile)
  * 

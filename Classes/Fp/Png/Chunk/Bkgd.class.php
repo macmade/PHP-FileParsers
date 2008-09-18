@@ -1,5 +1,7 @@
 <?php
 
+# $Id$
+
 /**
  * PNG bKGd chunk (background colour)
  * 

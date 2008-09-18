@@ -1,5 +1,7 @@
 <?php
 
+# $Id$
+
 /**
  * PNG iTXt chunk (international textual data)
  * 

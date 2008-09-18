@@ -1,5 +1,7 @@
 <?php
 
+# $Id$
+
 /**
  * PNG IEND chunk (image trailer)
  * 

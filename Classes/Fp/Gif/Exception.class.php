@@ -1,5 +1,7 @@
 <?php
 
+# $Id$
+
 /**
  * Exception class for the Gif package
  * 

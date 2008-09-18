@@ -1,5 +1,7 @@
 <?php
 
+# $Id$
+
 /**
  * PNG sBIT chunk (significant bits)
  * 

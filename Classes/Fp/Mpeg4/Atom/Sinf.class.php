@@ -1,5 +1,7 @@
 <?php
 
+# $Id$
+
 final class Fp_Mpeg4_Atom_Sinf extends Fp_Mpeg4_ContainerAtom
 {
     /**

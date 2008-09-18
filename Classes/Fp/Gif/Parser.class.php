@@ -1,5 +1,7 @@
 <?php
 
+# $Id$
+
 /**
  * GIF file parser
  * 

@@ -1,5 +1,7 @@
 <?php
 
+# $Id$
+
 /**
  * PNG IHDR chunk (image header)
  * 

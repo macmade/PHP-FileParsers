@@ -1,5 +1,7 @@
 <?php
 
+# $Id$
+
 /**
  * PNG tEXt chunk (textual data)
  * 

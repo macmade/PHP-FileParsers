@@ -1,5 +1,7 @@
 <?php
 
+# $Id$
+
 /**
  * PNG IDAT chunk (image data)
  * 

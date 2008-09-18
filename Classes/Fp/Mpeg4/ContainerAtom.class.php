@@ -1,5 +1,7 @@
 <?php
 
+# $Id$
+
 abstract class Fp_Mpeg4_ContainerAtom extends Fp_Mpeg4_Atom implements Iterator, ArrayAccess
 {
     /**

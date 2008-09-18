@@ -1,5 +1,7 @@
 <?php
 
+# $Id$
+
 /**
  * PNG sRGB chunk (standard RGB colour space)
  * 

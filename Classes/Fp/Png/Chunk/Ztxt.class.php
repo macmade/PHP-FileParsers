@@ -1,5 +1,7 @@
 <?php
 
+# $Id$
+
 /**
  * PNG zTXt chunk (compressed textual data)
  * 

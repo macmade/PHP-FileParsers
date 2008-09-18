@@ -1,5 +1,7 @@
 <?php
 
+# $Id$
+
 /**
  * PNG sPLt chunk (suggested palette)
  * 

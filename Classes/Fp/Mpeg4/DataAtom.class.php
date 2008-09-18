@@ -1,5 +1,7 @@
 <?php
 
+# $Id$
+
 abstract class Fp_Mpeg4_DataAtom extends Fp_Mpeg4_Atom
 {
     /**

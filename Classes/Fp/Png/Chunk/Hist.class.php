@@ -1,5 +1,7 @@
 <?php
 
+# $Id$
+
 /**
  * PNG hIST chunk (image histogram)
  * 
